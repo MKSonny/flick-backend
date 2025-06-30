@@ -1,8 +1,6 @@
 package pro.Flick.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -15,9 +13,10 @@ public class Video {
     private String title;
     private String uri;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member; // 관계 설정 필요
-
-    private Member likedMembers; // 관계 설정 필요// on delete cascade 추가 필요
+//    private Member likedMembers; // 관계 설정 필요// on delete cascade 추가 필요
 
 
     @CreatedDate
