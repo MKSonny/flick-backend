@@ -22,7 +22,6 @@ class FlickApplicationTests {
 
 	@Test
 	@Transactional
-	@Commit
 	void memberEntityTest() {
 		Member member = new Member("hello", "hello@email.com");
 		em.persist(member);

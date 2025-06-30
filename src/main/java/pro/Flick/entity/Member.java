@@ -25,6 +25,8 @@ public class Member {
     private LocalDateTime createTime;
 
 
+
+
     public Member(String username, String email) {
         this.username = username;
         this.email = email;
