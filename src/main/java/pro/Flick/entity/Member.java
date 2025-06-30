@@ -45,6 +45,10 @@ public class Member {
     private List<Chat> chats = new ArrayList<>();
 
 
+    public Member(String email) {
+        this.email = email;
+    }
+
     public Member(String username, String email) {
         this.username = username;
         this.email = email;
