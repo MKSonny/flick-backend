@@ -14,9 +14,10 @@ public class MemberRepository {
     EntityManager em;
 
     @Transactional
-    public void save(String email) {
+    public Member save(String email) {
         Member member = new Member(email);
         em.persist(member);
+        return member;
     }
 
     public Member findMemberById(String id) {

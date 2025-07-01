@@ -20,9 +20,10 @@ public class AuthController {
     private final MemberRepository memberRepository;
 
     @PostMapping("/auth/signup")
-    public void addMember(@RequestBody SignUpDto signUpDto) {
+    public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
         log.info("username={}, email={}, password={}", signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
-        memberRepository.save(signUpDto.getEmail());
+        Member member = memberRepository.save(signUpDto.getEmail());
+        return new GetMemberByIdResponseDto(member);
     }
 
     @GetMapping("/auth/signin")
