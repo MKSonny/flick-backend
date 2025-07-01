@@ -14,8 +14,8 @@ public class MemberRepository {
     EntityManager em;
 
     @Transactional
-    public Member save(String email) {
-        Member member = new Member(email);
+    public Member save(String username, String email, String password) {
+        Member member = new Member(username, email, password);
         em.persist(member);
         return member;
     }

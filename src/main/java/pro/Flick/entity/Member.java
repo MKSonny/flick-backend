@@ -19,6 +19,7 @@ public class Member {
 
     private String username; // 유니크 제약 조건 추가 필요
     private String email; // 유니크 제약 조건 추가 필요
+    private String password;
 
     @CreatedDate
     private LocalDateTime createTime;
@@ -47,6 +48,12 @@ public class Member {
 
     public Member(String email) {
         this.email = email;
+    }
+
+    public Member(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public Member(String username, String email) {

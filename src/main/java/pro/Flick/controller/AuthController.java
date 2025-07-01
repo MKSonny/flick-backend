@@ -22,17 +22,18 @@ public class AuthController {
     @PostMapping("/auth/signup")
     public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
         log.info("username={}, email={}, password={}", signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
-        Member member = memberRepository.save(signUpDto.getEmail());
+        Member member = memberRepository.save(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
         return new GetMemberByIdResponseDto(member);
     }
 
     @GetMapping("/auth/signin")
-    public void signIn(@RequestBody SignInDto signInDto) {
-        log.info("email={}, password={}", signInDto.getEmail(), signInDto.getPassword());
-        Member member = memberRepository.findMember(signInDto.getEmail(), signInDto.getPassword());
+    public GetMemberByIdResponseDto signIn(String email, String password) {
+//        log.info("email={}, password={}", signInDto.getEmail(), signInDto.getPassword());
+        Member member = memberRepository.findMember(email, password);
         if (member != null) {
             // todo
         }
+        return new GetMemberByIdResponseDto(member);
     }
 
     @GetMapping("/auth/get_member")
