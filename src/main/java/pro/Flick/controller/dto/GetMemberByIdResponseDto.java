@@ -4,12 +4,14 @@ import lombok.Data;
 import pro.Flick.entity.Member;
 
 @Data
-public class GetMemberResponseDto {
+public class GetMemberByIdResponseDto {
     private Long id;
+    private String username;
     private String email;
 
-    public GetMemberResponseDto(Member member) {
+    public GetMemberByIdResponseDto(Member member) {
         this.id = member.getId();
+        this.username = member.getUsername();
         this.email = member.getEmail();
     }
 }

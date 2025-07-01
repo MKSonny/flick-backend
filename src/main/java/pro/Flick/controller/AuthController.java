@@ -2,12 +2,11 @@ package pro.Flick.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import pro.Flick.controller.dto.GetMemberResponseDto;
+import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.controller.dto.SignInDto;
 import pro.Flick.controller.dto.SignUpDto;
 import pro.Flick.entity.Member;
@@ -36,9 +35,8 @@ public class AuthController {
     }
 
     @GetMapping("/auth/get_member")
-    public GetMemberResponseDto getMember(String email) {
-        log.info("email={}", email);
-        Member byEmail = memberRepository.findMemberByEmail(email);
-        return new GetMemberResponseDto(byEmail);
+    public GetMemberByIdResponseDto getMemberById(String id) {
+        Member byId = memberRepository.findMemberById(id);
+        return new GetMemberByIdResponseDto(byId);
     }
 }
