@@ -19,6 +19,17 @@ public class MemberRepository {
         em.persist(member);
     }
 
+    public Member findMemberByEmail(String email) {
+        String jpql = "select m from Member m where m.email=:email";
+        TypedQuery<Member> query = em.createQuery(jpql, Member.class)
+                .setParameter("email", email);
+        try {
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public Member findMember(String email, String password) {
         String jpql = "select m from Member m where m.email=:email and m.password=:password";
         TypedQuery<Member> query = em.createQuery(jpql, Member.class)
