@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 
+import java.util.List;
+
 @Repository
 public class FileRepository {
     @Autowired
@@ -26,5 +28,10 @@ public class FileRepository {
         Video video = new Video(videoTitle, uri, member);
         em.persist(video);
         return video;
+    }
+
+    public List<Video> getAllVideos() {
+        List<Video> selectVFormVideoV = em.createQuery("select v from Video v", Video.class).getResultList();
+        return selectVFormVideoV;
     }
 }

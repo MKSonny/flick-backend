@@ -1,12 +1,14 @@
 package pro.Flick.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 //import pro.Flick.file.UploadFile;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 public class Video {
 
     @Id @GeneratedValue
