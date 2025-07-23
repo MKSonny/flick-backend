@@ -1,5 +1,6 @@
 package pro.Flick.controller;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,11 @@ import pro.Flick.repsository.MemberRepository;
 public class AuthController {
 
     private final MemberRepository memberRepository;
+
+    @PostConstruct
+    public void init() {
+        memberRepository.save("username", "email", "123");
+    }
 
     @PostMapping("/auth/signup")
     public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {

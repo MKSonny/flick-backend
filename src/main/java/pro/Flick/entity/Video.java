@@ -15,6 +15,8 @@ public class Video {
     private String uri;
 
 //    private UploadFile attachFile;
+//    private String uploadFileName; // 유저가 같은 파일 이름을 전송할 수 있으므로
+//    private String storeFileName; // UUID로 생성
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -25,4 +27,12 @@ public class Video {
     @CreatedDate
     private LocalDateTime createdTime;
 
+    public Video(String title, String uri, Member member) {
+        this.title = title;
+        this.uri = uri;
+        this.member = member;
+    }
+
+    public Video() {
+    }
 }
