@@ -7,6 +7,7 @@ import org.apache.tomcat.util.http.parser.TE;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
@@ -27,8 +28,11 @@ public class FileController {
 
     @PostConstruct
     public void init() {
-        Member member = memberRepository.findMember("email", "123");
+        Member member = memberRepository.findMember("Email", "123");
+        Member member2 = memberRepository.findMember("Email2", "123");
         fileRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+        fileRepository.saveVideo("myVideo2", "http://127.0.0.1:8080/video/test2.mov", member);
+        fileRepository.saveVideo("myVideo3", "http://127.0.0.1:8080/video/test3.mov", member2);
     }
 
     // 이미지 조회를 위한 이미지 다운로드
@@ -43,7 +47,7 @@ public class FileController {
         List<Video> allVideos = fileRepository.getAllVideos();
         List<Temp> videos = new ArrayList<>();
         for (Video video : allVideos) {
-            videos.add(new Temp(video.getId(), video.getTitle(), video.getUri()));
+            videos.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
         }
         return videos;
     }
@@ -54,11 +58,13 @@ public class FileController {
         private Long id;
         private String title;
         private String uri;
+        private GetMemberByIdResponseDto member;
 
-        public Temp(Long id, String title, String uri) {
+        public Temp(Long id, String title, String uri, GetMemberByIdResponseDto member) {
             this.id = id;
             this.title = title;
             this.uri = uri;
+            this.member = member;
         }
     }
 

@@ -22,7 +22,8 @@ public class AuthController {
 
     @PostConstruct
     public void init() {
-        memberRepository.save("username", "Email", "123");
+        memberRepository.save("HelloWorld", "Email", "123");
+        memberRepository.save("test", "Email2", "123");
     }
 
     @PostMapping("/auth/signup")
