@@ -2,6 +2,7 @@ package pro.Flick.entity;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
+//import pro.Flick.file.UploadFile;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +13,8 @@ public class Video {
     private Long id;
     private String title;
     private String uri;
+
+//    private UploadFile attachFile;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
