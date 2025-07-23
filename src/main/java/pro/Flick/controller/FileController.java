@@ -47,6 +47,10 @@ public class FileController {
         List<Video> allVideos = fileRepository.getAllVideos();
         List<Temp> videos = new ArrayList<>();
         for (Video video : allVideos) {
+            /**
+             * 주의!
+             * 이후 video.getMember()를 join하는 건지 어떻게 하는 건지 확인 반드시 필요
+             */
             videos.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
         }
         return videos;
