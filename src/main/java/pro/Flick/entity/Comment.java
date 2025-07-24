@@ -1,11 +1,13 @@
 package pro.Flick.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 public class Comment {
     @Id @GeneratedValue
     private Long id;
@@ -22,4 +24,14 @@ public class Comment {
 
     @CreatedDate
     private LocalDateTime createdAt;
+
+    public Comment(Member member, Video video, String text, LocalDateTime createdAt) {
+        this.member = member;
+        this.video = video;
+        this.text = text;
+        this.createdAt = createdAt;
+    }
+
+    public Comment() {
+    }
 }

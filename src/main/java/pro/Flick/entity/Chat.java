@@ -1,11 +1,13 @@
 package pro.Flick.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 public class Chat {
 
     @Id @GeneratedValue
@@ -19,4 +21,13 @@ public class Chat {
 
     @CreatedDate
     private LocalDateTime localDateTime;
+
+    public Chat(Member member, String text, LocalDateTime localDateTime) {
+        this.member = member;
+        this.text = text;
+        this.localDateTime = localDateTime;
+    }
+
+    public Chat() {
+    }
 }

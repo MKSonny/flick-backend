@@ -1,6 +1,8 @@
 package pro.Flick.repsository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,16 @@ public class FileRepository {
         Video video = new Video(videoTitle, uri, member);
         em.persist(video);
         return video;
+    }
+
+    public Video findVideoById(String videoId) {
+        TypedQuery<Video> query = em.createQuery("select v from Video v where v.id=:videoId", Video.class)
+                .setParameter("videoId", videoId);
+        try {
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Video> getAllVideos() {
