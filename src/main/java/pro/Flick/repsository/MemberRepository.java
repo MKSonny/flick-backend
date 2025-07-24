@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.entity.Member;
 
+import java.util.List;
+
 @Repository
 public class MemberRepository {
 
@@ -52,5 +54,12 @@ public class MemberRepository {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    // 대소문자 구분하지 않기 위해 lower(m.username), username.toLowerCase() 추가
+    public List<Member> findMemberByUsername(String username) {
+        return em.createQuery("select m from Member m where lower(m.username) like :username", Member.class)
+                .setParameter("username", "%" + username.toLowerCase() + "%")
+                .getResultList();
     }
 }

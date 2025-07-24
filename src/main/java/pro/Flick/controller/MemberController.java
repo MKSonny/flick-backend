@@ -1,22 +1,23 @@
 package pro.Flick.controller;
 
 import jakarta.annotation.PostConstruct;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.controller.dto.SignInDto;
 import pro.Flick.controller.dto.SignUpDto;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.MemberRepository;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class AuthController {
+public class MemberController {
 
     private final MemberRepository memberRepository;
 
@@ -47,5 +48,32 @@ public class AuthController {
     public GetMemberByIdResponseDto getMemberById(String id) {
         Member byId = memberRepository.findMemberById(id);
         return new GetMemberByIdResponseDto(byId);
+    }
+
+    @GetMapping("/members/search")
+    public List<FindMemberByUsernameResponseDto> findMemberByUsername(@RequestParam String username) {
+        List<Member> members = memberRepository.findMemberByUsername(username);
+        List<FindMemberByUsernameResponseDto> findMemberByUsernameResponseDtos = new ArrayList<>();
+
+        for (Member member : members) {
+            findMemberByUsernameResponseDtos.add(new FindMemberByUsernameResponseDto(member.getCreateTime(), member.getEmail(), member.getId(), member.getUsername()));
+        }
+
+        return findMemberByUsernameResponseDtos;
+    }
+
+    @Data
+    static class FindMemberByUsernameResponseDto {
+        private LocalDateTime created_at;
+        private String email;
+        private Long id;
+        private String username;
+
+        public FindMemberByUsernameResponseDto(LocalDateTime created_at, String email, Long id, String username) {
+            this.created_at = created_at;
+            this.email = email;
+            this.id = id;
+            this.username = username;
+        }
     }
 }
