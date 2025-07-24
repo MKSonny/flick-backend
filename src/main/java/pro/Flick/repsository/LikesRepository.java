@@ -9,6 +9,7 @@ import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class LikesRepository {
@@ -18,5 +19,19 @@ public class LikesRepository {
     @Transactional
     public void addLike(Member member, Video video) {
         em.persist(new Likes(member, video, LocalDateTime.now()));
+    }
+
+    public List<Likes> findLikesByMemberId(String memberId) {
+        return em.createQuery("select l from Likes l where l.member.id=:memberId", Likes.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
+    }
+
+    @Transactional
+    public void deleteLikes(String memberId, String videoId) {
+        em.createQuery("delete from Likes l where l.member.id=:memberId and l.video.id=:videoId")
+                .setParameter("memberId", memberId)
+                .setParameter("videoId", videoId)
+                .executeUpdate();
     }
 }
