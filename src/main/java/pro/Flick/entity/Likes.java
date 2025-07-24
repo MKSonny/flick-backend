@@ -1,12 +1,14 @@
 package pro.Flick.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Favorite {
+@Getter
+public class Likes {
 
     @Id @GeneratedValue
     private Long id;
@@ -21,4 +23,13 @@ public class Favorite {
 
     @CreatedDate
     private LocalDateTime createdAt;
+
+    public Likes(Member member, Video video, LocalDateTime createdAt) {
+        this.member = member;
+        this.video = video;
+        this.createdAt = createdAt;
+    }
+
+    public Likes() {
+    }
 }

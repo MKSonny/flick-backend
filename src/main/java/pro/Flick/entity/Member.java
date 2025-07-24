@@ -34,7 +34,7 @@ public class Member {
     private List<Video> videos = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Favorite> favorites = new ArrayList<>();
+    private List<Likes> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Follower> followers = new ArrayList<>();

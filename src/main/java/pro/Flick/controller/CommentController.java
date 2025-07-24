@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
@@ -31,7 +32,7 @@ public class CommentController {
         List<CommentDto> commentDtos = new ArrayList<>();
 
         for (Comment comment : comments) {
-            commentDtos.add(new CommentDto(comment.getMember().getId(), comment.getText(), comment.getCreatedAt()));
+            commentDtos.add(new CommentDto(comment.getText(), comment.getCreatedAt(), comment.getMember()));
         }
 
         return commentDtos;
@@ -62,14 +63,14 @@ public class CommentController {
 
     @Data
     static class CommentDto {
-        private Long member_id;
         private String text;
         private LocalDateTime createdAt;
+        private GetMemberByIdResponseDto user;
 
-        public CommentDto(Long member_id, String text, LocalDateTime createdAt) {
-            this.member_id = member_id;
+        public CommentDto(String text, LocalDateTime createdAt, Member member) {
             this.text = text;
             this.createdAt = createdAt;
+            this.user = new GetMemberByIdResponseDto(member);
         }
     }
 }
