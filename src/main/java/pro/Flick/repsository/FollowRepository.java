@@ -34,4 +34,10 @@ public class FollowRepository {
                 .executeUpdate();
 
     }
+
+    public List<Follower> getFollowers(String id) {
+        return em.createQuery("select f from Follower f where f.follower.id=:id", Follower.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
 }

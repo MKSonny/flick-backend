@@ -45,6 +45,14 @@ public class MemberController {
         return new GetMemberByIdResponseDto(byId);
     }
 
+    // 중복 역할 해결 필요
+    @GetMapping("/get_member/{user_id}")
+    public GetMemberByIdResponseDto getMemberById2(@PathVariable String user_id) {
+        log.info("user_id={}", user_id);
+        Member byId = memberRepository.findMemberById(user_id);
+        return new GetMemberByIdResponseDto(byId);
+    }
+
     @GetMapping("/members/search")
     public List<FindMemberByUsernameResponseDto> findMemberByUsername(@RequestParam String username) {
         List<Member> members = memberRepository.findMemberByUsername(username);

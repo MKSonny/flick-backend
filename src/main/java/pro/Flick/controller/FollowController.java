@@ -33,7 +33,19 @@ public class FollowController {
     public List<GetFollowingResultListResponseDto> getFollowing(@RequestParam String userId) {
         List<Follower> following = followRepository.getFollowingByMemberId(userId);
         List<GetFollowingResultListResponseDto> dto = new ArrayList<>();
+
         for (Follower follower : following) {
+            dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
+        }
+        return dto;
+    }
+
+    @GetMapping("/followers")
+    public List<GetFollowingResultListResponseDto> getFollowers(@RequestParam String follower_user_id) {
+        List<Follower> followers = followRepository.getFollowers(follower_user_id);
+        List<GetFollowingResultListResponseDto> dto = new ArrayList<>();
+
+        for (Follower follower : followers) {
             dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
         }
         return dto;
