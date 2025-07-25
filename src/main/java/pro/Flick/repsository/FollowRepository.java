@@ -1,0 +1,37 @@
+package pro.Flick.repsository;
+
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import pro.Flick.entity.Follower;
+import pro.Flick.entity.Member;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public class FollowRepository {
+    @Autowired
+    EntityManager em;
+
+    @Transactional
+    public void memberAFollowsMemberB(Member memberA, Member memberB) {
+        em.persist(new Follower(memberA, memberB, LocalDateTime.now()));
+    }
+
+    public List<Follower> getFollowingByMemberId(String id) {
+        return em.createQuery("select f from Follower f where f.member.id=:id", Follower.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
+    @Transactional
+    public void deleteFollower(String id, String followerId) {
+        em.createQuery("delete from Follower f where f.member.id=:id and f.follower.id=:followerId")
+                .setParameter("id", id)
+                .setParameter("followerId", followerId)
+                .executeUpdate();
+
+    }
+}

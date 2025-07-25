@@ -39,6 +39,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Follower> followers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "follower")
+    private List<Follower> following = new ArrayList<>();
+
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
 
