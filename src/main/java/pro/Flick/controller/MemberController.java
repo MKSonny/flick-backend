@@ -21,11 +21,6 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
 
-    @PostConstruct
-    public void init() {
-        memberRepository.save("HelloWorld", "Email", "123");
-        memberRepository.save("test", "Email2", "123");
-    }
 
     @PostMapping("/auth/signup")
     public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
