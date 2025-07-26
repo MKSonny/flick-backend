@@ -27,6 +27,14 @@ public class LikesRepository {
                 .getResultList();
     }
 
+    // 내 동영상들에서 내가 받은 좋아요
+    public List<Likes> findLikesOnMyVideo(String memberId) {
+        return em.createQuery("select l from Likes l join fetch l.video v join fetch l.member where v.member.id=:memberId "+
+                        "order by l.createdAt desc", Likes.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
+    }
+
     @Transactional
     public void deleteLikes(String memberId, String videoId) {
         em.createQuery("delete from Likes l where l.member.id=:memberId and l.video.id=:videoId")

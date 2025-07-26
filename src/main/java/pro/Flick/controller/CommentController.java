@@ -48,6 +48,7 @@ public class CommentController {
         commentRepository.addComment(findMember, findVideo, requestDto.getText());
     }
 
+    // 활동
     // 내가 올린 동영상들을 찾음 -> 그 동영상의 댓글들을 가져옴
     @GetMapping("/my_video_comments/{memberId}")
     public List<CommentDto> getCommentsByMemberId(@PathVariable String memberId) {

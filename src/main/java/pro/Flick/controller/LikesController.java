@@ -47,7 +47,21 @@ public class LikesController {
         return GetLikesByMemberIdResponseDto;
     }
 
+    // 활동 페이지
     // 내가 올린 영상에 좋아요를 누른 멤버들을 가져옴
+    @GetMapping("/likes/my_video/{memberId}")
+    public List<Temp> getLikesOnMyVideo(@PathVariable String memberId) {
+        Member findMember = memberRepository.findMemberById(memberId);
+        List<Likes> likes = likesRepository.findLikesOnMyVideo(memberId);
+        List<Temp> dtoList = new ArrayList<>();
+
+
+        for (Likes like : likes) {
+            dtoList.add(new Temp(like.getCreatedAt(), like.getMember()));
+        }
+
+        return dtoList;
+    }
 
 
     @DeleteMapping("/likes")
@@ -55,6 +69,16 @@ public class LikesController {
         likesRepository.deleteLikes(userId, videoId);
     }
 
+    @Data
+    static class Temp {
+        private GetMemberByIdResponseDto user;
+        private LocalDateTime createdAt;
+
+        public Temp(LocalDateTime createdAt, Member member) {
+            this.createdAt = createdAt;
+            this.user = new GetMemberByIdResponseDto(member);
+        }
+    }
 
     @Data
     static class GetLikesByMemberIdResponseDto {
