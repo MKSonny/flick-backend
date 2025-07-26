@@ -51,6 +51,57 @@ public class FollowController {
 //        }
 //    }
 
+    @GetMapping("/followersV2")
+    public List<FollowerResponseDto> getFollowersFetch(@RequestParam String follower_user_id) {
+        List<Follower> followersFetch = followRepository.getFollowersFetch(follower_user_id);
+
+        return followersFetch.stream().map(f -> {
+            Member m = f.getFollower(); // 나를 팔로우한 사람
+            MemberInfoDto memberInfoDto = new MemberInfoDto(
+                    m.getId(), m.getUsername(), m.getEmail(), m.getCreateTime()
+            );
+
+            return new FollowerResponseDto(
+                    f.getId(),
+                    f.getMember().getId(),
+                    f.getFollower().getId(),
+                    f.getCreatedAt(),
+                    memberInfoDto
+            );
+        }).toList();
+    }
+
+    @Data
+    static class MemberInfoDto {
+    Long id;
+    String username;
+    String email;
+    LocalDateTime createdAt;
+
+    public MemberInfoDto(Long id, String username, String email, LocalDateTime createdAt) {
+     this.id = id;
+     this.username = username;
+     this.email = email;
+     this.createdAt = createdAt;
+    }
+    }
+
+    @Data
+    static class FollowerResponseDto {
+        Long id;
+        Long userId;
+        Long followerUserId;
+        LocalDateTime createdAt;
+        MemberInfoDto User;
+
+        public FollowerResponseDto(Long id, Long userId, Long followerUserId, LocalDateTime createdAt, MemberInfoDto user) {
+            this.id = id;
+            this.userId = userId;
+            this.followerUserId = followerUserId;
+            this.createdAt = createdAt;
+            this.User = user;
+        }
+    }
 
     @GetMapping("/followers")
     public List<GetFollowingResultListResponseDto> getFollowers(@RequestParam String follower_user_id) {

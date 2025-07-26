@@ -17,7 +17,7 @@ public class FollowRepository {
 
     @Transactional
     public void memberAFollowsMemberB(Member memberA, Member memberB) {
-        em.persist(new Follower(memberA, memberB, LocalDateTime.now()));
+        em.persist(new Follower(memberB, memberA, LocalDateTime.now()));
     }
 
     public List<Follower> getFollowingByMemberId(String id) {
@@ -38,6 +38,14 @@ public class FollowRepository {
     public List<Follower> getFollowers(String id) {
         return em.createQuery("select f from Follower f where f.follower.id=:id", Follower.class)
                 .setParameter("id", id)
+                .getResultList();
+    }
+
+    // 멤버가 하나고 팔로워가 여러명
+    // 팀이 하나고 티원이 여러명
+    public List<Follower> getFollowersFetch(String memberId) {
+        return em.createQuery("select f from Follower f join fetch f.member where f.member.id =:memberId", Follower.class)
+                .setParameter("memberId", memberId)
                 .getResultList();
     }
 }
