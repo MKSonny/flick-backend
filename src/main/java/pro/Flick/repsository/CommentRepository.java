@@ -42,4 +42,10 @@ public class CommentRepository {
                 .setParameter("videoId", videoId)
                 .getResultList();
     }
+
+    public List<Comment> getAllMyCommentsOnMyVideo(Long memberId) {
+        return em.createQuery("select c from Comment c join fetch c.video where c.video.member.id=:memberId", Comment.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
+    }
 }

@@ -46,4 +46,10 @@ public class FileRepository {
         List<Video> selectVFormVideoV = em.createQuery("select v from Video v", Video.class).getResultList();
         return selectVFormVideoV;
     }
+
+    public List<Video> getAllCommentsOnMyVideos(Long memberId) {
+        return em.createQuery("select v from Video v join fetch v.member where v.member.id=:memberId", Video.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
+    }
 }

@@ -48,16 +48,32 @@ public class CommentController {
         commentRepository.addComment(findMember, findVideo, requestDto.getText());
     }
 
+    // 내가 올린 동영상들을 찾음 -> 그 동영상의 댓글들을 가져옴
+    @GetMapping("/my_video_comments/{memberId}")
+    public List<CommentDto> getCommentsByMemberId(@PathVariable String memberId) {
+        Member findMember = memberRepository.findMemberById(memberId);
+        List<Comment> comments = commentRepository.getAllMyCommentsOnMyVideo(findMember.getId());
+        List<CommentDto> commentDtos = new ArrayList<>();
+
+        // 내가 올린 영상들과 그 댓글들을 조인해야 함
+        for (Comment comment : comments) {
+            commentDtos.add(new CommentDto(comment.getText(), comment.getCreatedAt(), comment.getMember()));
+        }
+        return commentDtos;
+    }
+
     @Data
     static class CommentAddDto {
         private String userId;
         private String videoId;
         private String text;
+        private String video_user_id;
 
-        public CommentAddDto(String userId, String videoId, String text) {
+        public CommentAddDto(String userId, String videoId, String text, String video_user_id) {
             this.userId = userId;
             this.videoId = videoId;
             this.text = text;
+            this.video_user_id = video_user_id;
         }
     }
 
