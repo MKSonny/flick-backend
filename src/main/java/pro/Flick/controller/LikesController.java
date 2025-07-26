@@ -47,6 +47,9 @@ public class LikesController {
         return GetLikesByMemberIdResponseDto;
     }
 
+    // 내가 올린 영상에 좋아요를 누른 멤버들을 가져옴
+
+
     @DeleteMapping("/likes")
     public void deleteLikes(@RequestParam String userId, @RequestParam String videoId) {
         likesRepository.deleteLikes(userId, videoId);
