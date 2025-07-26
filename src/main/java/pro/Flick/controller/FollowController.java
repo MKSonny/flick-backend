@@ -53,7 +53,7 @@ public class FollowController {
 //        }
 //    }
 
-    @GetMapping("/followersV2")
+    @GetMapping("/followers")
     public List<FollowerResponseDto> getFollowersFetch(@RequestParam String follower_user_id) {
         List<Follower> followersFetch = followRepository.getFollowersFetch(follower_user_id);
 
@@ -105,18 +105,18 @@ public class FollowController {
         }
     }
 
-    @GetMapping("/followers")
-    public List<GetFollowingResultListResponseDto> getFollowers(@RequestParam String follower_user_id) {
-        List<Follower> followers = followRepository.getFollowers(follower_user_id);
-        List<GetFollowingResultListResponseDto> dto = new ArrayList<>();
-
-        for (Follower follower : followers) {
-            // 나를 팔로우한 사람들의 정보를 뽑아야함
-//            Member whoFollowedMe = memberRepository.findMemberById(String.valueOf(follower.getMember().getId()));
-            dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
-        }
-        return dto;
-    }
+//    @GetMapping("/followers")
+//    public List<GetFollowingResultListResponseDto> getFollowers(@RequestParam String follower_user_id) {
+//        List<Follower> followers = followRepository.getFollowers(follower_user_id);
+//        List<GetFollowingResultListResponseDto> dto = new ArrayList<>();
+//
+//        for (Follower follower : followers) {
+//            // 나를 팔로우한 사람들의 정보를 뽑아야함
+////            Member whoFollowedMe = memberRepository.findMemberById(String.valueOf(follower.getMember().getId()));
+//            dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
+//        }
+//        return dto;
+//    }
 
     @DeleteMapping("/followers")
     public void deleteFollowing(@RequestParam String userId, @RequestParam String follower_user_id) {
