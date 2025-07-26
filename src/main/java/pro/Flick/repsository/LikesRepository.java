@@ -27,7 +27,9 @@ public class LikesRepository {
                 .getResultList();
     }
 
+    // 활동
     // 내 동영상들에서 내가 받은 좋아요
+    // 페이징 기능 추가 필요
     public List<Likes> findLikesOnMyVideo(String memberId) {
         return em.createQuery("select l from Likes l join fetch l.video v join fetch l.member where v.member.id=:memberId "+
                         "order by l.createdAt desc", Likes.class)
