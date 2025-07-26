@@ -29,6 +29,7 @@ public class FollowController {
         followRepository.memberAFollowsMemberB(findMember, theMemberThatFineMemberWillFollow);
     }
 
+    // 내가 팔로잉하는 사람들의 목록
     @GetMapping("/following")
     public List<GetFollowingResultListResponseDto> getFollowing(@RequestParam String userId) {
         List<Follower> following = followRepository.getFollowingByMemberId(userId);
@@ -37,6 +38,7 @@ public class FollowController {
         for (Follower follower : following) {
             dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
         }
+//        log.info("dto={}", dto);
         return dto;
     }
 
