@@ -43,6 +43,7 @@ public class CommentRepository {
                 .getResultList();
     }
 
+    // 댓글에 멤버들의 유저 프로필사진도 있기 때문에 member 정보도 필요
     public List<Comment> getAllMyCommentsOnMyVideo(Long memberId) {
         return em.createQuery("select c from Comment c join fetch c.video where c.video.member.id=:memberId", Comment.class)
                 .setParameter("memberId", memberId)
