@@ -36,11 +36,12 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Likes> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<Follower> followers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "follower")
-    private List<Follower> following = new ArrayList<>();
+    // 양방향 연관관계 비추
+//    @OneToMany(mappedBy = "member")
+//    private List<Follower> followers = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "follower")
+//    private List<Follower> following = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();

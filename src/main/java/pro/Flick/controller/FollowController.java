@@ -40,12 +40,26 @@ public class FollowController {
         return dto;
     }
 
+    // 채팅: 팔로워 정보를 받고 -> 멤버로 교체?
+    // follower_user_id는 내 id 이다
+//    @GetMapping("followers_inbox")
+//    public void getFollowersV2(@RequestParam String follower_user_id) {
+//        Member findMember = memberRepository.findMemberById(follower_user_id);
+//        List<Follower> followers = findMember.getFollowers();
+//        for (Follower follower : followers) {
+//            log.info(follower.get);
+//        }
+//    }
+
+
     @GetMapping("/followers")
     public List<GetFollowingResultListResponseDto> getFollowers(@RequestParam String follower_user_id) {
         List<Follower> followers = followRepository.getFollowers(follower_user_id);
         List<GetFollowingResultListResponseDto> dto = new ArrayList<>();
 
         for (Follower follower : followers) {
+            // 나를 팔로우한 사람들의 정보를 뽑아야함
+//            Member whoFollowedMe = memberRepository.findMemberById(String.valueOf(follower.getMember().getId()));
             dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
         }
         return dto;
