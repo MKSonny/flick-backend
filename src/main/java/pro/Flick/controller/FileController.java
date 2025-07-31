@@ -68,10 +68,13 @@ public class FileController {
     }
 
     @PostMapping("/file/image/upload")
-    public String downloadProfileImage(@RequestParam("file") MultipartFile file) throws IOException {
+    public String downloadProfileImage(@RequestParam("file") MultipartFile file,
+                                       @RequestParam("userId") String userId) throws IOException {
         UploadFile storedFile = fileStore.storeFile(file); // 직접 구현한 저장 로직
         log.info("fileStore={}", fileStore.getFullPath(storedFile.getStoreFileName()));
-        return fileStore.getFullPath(storedFile.getStoreFileName());
+        String fileStoreFullPath = fileStore.getFullPath(storedFile.getStoreFileName());
+        memberRepository.updateProfileImage(userId, fileStoreFullPath);
+        return fileStoreFullPath;
     }
 
 

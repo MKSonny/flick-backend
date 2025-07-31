@@ -72,6 +72,8 @@ public class MemberRepository {
     @Transactional
     public void updateProfileImage(String memberId, String imageUri) {
         em.createQuery("update Member m set m.profileImageUri = :imageUri where m.id = :memberId")
+                .setParameter("imageUri", imageUri)
+                .setParameter("memberId", memberId)
                 .executeUpdate();
     }
 }
