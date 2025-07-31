@@ -62,4 +62,10 @@ public class MemberRepository {
                 .setParameter("username", "%" + username.toLowerCase() + "%")
                 .getResultList();
     }
+
+    public List<Member> findMemberByIds(List<Long> ids) {
+        return em.createQuery("select m from Member m where m.id in :ids", Member.class)
+                .setParameter("ids", ids)
+                .getResultList();
+    }
 }

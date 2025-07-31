@@ -1,6 +1,5 @@
 package pro.Flick.controller;
 
-import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +62,19 @@ public class MemberController {
         }
 
         return findMemberByUsernameResponseDtos;
+    }
+
+    // 7/31
+    // 친구 목록 상세 정보 보내주기
+    @PostMapping("/members/friends_ids")
+    public List<FindMemberByUsernameResponseDto> getUsersByIds(@RequestBody List<Long> ids) {
+        List<Member> members = memberRepository.findMemberByIds(ids);
+        List<FindMemberByUsernameResponseDto> dtoList = new ArrayList<>();
+
+        for (Member member : members) {
+            dtoList.add(new FindMemberByUsernameResponseDto(member.getCreateTime(), member.getEmail(), member.getId(), member.getUsername()));
+        }
+        return dtoList;
     }
 
     @Data
