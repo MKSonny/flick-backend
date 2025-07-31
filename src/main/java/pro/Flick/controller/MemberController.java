@@ -66,6 +66,8 @@ public class MemberController {
 
     // 7/31
     // 친구 목록 상세 정보 보내주기
+//    여기서 POST로 보낸 이유:
+//    배열을 RequestParam으로 보내기 복잡하니까 RequestBody로 처리한다
     @PostMapping("/members/friends_ids")
     public List<FindMemberByUsernameResponseDto> getUsersByIds(@RequestBody List<Long> ids) {
         List<Member> members = memberRepository.findMemberByIds(ids);
