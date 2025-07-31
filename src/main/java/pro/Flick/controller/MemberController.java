@@ -69,12 +69,12 @@ public class MemberController {
 //    여기서 POST로 보낸 이유:
 //    배열을 RequestParam으로 보내기 복잡하니까 RequestBody로 처리한다
     @PostMapping("/members/friends_ids")
-    public List<FindMemberByUsernameResponseDto> getUsersByIds(@RequestBody List<Long> ids) {
+    public List<GetMemberByIdResponseDto> getUsersByIds(@RequestBody List<Long> ids) {
         List<Member> members = memberRepository.findMemberByIds(ids);
-        List<FindMemberByUsernameResponseDto> dtoList = new ArrayList<>();
+        List<GetMemberByIdResponseDto> dtoList = new ArrayList<>();
 
         for (Member member : members) {
-            dtoList.add(new FindMemberByUsernameResponseDto(member.getCreateTime(), member.getEmail(), member.getId(), member.getUsername()));
+            dtoList.add(new GetMemberByIdResponseDto(member));
         }
         return dtoList;
     }
