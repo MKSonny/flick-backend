@@ -79,6 +79,7 @@ public class MemberController {
         return dtoList;
     }
 
+
     @Data
     static class FindMemberByUsernameResponseDto {
         private LocalDateTime created_at;

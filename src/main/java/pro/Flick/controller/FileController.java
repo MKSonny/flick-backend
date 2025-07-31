@@ -2,16 +2,21 @@ package pro.Flick.controller;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
+import pro.Flick.entity.Item;
+import pro.Flick.entity.UploadFile;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
 import pro.Flick.repsository.FileRepository;
 import pro.Flick.repsository.MemberRepository;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +67,26 @@ public class FileController {
         return dtoList;
     }
 
+    @PostMapping("/file/image/upload")
+    public String downloadProfileImage(@RequestParam("file") MultipartFile file) throws IOException {
+        UploadFile storedFile = fileStore.storeFile(file); // 직접 구현한 저장 로직
+        log.info("fileStore={}", fileStore.getFullPath(storedFile.getStoreFileName()));
+        return fileStore.getFullPath(storedFile.getStoreFileName());
+    }
+
+
+    @Data
+    public class UploadFileResponse {
+        private String fileName;
+        private String storePath;
+
+        public UploadFileResponse(String fileName, String storePath) {
+            this.fileName = fileName;
+            this.storePath = storePath;
+        }
+
+        // getters 생략
+    }
 
     @Data
     static class Temp {

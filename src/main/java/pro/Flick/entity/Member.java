@@ -36,6 +36,8 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Likes> likes = new ArrayList<>();
 
+    private String profileImageUri;
+
     // 양방향 연관관계 비추
 //    @OneToMany(mappedBy = "member")
 //    private List<Follower> followers = new ArrayList<>();

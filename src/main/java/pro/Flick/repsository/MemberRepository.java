@@ -68,4 +68,10 @@ public class MemberRepository {
                 .setParameter("ids", ids)
                 .getResultList();
     }
+
+    @Transactional
+    public void updateProfileImage(String memberId, String imageUri) {
+        em.createQuery("update Member m set m.profileImageUri = :imageUri where m.id = :memberId")
+                .executeUpdate();
+    }
 }
