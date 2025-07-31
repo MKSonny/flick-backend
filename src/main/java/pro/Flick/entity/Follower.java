@@ -26,9 +26,10 @@ public class Follower {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public Follower(Member member, Member follower, LocalDateTime createdAt) {
-        this.member = member;
-        this.follower = follower;
+
+    public Follower(Member memberA, Member memberB, LocalDateTime createdAt) {
+        this.follower = memberA;
+        this.member = memberB;
         this.createdAt = createdAt;
     }
 

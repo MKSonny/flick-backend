@@ -17,7 +17,8 @@ public class FollowRepository {
 
     @Transactional
     public void memberAFollowsMemberB(Member memberA, Member memberB) {
-        em.persist(new Follower(memberB, memberA, LocalDateTime.now()));
+        // 주의! followerId가 팔로우한 사람이고 member가 팔로우 당한 사람이다
+        em.persist(new Follower(memberA, memberB, LocalDateTime.now()));
     }
 
     // 기존 follower.id가 잘못 설정되었음 -> follower.id가 내 id임 내가 팔로우한다는 의미

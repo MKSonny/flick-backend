@@ -23,8 +23,8 @@ public class FollowController {
 
     @PostMapping("/followers")
     public void addFollower(@RequestBody FollowRequestDto requestDto) {
-        Member findMember = memberRepository.findMemberById(requestDto.getUserId());
-        Member theMemberThatFineMemberWillFollow = memberRepository.findMemberById(requestDto.getFollower_user_id());
+        Member findMember = memberRepository.findMemberById(requestDto.getFollower_user_id());
+        Member theMemberThatFineMemberWillFollow = memberRepository.findMemberById(requestDto.getUserId());
 
         followRepository.memberAFollowsMemberB(findMember, theMemberThatFineMemberWillFollow);
     }
@@ -92,14 +92,14 @@ public class FollowController {
     static class FollowerResponseDto {
         Long id;
         Long userId;
-        Long followerUserId;
+        Long follower_user_id;
         LocalDateTime createdAt;
         MemberInfoDto User;
 
-        public FollowerResponseDto(Long id, Long userId, Long followerUserId, LocalDateTime createdAt, MemberInfoDto user) {
+        public FollowerResponseDto(Long id, Long userId, Long follower_user_id, LocalDateTime createdAt, MemberInfoDto user) {
             this.id = id;
             this.userId = userId;
-            this.followerUserId = followerUserId;
+            this.follower_user_id = follower_user_id;
             this.createdAt = createdAt;
             this.User = user;
         }
