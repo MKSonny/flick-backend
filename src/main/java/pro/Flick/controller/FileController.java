@@ -1,15 +1,12 @@
 package pro.Flick.controller;
 
-import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.parser.TE;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
 import pro.Flick.repsository.FileRepository;
@@ -51,6 +48,18 @@ public class FileController {
             videos.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
         }
         return videos;
+    }
+
+    @PostMapping("/videos")
+    public List<Temp> getAllVideos(@RequestBody List<Long> memberIds) {
+        List<Video> videos = fileRepository.findVideoByMemberId(memberIds);
+        List<Temp> dtoList = new ArrayList<>();
+
+        for (Video video : videos) {
+            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
+        }
+
+        return dtoList;
     }
 
 
