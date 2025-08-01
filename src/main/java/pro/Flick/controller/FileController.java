@@ -8,6 +8,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
+import pro.Flick.entity.Member;
 import pro.Flick.entity.UploadFile;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
@@ -54,14 +55,36 @@ public class FileController {
     }
 
     // 페이징 기능 추가 필요
-    @GetMapping("/videos/{userId}")
+//    @GetMapping("/videos/{userId}")
     public List<Temp> getVideosByUserId(@PathVariable String userId) {
         List<Video> videos = fileRepository.findVideoByMemberId(userId);
+
+
         List<Temp> dtoList = new ArrayList<>();
 
         for (Video video : videos) {
             dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
         }
+
+        return dtoList;
+    }
+
+    // member에 있는 videos를 직접 꺼낼수는 없을까
+    // 프론트 엔드의 어느 tsx에서 호출되는지 알 수 없나
+    @GetMapping("/videos/{userId}")
+    public List<Temp> getVideosByUserIdV2(@PathVariable String userId) {
+        log.info("getVideosByUserIdV2 start");
+        Member member = memberRepository.findMemberById(userId);
+        List<Video> videos = member.getVideos();
+
+        log.info("hello world={}", videos); // videos가 들어가 있다 언제 add 되었는지
+
+        List<Temp> dtoList = new ArrayList<>();
+
+        for (Video video : videos) {
+            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
+        }
+        log.info("getVideosByUserIdV2 end");
 
         return dtoList;
     }
