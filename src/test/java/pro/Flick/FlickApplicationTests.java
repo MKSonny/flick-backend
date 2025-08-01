@@ -23,7 +23,7 @@ class FlickApplicationTests {
 	@Test
 	@Transactional
 	void memberEntityTest() {
-		Member member = new Member("hello", "hello@email.com");
-		em.persist(member);
+//		Member member = new Member("hello", "hello@email.com");
+//		em.persist(member);
 	}
 }

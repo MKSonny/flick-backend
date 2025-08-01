@@ -17,7 +17,17 @@ public class MemberRepository {
 
     @Transactional
     public Member save(String username, String email, String password) {
-        Member member = new Member(username, email, password);
+
+        Member member = Member.builder()
+                        .username(username)
+                                .email(email)
+                                        .password(password).build();
+        em.persist(member);
+        return member;
+    }
+
+    @Transactional
+    public Member save(Member member) {
         em.persist(member);
         return member;
     }

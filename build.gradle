@@ -41,6 +41,9 @@ dependencies {
 	// 테스트에서도 lombok 사용
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	// 테스트용 H2 데이터베이스 추가
+	testImplementation 'com.h2database:h2'
 }
 
 tasks.named('test') {

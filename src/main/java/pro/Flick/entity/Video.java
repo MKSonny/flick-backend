@@ -1,7 +1,7 @@
 package pro.Flick.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 //import pro.Flick.file.UploadFile;
 
@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Video {
 
     @Id @GeneratedValue
@@ -29,12 +32,12 @@ public class Video {
     @CreatedDate
     private LocalDateTime createdTime;
 
-    public Video(String title, String uri, Member member) {
-        this.title = title;
-        this.uri = uri;
-        this.member = member;
-    }
-
-    public Video() {
-    }
+//    public Video(String title, String uri, Member member) {
+//        this.title = title;
+//        this.uri = uri;
+//        this.member = member;
+//    }
+//
+//    public Video() {
+//    }
 }

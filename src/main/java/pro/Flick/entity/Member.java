@@ -1,8 +1,7 @@
 package pro.Flick.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -11,7 +10,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Member {
 
     @Id @GeneratedValue
@@ -52,18 +53,19 @@ public class Member {
     private List<Chat> chats = new ArrayList<>();
 
 
-    public Member(String email) {
-        this.email = email;
-    }
-
-    public Member(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
-    public Member(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
+    // builder 패턴 적용 위해 지움
+//    public Member(String email) {
+//        this.email = email;
+//    }
+//
+//    public Member(String username, String email, String password) {
+//        this.username = username;
+//        this.email = email;
+//        this.password = password;
+//    }
+//
+//    public Member(String username, String email) {
+//        this.username = username;
+//        this.email = email;
+//    }
 }

@@ -24,9 +24,20 @@ public class FileRepository {
     }
      */
 
+
+    @Transactional
+    public Video saveVideo(Video video) {
+        em.persist(video);
+        return video;
+    }
+
     @Transactional
     public Video saveVideo(String videoTitle, String uri, Member member) {
-        Video video = new Video(videoTitle, uri, member);
+        Video video = Video.builder()
+                .title(videoTitle)
+                .uri(uri)
+                .member(member)
+                .build();
         em.persist(video);
         return video;
     }
