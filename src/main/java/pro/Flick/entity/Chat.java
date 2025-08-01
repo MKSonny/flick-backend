@@ -19,8 +19,6 @@ public class Chat {
     @JoinColumn(name = "member_id")
     private Member member; // 관계 설정 필요
 
-
-
     private String text;
 
     @CreatedDate

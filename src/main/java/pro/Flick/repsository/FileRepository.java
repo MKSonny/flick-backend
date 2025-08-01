@@ -31,6 +31,8 @@ public class FileRepository {
         return video;
     }
 
+    //        fileRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+
     @Transactional
     public Video saveVideo(String videoTitle, String uri, Member member) {
         Video video = Video.builder()

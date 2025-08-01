@@ -21,6 +21,23 @@ public class ChatController {
     private final ChatRepository chatRepository;
     private final MemberRepository memberRepository;
 
+    // 8/1 채팅 기능 수정
+
+    public void addMessageV2(@RequestBody ChatRequestDto requestDto) {
+        /*
+            프론트에서 보내야
+            1. sender_id
+         */
+
+
+    }
+//    @PostMapping
+//    public void addMessage(@RequestBody ChatRequestDto requestDto) {
+//        Member findMember = memberRepository.findMemberById(requestDto.getUserId());
+//        chatRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
+//    }
+    // 8/1
+
     @GetMapping("/{users_key}")
     public List<GetChatByUsersKeyResponseDto> getChatByUsersKey(@PathVariable String users_key) {
         List<Chat> chats = chatRepository.getChatByUsersKey(users_key);

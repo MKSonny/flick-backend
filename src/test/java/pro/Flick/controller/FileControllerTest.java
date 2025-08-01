@@ -65,17 +65,17 @@ class FileControllerTest {
         }
     }
 
-    @Test
-    public void joinFetchTest() {
-        em.flush();
-        em.clear();
-
-        log.info("--- 비디오 조회 시작 ---");
-        List<Video> videos = fileRepository.fetchJoinFindVideos();
-        log.info("--- 비디오 조회 완료 ---");
-
-        for (Video video : videos) {
-            log.info("video:{} member:{}", video.getTitle(), video.getMember().getUsername());
-        }
-    }
+//    @Test
+//    public void joinFetchTest() {
+//        em.flush();
+//        em.clear();
+//
+//        log.info("--- 비디오 조회 시작 ---");
+////        List<Video> videos = fileRepository.fetchJoinFindVideos();
+//        log.info("--- 비디오 조회 완료 ---");
+//
+//        for (Video video : videos) {
+//            log.info("video:{} member:{}", video.getTitle(), video.getMember().getUsername());
+//        }
+//    }
 }

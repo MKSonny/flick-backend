@@ -125,7 +125,7 @@ public class FileController {
     * **개선 효과**: <benefit>
      */
 
-    @GetMapping("/videos/{userId}")
+    @GetMapping("/videos/{userId}") // PathVariable로 userId를 넘기는 것이 안전한가?
     public List<VideoWithMemberDto> getVideosByUserIdV3(@PathVariable String userId) {
 //        List<Video> videos = member.getVideos(); 이런식으로 member의 영상들을 가져오는 것은 비추, 지연로딩이므로 N+1 문제 발생 가능
         log.info("API 호출: getVideosByUserIdV3, userId={}", userId);
