@@ -1,6 +1,8 @@
 package pro.Flick.controller;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,35 +20,62 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@Slf4j
 class FileControllerTest {
     @Autowired
     private FileRepository fileRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private EntityManager em;
 
     @BeforeEach
     void init() {
-        Member member = Member.builder()
-                .username("hello world")
-                .password("123")
-                .email("email")
-                .build();
-        Member savedMember = memberRepository.save(member);
+        for (int i = 0; i < 10; i++) {
+            Member member = Member.builder()
+                    .username("hello world" + i)
+                    .password("123")
+                    .email("email")
+                    .build();
+            Member savedMember = memberRepository.save(member);
 
-        Video video = Video.builder()
-                .uri("test.mp4")
-                .title("test video")
-                .member(savedMember)
-                .build();
+            Video video = Video.builder()
+                    .uri("test.mp4")
+                    .title("test video" + i)
+                    .member(savedMember)
+                    .build();
 
-        fileRepository.saveVideo(video);
+            fileRepository.saveVideo(video);
+        }
     }
 
     @Test
     public void getAllVideosTest() {
-        List<Video> videos = fileRepository.getAllVideos();
+        em.flush();
+        // N+1 문제 검증을 위해 1차 캐시를 비운다.
+        em.clear();
+
+        log.info("--- 비디오 조회 시작 ---");
+        List<Video> videos = fileRepository.getAllVideos(); // 이 시점에 비디오 10개 조회 (1번 쿼리)
+        log.info("--- 비디오 조회 완료 ---");
+
         for (Video video : videos) {
-            video.getMember();
+            // 지연 로딩으로 인해 member 정보가 필요할 때마다 쿼리가 실행
+            log.info("video:{} member:{}", video.getTitle(), video.getMember().getUsername());
+        }
+    }
+
+    @Test
+    public void joinFetchTest() {
+        em.flush();
+        em.clear();
+
+        log.info("--- 비디오 조회 시작 ---");
+        List<Video> videos = fileRepository.fetchJoinFindVideos();
+        log.info("--- 비디오 조회 완료 ---");
+
+        for (Video video : videos) {
+            log.info("video:{} member:{}", video.getTitle(), video.getMember().getUsername());
         }
     }
 }
