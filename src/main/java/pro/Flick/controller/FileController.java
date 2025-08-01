@@ -54,6 +54,30 @@ public class FileController {
         return videos;
     }
 
+    // join fetch를 사용한 모든 영상을 가져오는 코드
+    @GetMapping("/videos_v2")
+    public List<VideoWithMemberDto> getAllVideosV2() {
+        List<Video> videos = fileRepository.fetchJoinFindVideos();
+
+        List<VideoWithMemberDto> dtos = new ArrayList<>();
+        for (Video video : videos) {
+            log.info("video={}", video.getUri());
+            /**
+             * 🚨 경고: N+1 문제 발생 지점 🚨
+             * * 위에서 가져온 videos 리스트를 순회하며 `video.getMember()`를 호출할 때마다,
+             * 지연 로딩(Lazy Loading)으로 인해 매번 새로운 `SELECT` 쿼리가 데이터베이스로 전송됩니다.
+             * * - '1'번 쿼리: fileRepository.getAllVideos() (모든 Video 조회)
+             * - '+N'번 쿼리: for 루프 안에서 video.getMember() 호출 시 (N개의 Member 조회)
+             * * 하이버네이트의 1차 캐시 때문에 쿼리가 보이지 않을 수도 있지만, 근본적인 성능 문제는 해결되지 않습니다.
+             * * ✅ 해결 방법:
+             * fileRepository에서 `getAllVideos()` 대신 '페치 조인(Fetch Join)'을 사용해
+             * Video와 Member를 단 한 번의 쿼리로 함께 조회해야 합니다.
+             */
+            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+        }
+        return dtos;
+    }
+
     // 페이징 기능 추가 필요
 //    @GetMapping("/videos/{userId}")
     public List<Temp> getVideosByUserId(@PathVariable String userId) {
@@ -123,6 +147,24 @@ public class FileController {
         }
 
         // getters 생략
+    }
+
+    @Data
+    static class VideoWithMemberDto {
+        private Long id;
+        private String title;
+        private String uri;
+        private GetMemberByIdResponseDto member;
+
+        public static VideoWithMemberDto fromVideoAndMember(Video video, Member member) {
+            VideoWithMemberDto dto = new VideoWithMemberDto();
+            dto.id = video.getId();
+            dto.title = video.getTitle();
+            dto.uri = video.getUri();
+            dto.member = new GetMemberByIdResponseDto(member);
+
+            return dto;
+        }
     }
 
     @Data
