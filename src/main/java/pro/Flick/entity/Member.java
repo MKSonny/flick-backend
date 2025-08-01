@@ -36,7 +36,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Likes> likes = new ArrayList<>();
 
-    private String profileImageUri;
+    private String profileImageUri = "/Users/son/Desktop/Flick_Files/react-log.png";
 
     // 양방향 연관관계 비추
 //    @OneToMany(mappedBy = "member")

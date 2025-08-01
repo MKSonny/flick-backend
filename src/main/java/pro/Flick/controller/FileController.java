@@ -2,14 +2,12 @@ package pro.Flick.controller;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.entity.Item;
 import pro.Flick.entity.UploadFile;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
@@ -53,6 +51,19 @@ public class FileController {
             videos.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
         }
         return videos;
+    }
+
+    // 페이징 기능 추가 필요
+    @GetMapping("/videos/{userId}")
+    public List<Temp> getVideosByUserId(@PathVariable String userId) {
+        List<Video> videos = fileRepository.findVideoByMemberId(userId);
+        List<Temp> dtoList = new ArrayList<>();
+
+        for (Video video : videos) {
+            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
+        }
+
+        return dtoList;
     }
 
     @PostMapping("/videos")

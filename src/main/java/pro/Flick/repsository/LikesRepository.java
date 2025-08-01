@@ -21,6 +21,12 @@ public class LikesRepository {
         em.persist(new Likes(member, video, LocalDateTime.now()));
     }
 
+    public Long findLikesCountByMemberId(String memberId) {
+        return em.createQuery("select count(l) from Likes l where l.video.member.id =:memberId", Long.class)
+                .setParameter("memberId", memberId)
+                .getSingleResult();
+    }
+
     public List<Likes> findLikesByMemberId(String memberId) {
         return em.createQuery("select l from Likes l where l.member.id=:memberId", Likes.class)
                 .setParameter("memberId", memberId)

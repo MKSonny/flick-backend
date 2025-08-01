@@ -41,6 +41,12 @@ public class FileRepository {
         }
     }
 
+    public List<Video> findVideoByMemberId(String memberId) {
+        return em.createQuery("select v from Video v where v.member.id =:memberId", Video.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
+    }
+
     public List<Video> findVideoByMemberId(List<Long> memberIds) {
         return em.createQuery("select v from Video v where v.member.id in :memberIds", Video.class)
                 .setParameter("memberIds", memberIds)

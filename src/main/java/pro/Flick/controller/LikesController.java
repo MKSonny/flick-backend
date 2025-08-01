@@ -2,6 +2,7 @@ package pro.Flick.controller;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class LikesController {
@@ -45,6 +47,14 @@ public class LikesController {
         }
 
         return GetLikesByMemberIdResponseDto;
+    }
+
+    // 내가 받은 좋아요
+    @GetMapping("my_vid/likes/{memberId}")
+    public Long getRespondLikesByMEmberId(@PathVariable String memberId) {
+        Long c = likesRepository.findLikesCountByMemberId(memberId);
+        log.info("adfsfafsf={}", c);
+        return c;
     }
 
     // 활동 페이지

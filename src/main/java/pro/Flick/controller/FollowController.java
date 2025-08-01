@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.FollowRepository;
@@ -59,16 +60,13 @@ public class FollowController {
 
         return followersFetch.stream().map(f -> {
             Member m = f.getFollower(); // 나를 팔로우한 사람
-            MemberInfoDto memberInfoDto = new MemberInfoDto(
-                    m.getId(), m.getUsername(), m.getEmail(), m.getCreateTime()
-            );
 
             return new FollowerResponseDto(
                     f.getId(),
                     f.getMember().getId(),
                     f.getFollower().getId(),
                     f.getCreatedAt(),
-                    memberInfoDto
+                    m
             );
         }).toList();
     }
@@ -94,14 +92,14 @@ public class FollowController {
         Long userId;
         Long follower_user_id;
         LocalDateTime createdAt;
-        MemberInfoDto User;
+        GetMemberByIdResponseDto User;
 
-        public FollowerResponseDto(Long id, Long userId, Long follower_user_id, LocalDateTime createdAt, MemberInfoDto user) {
+        public FollowerResponseDto(Long id, Long userId, Long follower_user_id, LocalDateTime createdAt, Member member) {
             this.id = id;
             this.userId = userId;
             this.follower_user_id = follower_user_id;
             this.createdAt = createdAt;
-            this.User = user;
+            this.User = new GetMemberByIdResponseDto(member);
         }
     }
 
