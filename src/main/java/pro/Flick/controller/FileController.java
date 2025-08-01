@@ -38,7 +38,7 @@ public class FileController {
         return new UrlResource("file:" + fileStore.getFullPath(fileName));
     }
 
-    @GetMapping("/videos")
+//    @GetMapping("/videos")
     public List<Temp> getAllVideos() {
         List<Video> allVideos = fileRepository.getAllVideos();
 
@@ -55,9 +55,9 @@ public class FileController {
     }
 
     // join fetch를 사용한 모든 영상을 가져오는 코드
-    @GetMapping("/videos_v2")
+    @GetMapping("/videos")
     public List<VideoWithMemberDto> getAllVideosV2() {
-        List<Video> videos = fileRepository.fetchJoinFindVideos();
+        List<Video> videos = fileRepository.findVideosWithMember();
 
         List<VideoWithMemberDto> dtos = new ArrayList<>();
         for (Video video : videos) {
@@ -95,7 +95,7 @@ public class FileController {
 
     // member에 있는 videos를 직접 꺼낼수는 없을까
     // 프론트 엔드의 어느 tsx에서 호출되는지 알 수 없나
-    @GetMapping("/videos/{userId}")
+//    @GetMapping("/videos/{userId}")
     public List<Temp> getVideosByUserIdV2(@PathVariable String userId) {
         log.info("getVideosByUserIdV2 start");
         Member member = memberRepository.findMemberById(userId);
@@ -111,6 +111,32 @@ public class FileController {
         log.info("getVideosByUserIdV2 end");
 
         return dtoList;
+    }
+    /*
+    <type>(<scope>): <subject>
+
+    <blank line>
+
+    <body: problem>
+
+    <body: solution>
+
+    * **변경 내용**: <detailed-change>
+    * **개선 효과**: <benefit>
+     */
+
+    @GetMapping("/videos/{userId}")
+    public List<VideoWithMemberDto> getVideosByUserIdV3(@PathVariable String userId) {
+//        List<Video> videos = member.getVideos(); 이런식으로 member의 영상들을 가져오는 것은 비추, 지연로딩이므로 N+1 문제 발생 가능
+        log.info("API 호출: getVideosByUserIdV3, userId={}", userId);
+        List<Video> videos = fileRepository.findVideosByMemberIdWithMember(userId);
+        List<VideoWithMemberDto> dtos = new ArrayList<>();
+
+        for (Video video : videos) {
+            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+        }
+        log.info("API 종료: getVideosByUserIdV3");
+        return dtos;
     }
 
     @PostMapping("/videos")
