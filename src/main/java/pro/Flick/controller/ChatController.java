@@ -59,12 +59,19 @@ public class ChatController {
     @PostMapping
     public void addMessage(@RequestBody ChatRequestDto requestDto) {
         Member findMember = memberRepository.findMemberById(requestDto.getUserId());
+        Member receiverMember = memberRepository.findMemberById(requestDto.getChat_user_id());
         chatRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
+
+        chatRepository.addMessage(findMember, receiverMember, requestDto.getText());
+    }
+
+    public void findMyChats() {
+
     }
 
     @Data
     static class ChatRequestDto {
-        private String userId;
+        private String userId; // 보낸 사람의 id
         private String chat_user_id;
         private String text;
         private String users_key;

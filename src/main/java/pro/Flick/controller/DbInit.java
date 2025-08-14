@@ -23,6 +23,8 @@ public class DbInit {
     public void saveMemberAndVideo() {
         memberRepository.save("HelloWorld", "Email", "123");
         memberRepository.save("test", "Email2", "123");
+//        memberRepository.save("test3", "Email2", "123");
+//        memberRepository.save("test4", "Email2", "123");
 
 
         Member member = memberRepository.findMember("Email", "123");
@@ -41,13 +43,26 @@ public class DbInit {
         followService.memberAFollowsMemberB(member, member2);
         followService.memberAFollowsMemberB(member2, member);
 
-        chatRepository.addMessage(member, "1", "1:2");
-        chatRepository.addMessage(member, "2", "1:2");
-        chatRepository.addMessage(member, "3", "1:2");
-        chatRepository.addMessage(member2, "4", "1:2");
-        chatRepository.addMessage(member2, "5", "1:2");
-        chatRepository.addMessage(member2, "6", "1:2");
+//        chatRepository.addMessage(member, "1", "1:2");
+//        chatRepository.addMessage(member, "2", "1:2");
+//        chatRepository.addMessage(member, "3", "1:2");
+//        chatRepository.addMessage(member2, "4", "1:2");
+//        chatRepository.addMessage(member2, "5", "1:2");
+//        chatRepository.addMessage(member2, "6", "1:2");
 
 
+        /*
+            1. 팔로워 목록에서 누름
+            2. 내 member_id, 상대방 member_id 전달
+            3. 이렇게 둘이 참여하고 있는 채팅방이 있는지 검사
+            4. 없다면 새로운 채팅방을 만든다
+         */
+
+        chatRepository.addMessage(member, member2, "1");
+        chatRepository.addMessage(member, member2, "2");
+        chatRepository.addMessage(member, member2, "3");
+        chatRepository.addMessage(member2, member, "4");
+        chatRepository.addMessage(member2, member, "5");
+        chatRepository.addMessage(member2, member, "6");
     }
 }

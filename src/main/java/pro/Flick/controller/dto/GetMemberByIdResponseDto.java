@@ -17,6 +17,7 @@ public class GetMemberByIdResponseDto {
         this.id = member.getId();
         this.username = member.getUsername();
         this.email = member.getEmail();
+        // orElse 적용?
         this.profile_image_uri = member.getProfileImageUri();
         this.created_at = member.getCreateTime();
     }

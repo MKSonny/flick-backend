@@ -73,6 +73,13 @@ public class MemberRepository {
                 .getResultList();
     }
 
+    public Member findMemberByUsernameSingle(String username) {
+        return em.createQuery("select m from Member m where lower(m.username) like :username", Member.class)
+                .setParameter("username", "%" + username.toLowerCase() + "%")
+                .getSingleResult();
+
+    }
+
     public List<Member> findMemberByIds(List<Long> ids) {
         return em.createQuery("select m from Member m where m.id in :ids", Member.class)
                 .setParameter("ids", ids)
