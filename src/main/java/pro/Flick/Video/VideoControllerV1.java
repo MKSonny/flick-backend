@@ -1,20 +1,13 @@
 package pro.Flick.Video;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.entity.Member;
-import pro.Flick.entity.UploadFile;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
-import pro.Flick.repsository.MemberRepository;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +35,6 @@ public class VideoControllerV1 {
     public Resource downloadImage(@PathVariable String fileName) throws MalformedURLException {
         return new UrlResource("file:" + fileStore.getFullPath(fileName));
     }
-
-    // join fetch를 사용한 모든 영상을 가져오는 코드
 
     /**
      * 홈 화면의 비디오 목록들을 나열해서 보여줍니다.
