@@ -1,4 +1,4 @@
-package pro.Flick.controller;
+package pro.Flick.Video;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,7 @@ import pro.Flick.entity.Member;
 import pro.Flick.entity.UploadFile;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
-import pro.Flick.repsository.VideoJpaRepository;
 import pro.Flick.repsository.MemberRepository;
-import pro.Flick.repsository.VideoRepository;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

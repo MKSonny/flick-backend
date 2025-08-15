@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.ChatRepository;
-import pro.Flick.repsository.VideoJpaRepository;
+import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.repsository.MemberRepository;
 import pro.Flick.service.FollowService;
 

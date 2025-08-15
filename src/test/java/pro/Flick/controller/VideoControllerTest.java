@@ -1,7 +1,6 @@
 package pro.Flick.controller;
 
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.repsository.MemberRepository;
-import pro.Flick.repsository.VideoJpaRepository;
+import pro.Flick.Video.VideoJpaRepository;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest

@@ -1,4 +1,4 @@
-package pro.Flick.repsository;
+package pro.Flick.Video;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

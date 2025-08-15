@@ -2,7 +2,7 @@ package pro.Flick.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pro.Flick.repsository.VideoJpaRepository;
+import pro.Flick.Video.VideoJpaRepository;
 
 @Service
 @RequiredArgsConstructor

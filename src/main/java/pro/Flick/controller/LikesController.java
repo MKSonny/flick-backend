@@ -8,7 +8,7 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.VideoJpaRepository;
+import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.repsository.LikesRepository;
 import pro.Flick.repsository.MemberRepository;
 
