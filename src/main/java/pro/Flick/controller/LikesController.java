@@ -8,7 +8,7 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.FileRepository;
+import pro.Flick.repsository.VideoJpaRepository;
 import pro.Flick.repsository.LikesRepository;
 import pro.Flick.repsository.MemberRepository;
 
@@ -23,12 +23,12 @@ public class LikesController {
 
     private final LikesRepository likesRepository;
     private final MemberRepository memberRepository;
-    private final FileRepository fileRepository;
+    private final VideoJpaRepository videoJpaRepository;
 
     @PostMapping("/likes")
     public void addLikes(@RequestBody LikesRequestDto likesRequestDto) {
         Member findMember = memberRepository.findMemberById(likesRequestDto.getUserId());
-        Video findVideo = fileRepository.findVideoById(likesRequestDto.getVideoId());
+        Video findVideo = videoJpaRepository.findVideoById(likesRequestDto.getVideoId());
 
         likesRepository.addLike(findMember, findVideo);
 

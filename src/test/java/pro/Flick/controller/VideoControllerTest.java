@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.FileRepository;
 import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.VideoJpaRepository;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Slf4j
-class FileControllerTest {
+class VideoControllerTest {
     @Autowired
-    private FileRepository fileRepository;
+    private VideoJpaRepository fileRepository;
     @Autowired
     private MemberRepository memberRepository;
     @Autowired

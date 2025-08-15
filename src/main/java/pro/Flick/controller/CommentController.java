@@ -9,7 +9,7 @@ import pro.Flick.entity.Comment;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.repsository.CommentRepository;
-import pro.Flick.repsository.FileRepository;
+import pro.Flick.repsository.VideoJpaRepository;
 import pro.Flick.repsository.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public class CommentController {
 
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
-    private final FileRepository fileRepository;
+    private final VideoJpaRepository fileRepository;
 
 
     @GetMapping("/comments/{videoId}")

@@ -12,8 +12,9 @@ import pro.Flick.entity.Member;
 import pro.Flick.entity.UploadFile;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
-import pro.Flick.repsository.FileRepository;
+import pro.Flick.repsository.VideoJpaRepository;
 import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.VideoRepository;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -23,10 +24,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class FileController {
+public class VideoController {
 
     private final FileStore fileStore;
-    private final FileRepository fileRepository;
+    private final VideoJpaRepository fileRepository;
+    private final VideoRepository videoRepository; // spring data jpa 사용
     private final MemberRepository memberRepository;
 
 
@@ -40,7 +42,8 @@ public class FileController {
 
 //    @GetMapping("/videos")
     public List<Temp> getAllVideos() {
-        List<Video> allVideos = fileRepository.getAllVideos();
+//        List<Video> allVideos = fileRepository.getAllVideos();
+        List<Video> allVideos = videoRepository.findAll();
 
         List<Temp> videos = new ArrayList<>();
         for (Video video : allVideos) {
@@ -57,7 +60,8 @@ public class FileController {
     // join fetch를 사용한 모든 영상을 가져오는 코드
     @GetMapping("/videos")
     public List<VideoWithMemberDto> getAllVideosV2() {
-        List<Video> videos = fileRepository.findVideosWithMember();
+//        List<Video> videos = fileRepository.findVideosWithMember();
+        List<Video> videos = videoRepository.findVideosWithMember();
 
         List<VideoWithMemberDto> dtos = new ArrayList<>();
         for (Video video : videos) {
@@ -129,7 +133,8 @@ public class FileController {
     public List<VideoWithMemberDto> getVideosByUserIdV3(@PathVariable String userId) {
 //        List<Video> videos = member.getVideos(); 이런식으로 member의 영상들을 가져오는 것은 비추, 지연로딩이므로 N+1 문제 발생 가능
         log.info("API 호출: getVideosByUserIdV3, userId={}", userId);
-        List<Video> videos = fileRepository.findVideosByMemberIdWithMember(userId);
+//        List<Video> videos = fileRepository.findVideosByMemberIdWithMember(userId);
+        List<Video> videos = videoRepository.findVideosByMemberIdWithMember(userId);
         List<VideoWithMemberDto> dtos = new ArrayList<>();
 
         for (Video video : videos) {
@@ -141,7 +146,9 @@ public class FileController {
 
     @PostMapping("/videos")
     public List<Temp> getAllVideos(@RequestBody List<Long> memberIds) {
-        List<Video> videos = fileRepository.findVideoByMemberId(memberIds);
+//        List<Video> videos = fileRepository.findVideoByMemberId(memberIds);
+        List<Video> videos = videoRepository.findVideoByMemberIds(memberIds);
+
         List<Temp> dtoList = new ArrayList<>();
 
         for (Video video : videos) {

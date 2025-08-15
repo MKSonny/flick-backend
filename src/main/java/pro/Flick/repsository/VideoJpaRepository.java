@@ -11,7 +11,7 @@ import pro.Flick.entity.Video;
 import java.util.List;
 
 @Repository
-public class FileRepository {
+public class VideoJpaRepository {
     @Autowired
     EntityManager em;
 
