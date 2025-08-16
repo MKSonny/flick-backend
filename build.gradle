@@ -44,6 +44,9 @@ dependencies {
 
 	// 테스트용 H2 데이터베이스 추가
 	testImplementation 'com.h2database:h2'
+
+    // 썸네일 생성
+    implementation 'org.jcodec:jcodec-javase:0.2.5'
 }
 
 tasks.named('test') {

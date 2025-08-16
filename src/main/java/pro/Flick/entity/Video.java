@@ -19,6 +19,12 @@ public class Video {
     private String title;
     private String uri;
 
+    private String thumbnailStoreFileName; // 추가된 필드
+
+    public void setThumbnailStoreFileName(String thumbnailStoreFileName) {
+        this.thumbnailStoreFileName = thumbnailStoreFileName;
+    }
+
 //    private UploadFile attachFile;
 //    private String uploadFileName; // 유저가 같은 파일 이름을 전송할 수 있으므로
 //    private String storeFileName; // UUID로 생성

@@ -6,15 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import pro.Flick.Video.service.VideoService;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
-import pro.Flick.entity.UploadFile;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
 import pro.Flick.repsository.MemberRepository;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,12 @@ public class VideoController {
     @ResponseBody
     @GetMapping("/video/{fileName}") // 파일 이름만 넘겨주면 내 서버에서 영상을 찾아서 넘겨줌
     public Resource downloadImage(@PathVariable String fileName) throws MalformedURLException {
+        return new UrlResource("file:" + fileStore.getFullPath(fileName));
+    }
+
+    @ResponseBody
+    @GetMapping("/thumbnails/{fileName}") // 파일 이름만 넘겨주면 내 서버에서 영상을 찾아서 넘겨줌
+    public Resource downloadThumbnail(@PathVariable String fileName) throws MalformedURLException {
         return new UrlResource("file:" + fileStore.getFullPath(fileName));
     }
 
@@ -175,6 +179,8 @@ public class VideoController {
         private String title;
         private String uri;
         private GetMemberByIdResponseDto member;
+        private String thumbnailUri; // 추가된 필드
+
 
         public static VideoWithMemberDto fromVideoAndMember(Video video, Member member) {
             VideoWithMemberDto dto = new VideoWithMemberDto();
@@ -183,6 +189,16 @@ public class VideoController {
             dto.uri = video.getUri();
             dto.member = new GetMemberByIdResponseDto(member);
 
+//            dto.uri = "/videos-v1/" + video.getStoreFileName();
+
+            // 썸네일 파일명이 존재할 경우, 전체 URL을 생성하여 DTO에 추가
+            if (video.getThumbnailStoreFileName() != null) {
+                dto.thumbnailUri = "/thumbnails/" + video.getThumbnailStoreFileName(); // 썸네일을 제공할 경로
+            } else {
+                dto.thumbnailUri = null; // 또는 기본 이미지 URL
+            }
+
+            log.info("testing 8/16={}", dto.thumbnailUri);
             return dto;
         }
     }

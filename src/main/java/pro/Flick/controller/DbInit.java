@@ -3,6 +3,7 @@ package pro.Flick.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pro.Flick.Video.service.VideoService;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.ChatRepository;
 import pro.Flick.Video.VideoJpaRepository;
@@ -16,6 +17,7 @@ public class DbInit {
     private final VideoJpaRepository videoJpaRepository;
     private final FollowService followService;
     private final ChatRepository chatRepository;
+    private final VideoService videoService;
 
     @Transactional
     public void saveMemberAndVideo() {
@@ -34,13 +36,18 @@ public class DbInit {
          */
 
 
-        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
-        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
-        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
-        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
-        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
-        videoJpaRepository.saveVideo("myVideo2", "http://127.0.0.1:8080/video/test2.mov", member);
-        videoJpaRepository.saveVideo("myVideo3", "http://127.0.0.1:8080/video/test3.mov", member2);
+
+//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+//        videoJpaRepository.saveVideo("myVideo2", "http://127.0.0.1:8080/video/test2.mov", member);
+//        videoJpaRepository.saveVideo("myVideo3", "http://127.0.0.1:8080/video/test3.mov", member2);
+
+        videoService.createVideo("test.mov", member);
+        videoService.createVideo("test2.mov", member);
+        videoService.createVideo("test3.mov", member);
 
         followService.memberAFollowsMemberB(member, member2);
         followService.memberAFollowsMemberB(member2, member);

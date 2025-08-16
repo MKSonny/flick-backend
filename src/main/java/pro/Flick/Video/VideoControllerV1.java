@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.Video.service.VideoService;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
 
@@ -23,6 +24,7 @@ public class VideoControllerV1 {
 
     private final FileStore fileStore;
     private final VideoRepository videoRepository;
+    private final VideoService videoService;
 
 
     /**
@@ -38,24 +40,6 @@ public class VideoControllerV1 {
     public Resource downloadImage(@PathVariable String fileName) throws MalformedURLException {
         return new UrlResource("file:" + fileStore.getFullPath(fileName));
     }
-
-    /**
-     * 홈 화면의 비디오 목록들을 나열해서 보여줍니다.
-     * 페이징과 정렬 기능 추가가 필요합니다.
-     *
-     * @return 영상 파일 목록과 해당 영상을 올린 유저의 정보
-     */
-//    @GetMapping
-    public List<VideoController.VideoWithMemberDto> getAllVideosV2() {
-        List<Video> videos = videoRepository.findVideosWithMember();
-
-        List<VideoController.VideoWithMemberDto> dtos = new ArrayList<>();
-        for (Video video : videos) {
-            dtos.add(VideoController.VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
-        }
-        return dtos;
-    }
-
 
     /**
      * userId를 받으면 해당 유저가 올린 영상들의 목록을 반환합니다.
@@ -75,6 +59,12 @@ public class VideoControllerV1 {
         return dtos;
     }
 
+    /**
+     * 홈 화면의 비디오 목록들을 나열해서 보여줍니다.
+     * 페이징과 정렬 기능 추가가 필요합니다.
+     *
+     * @return 영상 파일 목록과 해당 영상을 올린 유저의 정보
+     */
     @GetMapping("/get-all-videos")
     public Page<VideoController.VideoWithMemberDto> getAllVideosV3(@PageableDefault(size = 5) Pageable pageable) {
         Page<Video> videos = videoRepository.findAllVideos(pageable);
