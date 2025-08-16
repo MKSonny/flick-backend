@@ -38,7 +38,7 @@ public class VideoController {
         return new UrlResource("file:" + fileStore.getFullPath(fileName));
     }
 
-//    @GetMapping("/videos")
+    //    @GetMapping("/videos")
     public List<Temp> getAllVideos() {
 //        List<Video> allVideos = fileRepository.getAllVideos();
         List<Video> allVideos = videoRepository.findAll();

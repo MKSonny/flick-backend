@@ -13,20 +13,20 @@ import pro.Flick.entity.Member;
 @SpringBootTest
 class FlickApplicationTests {
 
-	@Autowired
-	EntityManager em;
+    @Autowired
+    EntityManager em;
 
 
 
-	@Test
-	void contextLoads() {
+    @Test
+    void contextLoads() {
 
-	}
+    }
 
-	@Test
-	@Transactional
-	void memberEntityTest() {
+    @Test
+    @Transactional
+    void memberEntityTest() {
 //		Member member = new Member("hello", "hello@email.com");
 //		em.persist(member);
-	}
+    }
 }

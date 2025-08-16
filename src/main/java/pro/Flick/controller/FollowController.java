@@ -73,17 +73,17 @@ public class FollowController {
 
     @Data
     static class MemberInfoDto {
-    Long id;
-    String username;
-    String email;
-    LocalDateTime createdAt;
+        Long id;
+        String username;
+        String email;
+        LocalDateTime createdAt;
 
-    public MemberInfoDto(Long id, String username, String email, LocalDateTime createdAt) {
-     this.id = id;
-     this.username = username;
-     this.email = email;
-     this.createdAt = createdAt;
-    }
+        public MemberInfoDto(Long id, String username, String email, LocalDateTime createdAt) {
+            this.id = id;
+            this.username = username;
+            this.email = email;
+            this.createdAt = createdAt;
+        }
     }
 
     @Data
@@ -110,7 +110,7 @@ public class FollowController {
 //
 //        for (Follower follower : followers) {
 //            // 나를 팔로우한 사람들의 정보를 뽑아야함
-////            Member whoFollowedMe = memberRepository.findMemberById(String.valueOf(follower.getMember().getId()));
+    ////            Member whoFollowedMe = memberRepository.findMemberById(String.valueOf(follower.getMember().getId()));
 //            dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
 //        }
 //        return dto;

@@ -33,7 +33,7 @@ public class ChatRepository {
         ChatRoom chatRoom = findChatRoomBySenderMemberIdReceiverMemberId(sender.getId(), receiver.getId());
 //
         if (chatRoom == null) {
-           chatRoom = ChatRoom.builder()
+            chatRoom = ChatRoom.builder()
                     .name("test")
                     .createdAt(LocalDateTime.now())
                     .build();
@@ -100,7 +100,7 @@ public class ChatRepository {
     // 내가 참여하고 있는 채팅방들을 가져옴 -> 그 채팅방의 마지막 text를 가져옴(Message.chatRoom)
     public List<Message> temp(String userName) {
         return em.createQuery("select m from Message m where m.chatRoom.id in " +
-                "(select crm.id from ChatRoomMember crm where crm.member.username=:userName)", Message.class)
+                        "(select crm.id from ChatRoomMember crm where crm.member.username=:userName)", Message.class)
                 .setParameter("userName", userName)
                 .getResultList();
 
