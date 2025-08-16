@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
@@ -14,11 +17,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/videos-v1")
 @RequiredArgsConstructor
 public class VideoControllerV1 {
 
     private final FileStore fileStore;
-    private final VideoJpaRepository fileRepository;
     private final VideoRepository videoRepository;
 
 
@@ -31,7 +34,7 @@ public class VideoControllerV1 {
      * @throws MalformedURLException 파일 경로가 유효하지 않은 URL 형식일 경우 발생
      */
     @ResponseBody
-    @GetMapping("/video/{fileName}")
+    @GetMapping("/{fileName}")
     public Resource downloadImage(@PathVariable String fileName) throws MalformedURLException {
         return new UrlResource("file:" + fileStore.getFullPath(fileName));
     }
@@ -42,7 +45,7 @@ public class VideoControllerV1 {
      *
      * @return 영상 파일 목록과 해당 영상을 올린 유저의 정보
      */
-    @GetMapping("/videos")
+//    @GetMapping
     public List<VideoController.VideoWithMemberDto> getAllVideosV2() {
         List<Video> videos = videoRepository.findVideosWithMember();
 
@@ -61,7 +64,7 @@ public class VideoControllerV1 {
      * @param userId
      * @return 특정 유저가 올린 영상들의 목록
      */
-    @GetMapping("/videos/{userId}") // PathVariable로 userId를 넘기는 것이 안전한가?
+    @GetMapping("/{userId}") // PathVariable로 userId를 넘기는 것이 안전한가?
     public List<VideoController.VideoWithMemberDto> getVideosByUserIdV3(@PathVariable String userId) {
         List<Video> videos = videoRepository.findVideosByMemberIdWithMember(userId);
         List<VideoController.VideoWithMemberDto> dtos = new ArrayList<>();
@@ -70,5 +73,11 @@ public class VideoControllerV1 {
             dtos.add(VideoController.VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
         }
         return dtos;
+    }
+
+    @GetMapping("/get-all-videos")
+    public Page<VideoController.VideoWithMemberDto> getAllVideosV3(@PageableDefault(size = 5) Pageable pageable) {
+        Page<Video> videos = videoRepository.findAllVideos(pageable);
+        return videos.map(video -> VideoController.VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
     }
 }

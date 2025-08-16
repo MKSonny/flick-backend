@@ -1,5 +1,7 @@
 package pro.Flick.Video;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,7 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
 
     @Query("select v from Video v where v.member.id in :memberIds")
     List<Video> findVideoByMemberIds(Collection<Long> memberIds);
+
+    @Query(value = "select v from Video v left join v.member m", countQuery = "select count(v.id) from Video v")
+    Page<Video> findAllVideos(Pageable pageable);
 }
