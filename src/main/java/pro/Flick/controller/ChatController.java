@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.chat.ChatRoomMemberResponseDTO;
+import pro.Flick.chat.GetChatByUsersKeyResponseDtoV2;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Chat;
 import pro.Flick.entity.ChatRoomMember;
@@ -12,6 +13,7 @@ import pro.Flick.entity.Member;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
 import pro.Flick.repsository.MemberRepository;
+import pro.Flick.service.ChatService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,17 +28,9 @@ public class ChatController {
     private final ChatJpaRepository chatJpaRepository;
     private final MemberRepository memberRepository;
     private final ChatRoomMemberRepository chatRoomMemberRepository;
+    private final ChatService chatService;
 
     // 8/1 채팅 기능 수정
-
-    public void addMessageV2(@RequestBody ChatRequestDto requestDto) {
-        /*
-            프론트에서 보내야
-            1. sender_id
-         */
-
-
-    }
 //    @PostMapping
 //    public void addMessage(@RequestBody ChatRequestDto requestDto) {
 //        Member findMember = memberRepository.findMemberById(requestDto.getUserId());
@@ -55,6 +49,11 @@ public class ChatController {
         return dtoList;
     }
 
+    @GetMapping("/v2/{chatRoomId}")
+    public List<GetChatByUsersKeyResponseDtoV2> getChatsByChatRoomId(@PathVariable Long chatRoomId) {
+        return chatService.getChatMessages(chatRoomId);
+    }
+
     @GetMapping("/my_chats/{userId}")
     public List<ChatRoomMemberResponseDTO> getMyChats(@PathVariable String userId) {
         log.info("hello world={}", userId);
@@ -69,13 +68,22 @@ public class ChatController {
      * text,
      * users_key
      */
-    @PostMapping
+//    @PostMapping
     public void addMessage(@RequestBody ChatRequestDto requestDto) {
         Member findMember = memberRepository.findMemberById(requestDto.getUserId());
         Member receiverMember = memberRepository.findMemberById(requestDto.getChat_user_id());
         chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
 
         chatJpaRepository.addMessage(findMember, receiverMember, requestDto.getText());
+    }
+
+    @PostMapping
+    public void addMessageV2(@RequestBody ChatRequestDto requestDto) {
+        Member sender = memberRepository.findMemberById(requestDto.getUserId());
+        log.info("requestDto={}", requestDto);
+        Member receiver = memberRepository.findMemberById(requestDto.getChat_user_id());
+
+        chatService.addMessage(sender, receiver, requestDto.getText());
     }
 
     public void findMyChats() {

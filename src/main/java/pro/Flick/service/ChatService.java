@@ -1,20 +1,22 @@
 package pro.Flick.service;
 
 import jakarta.transaction.Transactional;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pro.Flick.chat.GetChatByUsersKeyResponseDtoV2;
+import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.ChatRoom;
 import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Message;
-import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
 import pro.Flick.repsository.ChatRoomRepository;
 import pro.Flick.repsository.MessageRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -79,4 +81,13 @@ public class ChatService {
         return chatRoom;
     }
 
+
+    public List<GetChatByUsersKeyResponseDtoV2> getChatMessages(Long chatRoomId) {
+        List<Message> messages = messageRepository.findByChatRoomId(chatRoomId);
+        List<GetChatByUsersKeyResponseDtoV2> dtoList = new ArrayList<>();
+        for (Message message : messages) {
+            dtoList.add(new GetChatByUsersKeyResponseDtoV2(message));
+        }
+        return dtoList;
+    }
 }
