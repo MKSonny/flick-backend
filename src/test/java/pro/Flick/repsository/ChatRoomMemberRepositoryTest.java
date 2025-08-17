@@ -1,0 +1,37 @@
+package pro.Flick.repsository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import pro.Flick.entity.ChatRoom;
+import pro.Flick.entity.ChatRoomMember;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@Slf4j
+@SpringBootTest
+@RequiredArgsConstructor
+class ChatRoomMemberRepositoryTest {
+
+    @Autowired
+    ChatRoomMemberRepository chatRoomMemberRepository;
+
+    @Test
+    void test() {
+//        List<ChatRoomMember> chatRoomMembersWithMember = chatRoomMemberRepository.findChatRoomMembersWithMember(1L);
+//        for (ChatRoomMember chatRoomMember : chatRoomMembersWithMember) {
+//            System.out.println("chatRoomMember.getMember().getUsername() = " + chatRoomMember.getMember().getUsername());
+//        }
+
+    }
+
+    @Test
+    void test2() {
+        Optional<ChatRoom> chatRoomByMemberIds = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(1L, 2L), 2);
+    }
+}
