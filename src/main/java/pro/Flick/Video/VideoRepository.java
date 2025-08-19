@@ -20,6 +20,9 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query("select v from Video v join fetch v.member where v.member.id=:memberId")
     List<Video> findVideosByMemberIdWithMember(@Param("memberId") String memberId);
 
+    @Query("select v from Video v join fetch v.member where v.member.id=:memberId")
+    List<Video> findVideosByMemberIdWithMember(@Param("memberId") Long memberId);
+
     @Query("select v from Video v where v.member.id in :memberIds")
     List<Video> findVideoByMemberIds(Collection<Long> memberIds);
 

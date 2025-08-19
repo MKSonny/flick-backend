@@ -32,4 +32,19 @@ public class VideoWithMemberDto {
 
         return dto;
     }
+
+    public VideoWithMemberDto() {
+    }
+
+    public VideoWithMemberDto(Video video) {
+        this.title = video.getTitle();
+        this.uri = video.getUri();
+        this.member = new GetMemberByIdResponseDto(video.getMember());
+
+        if (video.getThumbnailStoreFileName() != null) {
+            this.thumbnailUri = "/thumbnails/" + video.getThumbnailStoreFileName(); // 썸네일을 제공할 경로
+        } else {
+            this.thumbnailUri = null; // 또는 기본 이미지 URL
+        }
+    }
 }

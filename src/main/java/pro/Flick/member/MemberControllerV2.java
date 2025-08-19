@@ -1,0 +1,106 @@
+package pro.Flick.member;
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import pro.Flick.Video.dto.VideoWithMemberDto;
+import pro.Flick.controller.dto.GetMemberByIdResponseDto;
+import pro.Flick.controller.dto.SignUpDto;
+import pro.Flick.entity.Member;
+import pro.Flick.entity.Video;
+import pro.Flick.repsository.MemberJpaRepository;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@RequestMapping("/member")
+@RequiredArgsConstructor
+@Slf4j
+public class MemberControllerV2 {
+
+    private final MemberService memberService;
+    private final MemberJpaRepository memberJpaRepository;
+
+    @GetMapping("/videos/{userId}") // PathVariable로 userId를 넘기는 것이 안전한가?
+    public List<VideoWithMemberDto> getVideosByUserIdV4(@PathVariable Long userId) {
+        return memberService.findVideosByMemberIdWithMember(userId);
+    }
+
+
+//    @PostMapping("/auth/signup")
+//    public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
+//        log.info("username={}, email={}, password={}", signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
+//        Member member = memberJpaRepository.save(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
+//        return new GetMemberByIdResponseDto(member);
+//    }
+//
+//    @GetMapping("/auth/signin")
+//    public GetMemberByIdResponseDto signIn(String email, String password) {
+////        log.info("email={}, password={}", signInDto.getEmail(), signInDto.getPassword());
+//        Member member = memberJpaRepository.findMember(email, password);
+//        if (member != null) {
+//            // todo
+//        }
+//        return new GetMemberByIdResponseDto(member);
+//    }
+//
+//    @GetMapping("/auth/get_member")
+//    public GetMemberByIdResponseDto getMemberById(String id) {
+//        Member byId = memberJpaRepository.findMemberById(id);
+//        return new GetMemberByIdResponseDto(byId);
+//    }
+//
+//    // 중복 역할 해결 필요
+//    @GetMapping("/get_member/{user_id}")
+//    public GetMemberByIdResponseDto getMemberById2(@PathVariable String user_id) {
+//        log.info("user_id={}", user_id);
+//        Member byId = memberJpaRepository.findMemberById(user_id);
+//        return new GetMemberByIdResponseDto(byId);
+//    }
+//
+//    @GetMapping("/members/search")
+//    public List<FindMemberByUsernameResponseDto> findMemberByUsername(@RequestParam String username) {
+//        List<Member> members = memberJpaRepository.findMemberByUsername(username);
+//        List<FindMemberByUsernameResponseDto> findMemberByUsernameResponseDtos = new ArrayList<>();
+//
+//        for (Member member : members) {
+//            findMemberByUsernameResponseDtos.add(new FindMemberByUsernameResponseDto(member.getCreateTime(), member.getEmail(), member.getId(), member.getUsername()));
+//        }
+//
+//        return findMemberByUsernameResponseDtos;
+//    }
+//
+//    // 7/31
+//    // 친구 목록 상세 정보 보내주기
+////    여기서 POST로 보낸 이유:
+////    배열을 RequestParam으로 보내기 복잡하니까 RequestBody로 처리한다
+//    @PostMapping("/members/friends_ids")
+//    public List<GetMemberByIdResponseDto> getUsersByIds(@RequestBody List<Long> ids) {
+//        List<Member> members = memberJpaRepository.findMemberByIds(ids);
+//        List<GetMemberByIdResponseDto> dtoList = new ArrayList<>();
+//
+//        for (Member member : members) {
+//            dtoList.add(new GetMemberByIdResponseDto(member));
+//        }
+//        return dtoList;
+//    }
+//
+//
+//    @Data
+//    static class FindMemberByUsernameResponseDto {
+//        private LocalDateTime created_at;
+//        private String email;
+//        private Long id;
+//        private String username;
+//
+//        public FindMemberByUsernameResponseDto(LocalDateTime created_at, String email, Long id, String username) {
+//            this.created_at = created_at;
+//            this.email = email;
+//            this.id = id;
+//            this.username = username;
+//        }
+//    }
+}

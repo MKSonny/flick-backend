@@ -1,4 +1,4 @@
-package pro.Flick.controller;
+package pro.Flick.member;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
