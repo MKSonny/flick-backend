@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.Video.dto.VideoWithMemberDto;
+import pro.Flick.Video.dto.VideoWithMemberDtoV2;
 import pro.Flick.Video.service.VideoService;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
@@ -49,12 +51,12 @@ public class VideoControllerV1 {
      * @return 특정 유저가 올린 영상들의 목록
      */
     @GetMapping("/{userId}") // PathVariable로 userId를 넘기는 것이 안전한가?
-    public List<VideoController.VideoWithMemberDto> getVideosByUserIdV3(@PathVariable String userId) {
+    public List<VideoWithMemberDto> getVideosByUserIdV3(@PathVariable String userId) {
         List<Video> videos = videoRepository.findVideosByMemberIdWithMember(userId);
-        List<VideoController.VideoWithMemberDto> dtos = new ArrayList<>();
+        List<VideoWithMemberDto> dtos = new ArrayList<>();
 
         for (Video video : videos) {
-            dtos.add(VideoController.VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
         }
         return dtos;
     }
@@ -66,8 +68,14 @@ public class VideoControllerV1 {
      * @return 영상 파일 목록과 해당 영상을 올린 유저의 정보
      */
     @GetMapping("/get-all-videos")
-    public Page<VideoController.VideoWithMemberDto> getAllVideosV3(@PageableDefault(size = 5) Pageable pageable) {
+    public Page<VideoWithMemberDto> getAllVideosV3(@PageableDefault(size = 5) Pageable pageable) {
         Page<Video> videos = videoRepository.findAllVideos(pageable);
-        return videos.map(video -> VideoController.VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+        return videos.map(video -> VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+    }
+
+    @GetMapping("/v2/get-all-videos")
+    public Page<VideoWithMemberDtoV2> getAllVideosV4(@PageableDefault(size = 5) Pageable pageable) {
+        log.info("start getAllVideosV4()");
+        return videoService.getVideoInfo(pageable);
     }
 }

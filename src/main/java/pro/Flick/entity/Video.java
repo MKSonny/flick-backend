@@ -2,13 +2,16 @@ package pro.Flick.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.annotation.CreatedDate;
 //import pro.Flick.file.UploadFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -33,11 +36,20 @@ public class Video {
     @JoinColumn(name = "member_id")
     private Member member; // 관계 설정 필요
 //    private Member likedMembers; // 관계 설정 필요// on delete cascade 추가 필요
+    @OneToMany(mappedBy = "video")
+    private List<Likes> likes = new ArrayList<>();
 
+    @Builder.Default
+    private Long likesCount = 0L;
 
     @CreatedDate
     private LocalDateTime createdTime;
 
+
+    public void addLikes(Likes likes) {
+        likes.setVideo(this);
+        this.likes.add(likes);
+    }
 //    public Video(String title, String uri, Member member) {
 //        this.title = title;
 //        this.uri = uri;

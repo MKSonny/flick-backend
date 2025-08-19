@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.Video.dto.VideoWithMemberDto;
 import pro.Flick.Video.service.VideoService;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
@@ -173,35 +174,7 @@ public class VideoController {
         // getters 생략
     }
 
-    @Data
-    static class VideoWithMemberDto {
-        private Long id;
-        private String title;
-        private String uri;
-        private GetMemberByIdResponseDto member;
-        private String thumbnailUri; // 추가된 필드
 
-
-        public static VideoWithMemberDto fromVideoAndMember(Video video, Member member) {
-            VideoWithMemberDto dto = new VideoWithMemberDto();
-            dto.id = video.getId();
-            dto.title = video.getTitle();
-            dto.uri = video.getUri();
-            dto.member = new GetMemberByIdResponseDto(member);
-
-//            dto.uri = "/videos-v1/" + video.getStoreFileName();
-
-            // 썸네일 파일명이 존재할 경우, 전체 URL을 생성하여 DTO에 추가
-            if (video.getThumbnailStoreFileName() != null) {
-                dto.thumbnailUri = "/thumbnails/" + video.getThumbnailStoreFileName(); // 썸네일을 제공할 경로
-            } else {
-                dto.thumbnailUri = null; // 또는 기본 이미지 URL
-            }
-
-            log.info("testing 8/16={}", dto.thumbnailUri);
-            return dto;
-        }
-    }
 
     @Data
     static class Temp {

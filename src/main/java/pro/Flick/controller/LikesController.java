@@ -4,12 +4,13 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.Video.service.VideoService;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.Video.VideoJpaRepository;
-import pro.Flick.repsository.LikesRepository;
+import pro.Flick.repsository.LikesJpaRepository;
 import pro.Flick.repsository.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -21,17 +22,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LikesController {
 
-    private final LikesRepository likesRepository;
+    private final LikesJpaRepository likesJpaRepository;
     private final MemberRepository memberRepository;
     private final VideoJpaRepository videoJpaRepository;
+    private final VideoService videoService;
 
-    @PostMapping("/likes")
+//    @PostMapping("/likes")
     public void addLikes(@RequestBody LikesRequestDto likesRequestDto) {
+//        videoService.addLikes(likesRequestDto.getUserId(), likesRequestDto.getVideoId());
         Member findMember = memberRepository.findMemberById(likesRequestDto.getUserId());
         Video findVideo = videoJpaRepository.findVideoById(likesRequestDto.getVideoId());
+        Likes likes = likesJpaRepository.addLike(findMember, findVideo);
 
-        likesRepository.addLike(findMember, findVideo);
+//        videoService.addLikes(findVideo);
+    }
 
+    @PostMapping("/likes")
+    public void addLikesV2(@RequestBody LikesRequestDto likesRequestDto) {
+        videoService.addLikes(likesRequestDto.getUserId(), likesRequestDto.getVideoId());
     }
 
     // 매번 영상을 불러올때마다 스프링에 데이터를 가져오는 것은 매우 비효율적
@@ -39,7 +47,7 @@ public class LikesController {
     // Likes 테이블에서 특정 member_id를 기준으로 해당 유저가 누른 좋아요들을 조회
     @GetMapping("/likes/{memberId}")
     public List<GetLikesByMemberIdResponseDto> getLikesByMemberId(@PathVariable String memberId) {
-        List<Likes> likesByMemberId = likesRepository.findLikesByMemberId(memberId);
+        List<Likes> likesByMemberId = likesJpaRepository.findLikesByMemberId(memberId);
         List<GetLikesByMemberIdResponseDto> GetLikesByMemberIdResponseDto = new ArrayList<>();
 
         for (Likes likes : likesByMemberId) {
@@ -52,7 +60,7 @@ public class LikesController {
     // 내가 받은 좋아요
     @GetMapping("my_vid/likes/{memberId}")
     public Long getRespondLikesByMEmberId(@PathVariable String memberId) {
-        Long c = likesRepository.findLikesCountByMemberId(memberId);
+        Long c = likesJpaRepository.findLikesCountByMemberId(memberId);
         log.info("adfsfafsf={}", c);
         return c;
     }
@@ -62,7 +70,7 @@ public class LikesController {
     @GetMapping("/likes/my_video/{memberId}")
     public List<Temp> getLikesOnMyVideo(@PathVariable String memberId) {
         Member findMember = memberRepository.findMemberById(memberId);
-        List<Likes> likes = likesRepository.findLikesOnMyVideo(memberId);
+        List<Likes> likes = likesJpaRepository.findLikesOnMyVideo(memberId);
         List<Temp> dtoList = new ArrayList<>();
 
 
@@ -76,7 +84,7 @@ public class LikesController {
 
     @DeleteMapping("/likes")
     public void deleteLikes(@RequestParam String userId, @RequestParam String videoId) {
-        likesRepository.deleteLikes(userId, videoId);
+        likesJpaRepository.deleteLikes(userId, videoId);
     }
 
     @Data

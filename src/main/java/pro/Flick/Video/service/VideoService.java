@@ -1,16 +1,24 @@
 package pro.Flick.Video.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jcodec.api.FrameGrab;
 import org.jcodec.common.model.Picture;
 import org.jcodec.scale.AWTUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.Video.VideoRepository;
+import pro.Flick.Video.dto.VideoWithMemberDtoV2;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
+import pro.Flick.repsository.LikesJpaRepository;
+import pro.Flick.repsository.LikesRepository;
+import pro.Flick.repsository.MemberRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -22,6 +30,35 @@ import java.io.File;
 public class VideoService {
     private final FileStore fileStore;
     private final VideoRepository videoRepository;
+    private final LikesRepository likesRepository;
+    private final LikesJpaRepository likesJpaRepository;
+    private final MemberRepository memberRepository;
+
+    @Transactional
+    public void addLikes(String userId, String videoId) {
+        Member member = memberRepository.findMemberById(userId);
+        Video video = videoRepository.findById(Long.valueOf(videoId)).get();
+        likesJpaRepository.addLike(member, video);
+        videoRepository.incrementLikesCount(Long.valueOf(videoId));
+    }
+
+    public Page<VideoWithMemberDtoV2> getVideoInfo(Pageable pageable) {
+        /*
+            이렇게 작성하면 video의 수만큼 like엔티티에 쿼리가 들어간다 매우 비효율적
+            처음부터 likesCount는 안되나
+         */
+
+        Page<Video> videos = videoRepository.findAllVideos(pageable);
+
+        log.info("videoRepository.findAllVideos(pageable) start");
+        //            Long likesCount = likesRepository.findLikesByVideoId(v.getId());
+        return videos.map(VideoWithMemberDtoV2::new);
+
+//        return videos.map(v -> {
+//            Long likesCount = likesRepository.findLikesByVideoId(v.getId());
+//            return new VideoWithMemberDtoV2(v, likesCount, v.getMember());
+//        });
+    }
 
     @Async
     public void createVideo(String fileName, Member member) {

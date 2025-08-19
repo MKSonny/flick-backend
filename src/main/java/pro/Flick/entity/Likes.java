@@ -2,12 +2,13 @@ package pro.Flick.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Getter @Setter
 public class Likes {
 
     @Id @GeneratedValue
@@ -29,6 +30,7 @@ public class Likes {
         this.video = video;
         this.createdAt = createdAt;
     }
+
 
     public Likes() {
     }
