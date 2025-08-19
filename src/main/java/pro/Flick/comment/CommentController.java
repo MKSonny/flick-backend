@@ -46,14 +46,14 @@ public class CommentController {
     }
 
 
-    @GetMapping("/comments/{videoId}")
+//    @GetMapping("/comments/{videoId}")
     public List<GetCommentsByMemberIdResponseDTO> getCommentsByVideoIdV2(@PathVariable Long videoId) {
         List<Comment> comments = commentRepository.findCommentByVideoId(videoId);
 
         return comments.stream().map(GetCommentsByMemberIdResponseDTO::new).collect(Collectors.toList());
     }
 
-    @GetMapping("/comments/paging/{videoId}")
+//    @GetMapping("/comments/paging/{videoId}")
     public Page<GetCommentsByMemberIdResponseDTO> getCommentsByVideoIdUsingPagination(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
                                                                                       @PathVariable Long videoId,
                                                                                       @RequestParam Long userId) {
@@ -73,12 +73,10 @@ public class CommentController {
         commentJpaRepository.addComment(findMember, findVideo, requestDto.getText());
     }
 
-    @PostMapping("/comments")
+//    @PostMapping("/comments")
     public void addCommentV2(@RequestBody CommentAddDto requestDto) {
         commentService.addCommentV2(Long.valueOf(requestDto.getUserId()), Long.valueOf(requestDto.getVideoId()), requestDto.getText());
     }
-
-
 
 
 

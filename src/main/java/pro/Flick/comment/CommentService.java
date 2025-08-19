@@ -4,6 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.Video.VideoRepository;
@@ -16,6 +18,8 @@ import pro.Flick.repsository.MemberJpaRepository;
 import pro.Flick.repsository.MemberRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -29,6 +33,17 @@ public class CommentService {
     private final VideoJpaRepository videoJpaRepository;
     private final LikesRepository likesRepository;
 
+    @Transactional
+    public List<GetCommentsByMemberIdResponseDTO> findCommentByVideoId(Long videoId) {
+        List<Comment> comments = commentRepository.findCommentByVideoId(videoId);
+        return comments.stream().map(GetCommentsByMemberIdResponseDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Page<GetCommentsByMemberIdResponseDTO> findAllComments(Pageable pageable, Long videoId) {
+        Page<Comment> comments = commentRepository.findAllComments(pageable, videoId);
+        return comments.map(GetCommentsByMemberIdResponseDTO::new);
+    }
 
     @Transactional
     public void addCommentV1(Long memberId, Long videoId, String text) {
