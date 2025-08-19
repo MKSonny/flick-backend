@@ -24,7 +24,6 @@ public class Member {
 
     @CreatedDate
     private LocalDateTime createTime;
-
     // == 주의 == 연관관계 매핑 시작
 
     /*
@@ -52,20 +51,4 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
 
-
-    // builder 패턴 적용 위해 지움
-//    public Member(String email) {
-//        this.email = email;
-//    }
-//
-//    public Member(String username, String email, String password) {
-//        this.username = username;
-//        this.email = email;
-//        this.password = password;
-//    }
-//
-//    public Member(String username, String email) {
-//        this.username = username;
-//        this.email = email;
-//    }
 }

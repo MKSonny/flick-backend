@@ -53,8 +53,8 @@ public class DbInit {
         videoService.createVideo("test2.mov", member);
         videoService.createVideo("test3.mov", member);
 
-        followService.memberAFollowsMemberB(member, member2);
-        followService.memberAFollowsMemberB(member2, member);
+        followService.memberAFollowsMemberBUsingRef(member.getId(), member2.getId());
+        followService.memberAFollowsMemberBUsingRef(member2.getId(), member.getId());
 
 //        chatJpaRepository.addMessage(member, "1", "1:2");
 //        chatJpaRepository.addMessage(member, "2", "1:2");

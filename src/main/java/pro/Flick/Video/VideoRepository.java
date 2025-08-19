@@ -29,6 +29,9 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query(value = "select v from Video v join fetch v.member m", countQuery = "select count(v.id) from Video v")
     Page<Video> findAllVideos(Pageable pageable);
 
+    @Query(value = "select v from Video v join fetch v.member where v.member.id = :memberId", countQuery = "select count(v.id) from Video v where v.member.id = :memberId")
+    Page<Video> findAllVideosByMemberId(Pageable pageable, @Param("memberId") Long memberId);
+
     @Modifying
     @Query("update Video v set v.likesCount = v.likesCount + 1 where v.id = :id")
     int incrementLikesCount(Long id);

@@ -55,7 +55,7 @@ public class Video {
     }
 
     @CreatedDate
-    private LocalDateTime createdTime;
+    private LocalDateTime createdAt;
 
 
     public void addLikes(Likes likes) {

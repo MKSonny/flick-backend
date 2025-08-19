@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
-import pro.Flick.repsository.FollowRepository;
+import pro.Flick.repsository.FollowJpaRepository;
 import pro.Flick.repsository.MemberJpaRepository;
 
 import java.time.LocalDateTime;
@@ -20,20 +20,20 @@ import java.util.List;
 public class FollowController {
 
     private final MemberJpaRepository memberJpaRepository;
-    private final FollowRepository followRepository;
+    private final FollowJpaRepository followJpaRepository;
 
     @PostMapping("/followers")
     public void addFollower(@RequestBody FollowRequestDto requestDto) {
         Member findMember = memberJpaRepository.findMemberById(requestDto.getFollower_user_id());
         Member theMemberThatFineMemberWillFollow = memberJpaRepository.findMemberById(requestDto.getUserId());
 
-        followRepository.memberAFollowsMemberB(findMember, theMemberThatFineMemberWillFollow);
+        followJpaRepository.memberAFollowsMemberB(findMember, theMemberThatFineMemberWillFollow);
     }
 
     // 내가 팔로잉하는 사람들의 목록
     @GetMapping("/following")
     public List<GetFollowingResultListResponseDto> getFollowing(@RequestParam String userId) {
-        List<Follower> following = followRepository.getFollowingByMemberId(userId);
+        List<Follower> following = followJpaRepository.getFollowingByMemberId(userId);
         List<GetFollowingResultListResponseDto> dto = new ArrayList<>();
 
         for (Follower follower : following) {
@@ -56,7 +56,7 @@ public class FollowController {
 
     @GetMapping("/followers")
     public List<FollowerResponseDto> getFollowersFetch(@RequestParam String follower_user_id) {
-        List<Follower> followersFetch = followRepository.getFollowersFetch(follower_user_id);
+        List<Follower> followersFetch = followJpaRepository.getFollowersFetch(follower_user_id);
 
         return followersFetch.stream().map(f -> {
             Member m = f.getFollower(); // 나를 팔로우한 사람
@@ -105,7 +105,7 @@ public class FollowController {
 
 //    @GetMapping("/followers")
 //    public List<GetFollowingResultListResponseDto> getFollowers(@RequestParam String follower_user_id) {
-//        List<Follower> followers = followRepository.getFollowers(follower_user_id);
+//        List<Follower> followers = followJpaRepository.getFollowers(follower_user_id);
 //        List<GetFollowingResultListResponseDto> dto = new ArrayList<>();
 //
 //        for (Follower follower : followers) {
@@ -118,8 +118,8 @@ public class FollowController {
 
     @DeleteMapping("/followers")
     public void deleteFollowing(@RequestParam String userId, @RequestParam String follower_user_id) {
-        log.info(followRepository.toString());
-        followRepository.deleteFollower(userId, follower_user_id);
+        log.info(followJpaRepository.toString());
+        followJpaRepository.deleteFollower(userId, follower_user_id);
     }
 
     @Data

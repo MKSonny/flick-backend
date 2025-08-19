@@ -1,19 +1,14 @@
 package pro.Flick.member;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.dto.VideoWithMemberDto;
-import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.controller.dto.SignUpDto;
-import pro.Flick.entity.Member;
-import pro.Flick.entity.Video;
 import pro.Flick.repsository.MemberJpaRepository;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/member")
@@ -24,11 +19,24 @@ public class MemberControllerV2 {
     private final MemberService memberService;
     private final MemberJpaRepository memberJpaRepository;
 
-    @GetMapping("/videos/{userId}") // PathVariable로 userId를 넘기는 것이 안전한가?
-    public List<VideoWithMemberDto> getVideosByUserIdV4(@PathVariable Long userId) {
-        return memberService.findVideosByMemberIdWithMember(userId);
+
+    @GetMapping("/videos/{profileUserId}")
+    public Page<VideoWithMemberDto> getVideosByUserIdUsingPagingV5(
+            @PathVariable Long profileUserId,
+            @PageableDefault(size = 12, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        return memberService.getVideosByMemberIdWithMemberPage(pageable, profileUserId);
     }
 
+    @GetMapping("/profile-info/{userId}")
+    public ProfileInfoResponseDTO getProfileInfo(@PathVariable Long userId) {
+        return memberService.getMemberInfo(userId);
+    }
+
+
+    @GetMapping("/got-likes/{memberId}")
+    public Long getRespondLikesByMemberId(@PathVariable Long memberId) {
+        return memberService.getLikesCountByMemberId(memberId);
+    }
 
 //    @PostMapping("/auth/signup")
 //    public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
