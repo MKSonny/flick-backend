@@ -1,9 +1,11 @@
 package pro.Flick.repsository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.Follower;
+import pro.Flick.entity.Member;
 import pro.Flick.member.FollowCountDTO;
 
 public interface FollowRepository extends JpaRepository<Follower, Long> {
@@ -15,4 +17,5 @@ public interface FollowRepository extends JpaRepository<Follower, Long> {
             "FROM Follower f " +
             "WHERE f.follower.id = :memberId OR f.member.id = :memberId")
     FollowCountDTO findFollowCountsByMemberId(@Param("memberId") Long memberId);
+
 }

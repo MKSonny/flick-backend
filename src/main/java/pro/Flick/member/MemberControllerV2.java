@@ -38,6 +38,11 @@ public class MemberControllerV2 {
         return memberService.getLikesCountByMemberId(memberId);
     }
 
+    @GetMapping("/{userId}/followers")
+    public Page<MemberService.Temp> getMyFollowers(@PathVariable Long userId, @PageableDefault(size = 20) Pageable pageable) {
+        return memberService.getFollowersByMemberId(pageable, userId);
+    }
+
 //    @PostMapping("/auth/signup")
 //    public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
 //        log.info("username={}, email={}, password={}", signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());

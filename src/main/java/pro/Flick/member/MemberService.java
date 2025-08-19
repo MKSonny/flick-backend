@@ -2,6 +2,7 @@ package pro.Flick.member;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -47,5 +48,34 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
 
         return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount());
+    }
+
+    /*
+        {
+          "id": "user123", // 사용자 고유 ID
+          "username": "tiktok_user", // 사용자 이름
+          "profileImageUrl": "http://...", // 프로필 사진 URL
+          "isFollowedByMe": true // 내가 이 사람을 팔로우하고 있는지 여부
+        }
+     */
+    @Transactional
+    public Page<Temp> getFollowersByMemberId(Pageable pageable, Long memberId) {
+        Page<Member> members = memberRepository.findFollowersByMemberId(pageable, memberId);
+        return members.map(Temp::new);
+    }
+
+    @Data
+    static class Temp {
+        private Long id;
+        private String username;
+        private String profileImageUrl;
+        private Boolean isFollowedByMe;
+
+        public Temp(Member member) {
+            this.id = member.getId();
+            this.username = member.getUsername();
+            this.profileImageUrl = member.getProfileImageUri();
+            this.isFollowedByMe = false;
+        }
     }
 }
