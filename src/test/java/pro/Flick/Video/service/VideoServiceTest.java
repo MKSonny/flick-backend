@@ -1,5 +1,6 @@
 package pro.Flick.Video.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @SpringBootTest
 @Commit
 class VideoServiceTest {
@@ -34,6 +36,7 @@ class VideoServiceTest {
 
     private Video testVideo;
     private List<Member> testMembers;
+    private Member testMember;
 
     @BeforeEach
     void setUp() {
@@ -49,6 +52,9 @@ class VideoServiceTest {
                     .email("test" + i + "@email.com")
                     .password("test" + i)
                     .build();
+            if (i == 0) {
+                testMember = member;
+            }
             testMembers.add(member);
         }
         memberRepository.saveAll(testMembers);
@@ -88,5 +94,17 @@ class VideoServiceTest {
         // then: 결과 검증
         Video finalVideo = videoRepository.findById(testVideo.getId()).orElseThrow();
         assertEquals(100, finalVideo.getLikesCount(), "100개의 동시 요청 후 '좋아요' 개수는 100이어야 합니다.");
+    }
+
+    @Test
+    @DisplayName("Likes 제거시 나가는 쿼리 확인")
+    void removeLikesTest() {
+        log.info("videoService.addLikes(String.valueOf(testMember.getId()), String.valueOf(testVideo.getId()));");
+        videoService.addLikes(String.valueOf(testMember.getId()), String.valueOf(testVideo.getId()));
+
+        log.info("videoService.removeLikes(testMember.getId(), testVideo.getId());");
+        videoService.removeLikes(testMember.getId(), testVideo.getId());
+
+        assertEquals(0L, testVideo.getLikesCount(), "좋아요를 누르고 취소하면 '좋아요' 개수는 0이어야 합니다.");
     }
 }

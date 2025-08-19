@@ -50,6 +50,10 @@ public class Video {
         likesCount += 1;
     }
 
+    public void decrementLikesCount() {
+        likesCount -= 1;
+    }
+
     @CreatedDate
     private LocalDateTime createdTime;
 

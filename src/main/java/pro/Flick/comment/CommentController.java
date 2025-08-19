@@ -65,8 +65,7 @@ public class CommentController {
     }
 
 
-    public void addCommentLikes(@RequestBody CommentLikesAddDTO requestDto) {
-    }
+
 
 
     // 활동

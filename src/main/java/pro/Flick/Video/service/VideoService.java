@@ -20,6 +20,7 @@ import pro.Flick.file.FileStore;
 import pro.Flick.repsository.LikesJpaRepository;
 import pro.Flick.repsository.LikesRepository;
 import pro.Flick.repsository.MemberJpaRepository;
+import pro.Flick.repsository.MemberRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -35,10 +36,12 @@ public class VideoService {
     private final LikesRepository likesRepository;
     private final LikesJpaRepository likesJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public void addLikes(String userId, String videoId) {
-        Member member = memberJpaRepository.findMemberById(userId);
+
+        Member member = memberRepository.getReferenceById(Long.valueOf(userId));
         Video video = videoRepository.findById(Long.valueOf(videoId)).orElseThrow(() -> new EntityNotFoundException("Video Not found"));
 
         video.incrementLikesCount();
@@ -47,9 +50,10 @@ public class VideoService {
     }
 
     @Transactional
-    public void removeLikes(String userId, String videoId) {
-        likesJpaRepository.deleteLikes(userId, videoId);
-        videoRepository.decrementLikesCount(Long.valueOf(videoId));
+    public void removeLikes(Long memberId, Long videoId) {
+        likesRepository.deleteLikesByMemberIdAndVideoId(memberId, videoId);
+        Video video = videoRepository.findById(videoId).orElseThrow();
+        video.decrementLikesCount();
     }
 
     public Page<VideoWithMemberDtoV2> getVideoInfo(Pageable pageable) {

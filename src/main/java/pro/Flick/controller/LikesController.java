@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.service.VideoService;
+import pro.Flick.comment.CommentLikesAddDTO;
+import pro.Flick.comment.CommentService;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
@@ -26,6 +28,7 @@ public class LikesController {
     private final MemberJpaRepository memberJpaRepository;
     private final VideoJpaRepository videoJpaRepository;
     private final VideoService videoService;
+    private final CommentService commentService;
 
 //    @PostMapping("/likes")
     public void addLikes(@RequestBody LikesRequestDto likesRequestDto) {
@@ -40,6 +43,11 @@ public class LikesController {
     @PostMapping("/likes")
     public void addLikesV2(@RequestBody LikesRequestDto likesRequestDto) {
         videoService.addLikes(likesRequestDto.getUserId(), likesRequestDto.getVideoId());
+    }
+
+    @PostMapping("likes/comment")
+    public void addCommentLikes(@RequestBody CommentLikesAddDTO requestDto) {
+        commentService.addCommentLikes(requestDto.getUserId(), requestDto.getCommentId());
     }
 
     // 매번 영상을 불러올때마다 스프링에 데이터를 가져오는 것은 매우 비효율적
@@ -83,8 +91,13 @@ public class LikesController {
 
 
     @DeleteMapping("/likes")
-    public void deleteLikes(@RequestParam String userId, @RequestParam String videoId) {
+    public void deleteLikes(@RequestParam Long userId, @RequestParam Long videoId) {
         videoService.removeLikes(userId, videoId);
+    }
+
+    @DeleteMapping("/likes/comment")
+    public void deleteCommentLikes(@RequestParam Long userId, @RequestParam Long commentId) {
+        commentService.removeCommentLikes(userId, commentId);
     }
 
     @Data

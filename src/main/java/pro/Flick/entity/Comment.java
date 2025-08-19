@@ -13,6 +13,9 @@ public class Comment {
     @Id @GeneratedValue
     private Long id;
 
+    @Version
+    private Long version;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member; // 관계 설정 필요
@@ -27,6 +30,14 @@ public class Comment {
     private String text;
 
     private Long likesCount = 0L;
+
+    public void incrementCommentLikesCount() {
+        likesCount += 1;
+    }
+
+    public void decrementLikesCount() {
+        likesCount -= 1;
+    }
 
     @CreatedDate
     private LocalDateTime createdAt;

@@ -61,8 +61,16 @@ public class CommentService {
     @Transactional
     public void addCommentLikes(Long memberId, Long commentId) {
         Member memberRef = memberRepository.getReferenceById(memberId);
-        commentRepository.incrementLikesCount(commentId);
 
-//        likesRepository.save(new Likes(memberRef, commentRef, LocalDateTime.now()));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
+        comment.incrementCommentLikesCount();
+        likesRepository.save(new Likes(memberRef, comment, LocalDateTime.now()));
+    }
+
+    @Transactional
+    public void removeCommentLikes(Long memberId, Long commentId) {
+        likesRepository.deleteLikesByMemberIdAndCommentId(memberId, commentId);
+        Comment comment = commentRepository.findById(commentId).orElseThrow();
+        comment.decrementLikesCount();
     }
 }
