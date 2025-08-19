@@ -26,6 +26,8 @@ public class Comment {
 
     private String text;
 
+    private Long likesCount = 0L;
+
     @CreatedDate
     private LocalDateTime createdAt;
 

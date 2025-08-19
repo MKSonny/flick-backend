@@ -1,5 +1,6 @@
 package pro.Flick.Video.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoRepository;
 import pro.Flick.Video.dto.VideoWithMemberDtoV2;
+import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
@@ -22,6 +24,7 @@ import pro.Flick.repsository.MemberJpaRepository;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -36,9 +39,11 @@ public class VideoService {
     @Transactional
     public void addLikes(String userId, String videoId) {
         Member member = memberJpaRepository.findMemberById(userId);
-        Video video = videoRepository.findById(Long.valueOf(videoId)).get();
-        likesJpaRepository.addLike(member, video);
-        videoRepository.incrementLikesCount(Long.valueOf(videoId));
+        Video video = videoRepository.findById(Long.valueOf(videoId)).orElseThrow(() -> new EntityNotFoundException("Video Not found"));
+
+        video.incrementLikesCount();
+
+        likesRepository.save(new Likes(member, video, LocalDateTime.now()));
     }
 
     @Transactional

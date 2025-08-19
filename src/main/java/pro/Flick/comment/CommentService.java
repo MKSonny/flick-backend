@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.Video.VideoRepository;
 import pro.Flick.entity.Comment;
+import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.CommentRepository;
+import pro.Flick.repsository.LikesRepository;
 import pro.Flick.repsository.MemberJpaRepository;
 import pro.Flick.repsository.MemberRepository;
 
@@ -26,6 +27,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final VideoJpaRepository videoJpaRepository;
+    private final LikesRepository likesRepository;
 
 
     @Transactional
@@ -54,5 +56,13 @@ public class CommentService {
             log.error("댓글 생성 실패: 존재하지 않는 회원(ID: {}) 또는 비디오(ID: {})입니다.", memberId, videoId);
             // 비즈니스에 맞는 구체적인 예외로 변환하여 던지는 코드 구현 필요
         }
+    }
+
+    @Transactional
+    public void addCommentLikes(Long memberId, Long commentId) {
+        Member memberRef = memberRepository.getReferenceById(memberId);
+        commentRepository.incrementLikesCount(commentId);
+
+//        likesRepository.save(new Likes(memberRef, commentRef, LocalDateTime.now()));
     }
 }

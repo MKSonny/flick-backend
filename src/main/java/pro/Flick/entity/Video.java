@@ -19,6 +19,10 @@ public class Video {
 
     @Id @GeneratedValue
     private Long id;
+
+    @Version
+    private Long version;
+
     private String title;
     private String uri;
 
@@ -41,6 +45,10 @@ public class Video {
 
     @Builder.Default
     private Long likesCount = 0L;
+
+    public void incrementLikesCount() {
+        likesCount += 1;
+    }
 
     @CreatedDate
     private LocalDateTime createdTime;

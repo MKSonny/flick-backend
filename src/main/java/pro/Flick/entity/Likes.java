@@ -22,8 +22,18 @@ public class Likes {
     @JoinColumn(name = "video_id")
     private Video video; // 관계 설정 필요
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
     @CreatedDate
     private LocalDateTime createdAt;
+
+    public Likes(Member member, Comment comment, LocalDateTime createdAt) {
+        this.member = member;
+        this.comment = comment;
+        this.createdAt = createdAt;
+    }
 
     public Likes(Member member, Video video, LocalDateTime createdAt) {
         this.member = member;

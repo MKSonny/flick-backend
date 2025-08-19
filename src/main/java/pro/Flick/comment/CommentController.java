@@ -1,18 +1,15 @@
-package pro.Flick.controller;
+package pro.Flick.comment;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import pro.Flick.comment.CommentService;
-import pro.Flick.comment.GetCommentsByMemberIdResponseDTO;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.repsository.CommentJpaRepository;
 import pro.Flick.Video.VideoJpaRepository;
-import pro.Flick.repsository.CommentRepository;
 import pro.Flick.repsository.MemberJpaRepository;
 
 import java.time.LocalDateTime;
@@ -66,6 +63,11 @@ public class CommentController {
     public void addCommentV2(@RequestBody CommentAddDto requestDto) {
         commentService.addCommentV2(Long.valueOf(requestDto.getUserId()), Long.valueOf(requestDto.getVideoId()), requestDto.getText());
     }
+
+
+    public void addCommentLikes(@RequestBody CommentLikesAddDTO requestDto) {
+    }
+
 
     // 활동
     // 내가 올린 동영상들을 찾음 -> 그 동영상의 댓글들을 가져옴
