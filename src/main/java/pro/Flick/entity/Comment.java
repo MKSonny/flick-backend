@@ -1,6 +1,7 @@
 package pro.Flick.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -34,6 +35,7 @@ public class Comment {
         this.text = text;
         this.createdAt = createdAt;
     }
+
 
     //    public Comment(Member member, Video video, String text, LocalDateTime createdAt) {
 //        this.member = member;

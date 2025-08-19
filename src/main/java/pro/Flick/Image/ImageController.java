@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pro.Flick.entity.UploadFile;
 import pro.Flick.file.FileStore;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 
 import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
 public class ImageController {
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
     private final FileStore fileStore;
 
     @PostMapping("/file/image/upload")
@@ -22,7 +22,7 @@ public class ImageController {
                                        @RequestParam("userId") String userId) throws IOException {
         UploadFile storedFile = fileStore.storeFile(file); // 직접 구현한 저장 로직
         String fileStoreFullPath = fileStore.getFullPath(storedFile.getStoreFileName());
-        memberRepository.updateProfileImage(userId, fileStoreFullPath);
+        memberJpaRepository.updateProfileImage(userId, fileStoreFullPath);
         return fileStoreFullPath;
     }
 }

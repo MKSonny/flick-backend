@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.controller.dto.SignUpDto;
 import pro.Flick.entity.Member;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,20 +18,20 @@ import java.util.List;
 @Slf4j
 public class MemberController {
 
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
 
     @PostMapping("/auth/signup")
     public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
         log.info("username={}, email={}, password={}", signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
-        Member member = memberRepository.save(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
+        Member member = memberJpaRepository.save(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
         return new GetMemberByIdResponseDto(member);
     }
 
     @GetMapping("/auth/signin")
     public GetMemberByIdResponseDto signIn(String email, String password) {
 //        log.info("email={}, password={}", signInDto.getEmail(), signInDto.getPassword());
-        Member member = memberRepository.findMember(email, password);
+        Member member = memberJpaRepository.findMember(email, password);
         if (member != null) {
             // todo
         }
@@ -40,7 +40,7 @@ public class MemberController {
 
     @GetMapping("/auth/get_member")
     public GetMemberByIdResponseDto getMemberById(String id) {
-        Member byId = memberRepository.findMemberById(id);
+        Member byId = memberJpaRepository.findMemberById(id);
         return new GetMemberByIdResponseDto(byId);
     }
 
@@ -48,13 +48,13 @@ public class MemberController {
     @GetMapping("/get_member/{user_id}")
     public GetMemberByIdResponseDto getMemberById2(@PathVariable String user_id) {
         log.info("user_id={}", user_id);
-        Member byId = memberRepository.findMemberById(user_id);
+        Member byId = memberJpaRepository.findMemberById(user_id);
         return new GetMemberByIdResponseDto(byId);
     }
 
     @GetMapping("/members/search")
     public List<FindMemberByUsernameResponseDto> findMemberByUsername(@RequestParam String username) {
-        List<Member> members = memberRepository.findMemberByUsername(username);
+        List<Member> members = memberJpaRepository.findMemberByUsername(username);
         List<FindMemberByUsernameResponseDto> findMemberByUsernameResponseDtos = new ArrayList<>();
 
         for (Member member : members) {
@@ -70,7 +70,7 @@ public class MemberController {
 //    배열을 RequestParam으로 보내기 복잡하니까 RequestBody로 처리한다
     @PostMapping("/members/friends_ids")
     public List<GetMemberByIdResponseDto> getUsersByIds(@RequestBody List<Long> ids) {
-        List<Member> members = memberRepository.findMemberByIds(ids);
+        List<Member> members = memberJpaRepository.findMemberByIds(ids);
         List<GetMemberByIdResponseDto> dtoList = new ArrayList<>();
 
         for (Member member : members) {

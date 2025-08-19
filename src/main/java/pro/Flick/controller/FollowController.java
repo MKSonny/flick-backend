@@ -8,7 +8,7 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.FollowRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,13 +19,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FollowController {
 
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
     private final FollowRepository followRepository;
 
     @PostMapping("/followers")
     public void addFollower(@RequestBody FollowRequestDto requestDto) {
-        Member findMember = memberRepository.findMemberById(requestDto.getFollower_user_id());
-        Member theMemberThatFineMemberWillFollow = memberRepository.findMemberById(requestDto.getUserId());
+        Member findMember = memberJpaRepository.findMemberById(requestDto.getFollower_user_id());
+        Member theMemberThatFineMemberWillFollow = memberJpaRepository.findMemberById(requestDto.getUserId());
 
         followRepository.memberAFollowsMemberB(findMember, theMemberThatFineMemberWillFollow);
     }
@@ -47,7 +47,7 @@ public class FollowController {
     // follower_user_id는 내 id 이다
 //    @GetMapping("followers_inbox")
 //    public void getFollowersV2(@RequestParam String follower_user_id) {
-//        Member findMember = memberRepository.findMemberById(follower_user_id);
+//        Member findMember = memberJpaRepository.findMemberById(follower_user_id);
 //        List<Follower> followers = findMember.getFollowers();
 //        for (Follower follower : followers) {
 //            log.info(follower.get);
@@ -110,7 +110,7 @@ public class FollowController {
 //
 //        for (Follower follower : followers) {
 //            // 나를 팔로우한 사람들의 정보를 뽑아야함
-    ////            Member whoFollowedMe = memberRepository.findMemberById(String.valueOf(follower.getMember().getId()));
+    ////            Member whoFollowedMe = memberJpaRepository.findMemberById(String.valueOf(follower.getMember().getId()));
 //            dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
 //        }
 //        return dto;

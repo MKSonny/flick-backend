@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 @RequiredArgsConstructor
-class ChatRoomMemberRepositoryTest {
+class ChatRoomMemberJpaRepositoryTest {
 
     @Autowired
     ChatRoomMemberRepository chatRoomMemberRepository;

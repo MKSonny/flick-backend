@@ -4,10 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import pro.Flick.controller.DbInit;
-import pro.Flick.entity.Member;
-import pro.Flick.repsository.MemberRepository;
 
 @SpringBootApplication
 @RequiredArgsConstructor

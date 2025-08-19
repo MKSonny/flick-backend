@@ -11,7 +11,7 @@ import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.repsository.LikesJpaRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,14 +23,14 @@ import java.util.List;
 public class LikesController {
 
     private final LikesJpaRepository likesJpaRepository;
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
     private final VideoJpaRepository videoJpaRepository;
     private final VideoService videoService;
 
 //    @PostMapping("/likes")
     public void addLikes(@RequestBody LikesRequestDto likesRequestDto) {
 //        videoService.addLikes(likesRequestDto.getUserId(), likesRequestDto.getVideoId());
-        Member findMember = memberRepository.findMemberById(likesRequestDto.getUserId());
+        Member findMember = memberJpaRepository.findMemberById(likesRequestDto.getUserId());
         Video findVideo = videoJpaRepository.findVideoById(likesRequestDto.getVideoId());
         Likes likes = likesJpaRepository.addLike(findMember, findVideo);
 
@@ -69,7 +69,7 @@ public class LikesController {
     // 내가 올린 영상에 좋아요를 누른 멤버들을 가져옴
     @GetMapping("/likes/my_video/{memberId}")
     public List<Temp> getLikesOnMyVideo(@PathVariable String memberId) {
-        Member findMember = memberRepository.findMemberById(memberId);
+        Member findMember = memberJpaRepository.findMemberById(memberId);
         List<Likes> likes = likesJpaRepository.findLikesOnMyVideo(memberId);
         List<Temp> dtoList = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class LikesController {
 
     @DeleteMapping("/likes")
     public void deleteLikes(@RequestParam String userId, @RequestParam String videoId) {
-        likesJpaRepository.deleteLikes(userId, videoId);
+        videoService.removeLikes(userId, videoId);
     }
 
     @Data

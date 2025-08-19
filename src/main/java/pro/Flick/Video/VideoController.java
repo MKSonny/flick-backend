@@ -7,12 +7,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.dto.VideoWithMemberDto;
-import pro.Flick.Video.service.VideoService;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class VideoController {
     private final FileStore fileStore;
     private final VideoJpaRepository fileRepository;
     private final VideoRepository videoRepository; // spring data jpa 사용
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
 
 
@@ -105,7 +104,7 @@ public class VideoController {
 //    @GetMapping("/videos/{userId}")
     public List<Temp> getVideosByUserIdV2(@PathVariable String userId) {
         log.info("getVideosByUserIdV2 start");
-        Member member = memberRepository.findMemberById(userId);
+        Member member = memberJpaRepository.findMemberById(userId);
         List<Video> videos = member.getVideos();
 
         log.info("hello world={}", videos); // videos가 들어가 있다 언제 add 되었는지

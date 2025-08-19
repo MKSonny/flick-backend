@@ -7,14 +7,14 @@ import pro.Flick.Video.service.VideoService;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.Video.VideoJpaRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 import pro.Flick.service.ChatService;
 import pro.Flick.service.FollowService;
 
 @Service
 @RequiredArgsConstructor
 public class DbInit {
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
     private final VideoJpaRepository videoJpaRepository;
     private final FollowService followService;
     private final ChatJpaRepository chatJpaRepository;
@@ -23,16 +23,16 @@ public class DbInit {
 
     @Transactional
     public void saveMemberAndVideo() {
-        memberRepository.save("HelloWorld", "Email", "123");
-        memberRepository.save("test", "Email2", "123");
-        memberRepository.save("test3", "Email3", "123");
-        memberRepository.save("test4", "Email4", "123");
+        memberJpaRepository.save("HelloWorld", "Email", "123");
+        memberJpaRepository.save("test", "Email2", "123");
+        memberJpaRepository.save("test3", "Email3", "123");
+        memberJpaRepository.save("test4", "Email4", "123");
 
 
-        Member member = memberRepository.findMember("Email", "123");
-        Member member2 = memberRepository.findMember("Email2", "123");
-        Member member3 = memberRepository.findMember("Email3", "123");
-        Member member4 = memberRepository.findMember("Email4", "123");
+        Member member = memberJpaRepository.findMember("Email", "123");
+        Member member2 = memberJpaRepository.findMember("Email2", "123");
+        Member member3 = memberJpaRepository.findMember("Email3", "123");
+        Member member4 = memberJpaRepository.findMember("Email4", "123");
         /*
             8/1
             아래와 같이 영상의 제목만 넘겨도 영상을 볼 수 있도록 수정해야 한다

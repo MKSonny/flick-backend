@@ -1,0 +1,22 @@
+package pro.Flick.comment;
+
+import lombok.Data;
+import pro.Flick.controller.dto.GetMemberByIdResponseDto;
+import pro.Flick.entity.Comment;
+
+import java.time.LocalDateTime;
+
+@Data
+public class GetCommentsByMemberIdResponseDTO {
+    private Long id;
+    private String text;
+    private LocalDateTime createdAt;
+    private GetMemberByIdResponseDto user;
+
+    public GetCommentsByMemberIdResponseDTO(Comment comment) {
+        this.id = comment.getId();
+        this.text = comment.getText();
+        this.createdAt = comment.getCreatedAt();
+        this.user = new GetMemberByIdResponseDto(comment.getMember());
+    }
+}

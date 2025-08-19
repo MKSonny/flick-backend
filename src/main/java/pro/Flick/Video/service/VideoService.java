@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.Video.VideoRepository;
 import pro.Flick.Video.dto.VideoWithMemberDtoV2;
 import pro.Flick.entity.Member;
@@ -18,7 +17,7 @@ import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
 import pro.Flick.repsository.LikesJpaRepository;
 import pro.Flick.repsository.LikesRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -32,14 +31,20 @@ public class VideoService {
     private final VideoRepository videoRepository;
     private final LikesRepository likesRepository;
     private final LikesJpaRepository likesJpaRepository;
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
     @Transactional
     public void addLikes(String userId, String videoId) {
-        Member member = memberRepository.findMemberById(userId);
+        Member member = memberJpaRepository.findMemberById(userId);
         Video video = videoRepository.findById(Long.valueOf(videoId)).get();
         likesJpaRepository.addLike(member, video);
         videoRepository.incrementLikesCount(Long.valueOf(videoId));
+    }
+
+    @Transactional
+    public void removeLikes(String userId, String videoId) {
+        likesJpaRepository.deleteLikes(userId, videoId);
+        videoRepository.decrementLikesCount(Long.valueOf(videoId));
     }
 
     public Page<VideoWithMemberDtoV2> getVideoInfo(Pageable pageable) {

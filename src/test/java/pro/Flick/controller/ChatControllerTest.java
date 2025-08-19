@@ -6,13 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
-import pro.Flick.chat.ChatRoomMemberResponseDTO;
-import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Message;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ class ChatControllerTest {
     ChatRoomMemberRepository chatRoomMemberRepository;
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberJpaRepository memberJpaRepository;
 
     @Autowired
     DbInit dbInit;
@@ -43,18 +41,18 @@ class ChatControllerTest {
                 .email("b")
                 .build();
 
-        memberRepository.save(a);
-        memberRepository.save(b);
+        memberJpaRepository.save(a);
+        memberJpaRepository.save(b);
     }
 
 
     @Test
     @Commit
     void test() {
-        Member sender = memberRepository.findMemberByEmail("Email");
-        Member receiver = memberRepository.findMemberByEmail("Email2");
-        Member a = memberRepository.findMemberByUsernameSingle("a");
-        Member b = memberRepository.findMemberByUsernameSingle("b");
+        Member sender = memberJpaRepository.findMemberByEmail("Email");
+        Member receiver = memberJpaRepository.findMemberByEmail("Email2");
+        Member a = memberJpaRepository.findMemberByUsernameSingle("a");
+        Member b = memberJpaRepository.findMemberByUsernameSingle("b");
 
         chatJpaRepository.addMessage(sender, receiver, "hello world");
         chatJpaRepository.addMessage(sender, receiver, "hello world1");
@@ -75,7 +73,7 @@ class ChatControllerTest {
     @Test
     void 내가_참여한_채팅방_정보_목록_불러오기() {
 
-//        Member member = memberRepository.findMemberByEmail("Email");
+//        Member member = memberJpaRepository.findMemberByEmail("Email");
 //        List<ChatRoomMember> chatRoomMembersWithMember = chatRoomMemberRepository.findChatRoomMembersWithMember(member.getId());
 //        List<ChatRoomMemberResponseDTO> list = chatRoomMembersWithMember.stream().map(ChatRoomMemberResponseDTO::new).toList();
 //        for (ChatRoomMemberResponseDTO chatRoomMemberResponseDTO : list) {

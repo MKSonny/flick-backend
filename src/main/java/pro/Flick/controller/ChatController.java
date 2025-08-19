@@ -12,7 +12,7 @@ import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 import pro.Flick.service.ChatService;
 
 import java.time.LocalDateTime;
@@ -26,14 +26,14 @@ import java.util.List;
 public class ChatController {
 
     private final ChatJpaRepository chatJpaRepository;
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final ChatService chatService;
 
     // 8/1 채팅 기능 수정
 //    @PostMapping
 //    public void addMessage(@RequestBody ChatRequestDto requestDto) {
-//        Member findMember = memberRepository.findMemberById(requestDto.getUserId());
+//        Member findMember = memberJpaRepository.findMemberById(requestDto.getUserId());
 //        chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
 //    }
     // 8/1
@@ -70,8 +70,8 @@ public class ChatController {
      */
 //    @PostMapping
     public void addMessage(@RequestBody ChatRequestDto requestDto) {
-        Member findMember = memberRepository.findMemberById(requestDto.getUserId());
-        Member receiverMember = memberRepository.findMemberById(requestDto.getChat_user_id());
+        Member findMember = memberJpaRepository.findMemberById(requestDto.getUserId());
+        Member receiverMember = memberJpaRepository.findMemberById(requestDto.getChat_user_id());
         chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
 
         chatJpaRepository.addMessage(findMember, receiverMember, requestDto.getText());
@@ -79,9 +79,9 @@ public class ChatController {
 
     @PostMapping
     public void addMessageV2(@RequestBody ChatRequestDto requestDto) {
-        Member sender = memberRepository.findMemberById(requestDto.getUserId());
+        Member sender = memberJpaRepository.findMemberById(requestDto.getUserId());
         log.info("requestDto={}", requestDto);
-        Member receiver = memberRepository.findMemberById(requestDto.getChat_user_id());
+        Member receiver = memberJpaRepository.findMemberById(requestDto.getChat_user_id());
 
         chatService.addMessage(sender, receiver, requestDto.getText());
     }
