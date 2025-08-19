@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.repsository.MemberJpaRepository;
 import pro.Flick.Video.VideoJpaRepository;
 
 import java.util.List;
@@ -22,7 +22,7 @@ class VideoControllerTest {
     @Autowired
     private VideoJpaRepository fileRepository;
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberJpaRepository memberJpaRepository;
     @Autowired
     private EntityManager em;
 
@@ -34,7 +34,7 @@ class VideoControllerTest {
                     .password("123")
                     .email("email")
                     .build();
-            Member savedMember = memberRepository.save(member);
+            Member savedMember = memberJpaRepository.save(member);
 
             Video video = Video.builder()
                     .uri("test.mp4")
