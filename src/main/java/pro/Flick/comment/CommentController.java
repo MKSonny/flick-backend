@@ -3,6 +3,10 @@ package pro.Flick.comment;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Comment;
@@ -47,6 +51,16 @@ public class CommentController {
         List<Comment> comments = commentRepository.findCommentByVideoId(videoId);
 
         return comments.stream().map(GetCommentsByMemberIdResponseDTO::new).collect(Collectors.toList());
+    }
+
+    @GetMapping("/comments/paging/{videoId}")
+    public Page<GetCommentsByMemberIdResponseDTO> getCommentsByVideoIdUsingPagination(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
+                                                                                      @PathVariable Long videoId,
+                                                                                      @RequestParam Long userId) {
+        log.info("getCommentsByVideoIdUsingPagination");
+        Page<Comment> comments = commentRepository.findAllComments(pageablee, videoId);
+
+        return comments.map(GetCommentsByMemberIdResponseDTO::new);
     }
 
 //    @PostMapping("/comments")
