@@ -24,6 +24,7 @@ public class MemberControllerV2 {
     public Page<VideoWithMemberDto> getVideosByUserIdUsingPagingV5(
             @PathVariable Long profileUserId,
             @PageableDefault(size = 12, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
         return memberService.getVideosByMemberIdWithMemberPage(pageable, profileUserId);
     }
 
