@@ -21,6 +21,16 @@ public class MemberController {
     private final MemberJpaRepository memberJpaRepository;
 
 
+    /**
+     * @Data
+     * public class SignUpDto {
+     *     private String username;
+     *     private String email;
+     *     private String password;
+     * }
+     * @param signUpDto
+     * @return
+     */
     @PostMapping("/auth/signup")
     public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
         log.info("username={}, email={}, password={}", signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
