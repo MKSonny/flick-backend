@@ -29,6 +29,7 @@ public class MemberControllerV2 {
 
     @GetMapping("/profile-info/{userId}")
     public ProfileInfoResponseDTO getProfileInfo(@PathVariable Long userId) {
+
         return memberService.getMemberInfo(userId);
     }
 
