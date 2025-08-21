@@ -12,7 +12,7 @@ import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
-import pro.Flick.repsository.MemberJpaRepository;
+import pro.Flick.member.MemberJpaRepository;
 import pro.Flick.service.ChatService;
 
 import java.time.LocalDateTime;

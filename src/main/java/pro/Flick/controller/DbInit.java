@@ -7,8 +7,8 @@ import pro.Flick.Video.service.VideoService;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.Video.VideoJpaRepository;
-import pro.Flick.repsository.MemberJpaRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.member.MemberJpaRepository;
+import pro.Flick.member.MemberRepository;
 import pro.Flick.service.ChatService;
 import pro.Flick.follow.FollowService;
 
@@ -41,7 +41,11 @@ public class DbInit {
 
         List<Member> memberList = new ArrayList<>();
 
-//        save1000TestMembers(memberList);
+        save1000TestMembers(memberList);
+
+        for (Member m : memberList) {
+            followService.memberAFollowsMemberB(member, m);
+        }
 
         memberRepository.saveAll(memberList);
         /*
@@ -103,7 +107,7 @@ public class DbInit {
     }
 
     private static void save1000TestMembers(List<Member> memberList) {
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
             memberList.add(new Member("user" + i, "sample@email.com" + i, "123"));
         }
     }

@@ -1,7 +1,6 @@
 package pro.Flick.follow;
 
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,11 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pro.Flick.entity.Member;
-import pro.Flick.member.MemberService;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.member.MemberRepository;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class FollowServiceTest {

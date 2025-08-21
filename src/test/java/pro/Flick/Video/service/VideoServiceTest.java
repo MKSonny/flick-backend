@@ -10,7 +10,7 @@ import org.springframework.test.annotation.Commit;
 import pro.Flick.Video.VideoRepository;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.member.MemberRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.dto.VideoWithMemberDto;
-import pro.Flick.repsository.MemberJpaRepository;
 
 @RestController
 @RequestMapping("/member")
@@ -31,7 +30,14 @@ public class MemberControllerV2 {
     @GetMapping("/profile-info/{userId}")
     public ProfileInfoResponseDTO getProfileInfo(@PathVariable Long userId) {
 
+//        memberService
         return memberService.getMemberInfo(userId);
+    }
+
+    @GetMapping("/profile-info/user/{profileId}/viewer/{myId}")
+    public ProfileInfoResponseDTOV2 getProfileInfo(@PathVariable Long profileId, @PathVariable Long myId) {
+
+        return memberService.getMemberInfoV2(myId, profileId);
     }
 
 

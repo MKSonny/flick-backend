@@ -8,7 +8,7 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.FollowJpaRepository;
-import pro.Flick.repsository.MemberJpaRepository;
+import pro.Flick.member.MemberJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

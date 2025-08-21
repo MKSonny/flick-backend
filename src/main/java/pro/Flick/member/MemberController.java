@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.controller.dto.SignUpDto;
 import pro.Flick.entity.Member;
-import pro.Flick.repsository.MemberJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

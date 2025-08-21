@@ -1,18 +1,8 @@
 package pro.Flick.follow;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.entity.Follower;
-import pro.Flick.entity.Member;
-import pro.Flick.repsository.FollowJpaRepository;
-import pro.Flick.repsository.MemberJpaRepository;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @RestController

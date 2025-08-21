@@ -14,7 +14,6 @@ import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.repsository.FollowRepository;
 import pro.Flick.repsository.LikesRepository;
-import pro.Flick.repsository.MemberRepository;
 
 
 @Slf4j
@@ -48,6 +47,17 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
 
         return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount());
+    }
+
+
+
+    /**
+     * 상대방 프로필의 정보를 봤을 떄 내가 팔로우하는지 알아야 함
+     */
+    @Transactional
+    public ProfileInfoResponseDTOV2 getMemberInfoV2(Long myId, Long profileId) {
+        log.info("getMemberInfoV2 start");
+        return memberRepository.findMemberProfile(myId, profileId);
     }
 
     /*

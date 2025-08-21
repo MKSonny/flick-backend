@@ -62,13 +62,18 @@ public class FileStore {
                              `a.png` 라는 이름으로 업로드 하면 `51041c62-86e4-4274-801d-614a7d994edb.png` 와 같이 저장한다.
      */
 
-    private String  createStoreFileName(String originalFilename) {
+    private String createStoreFileName(String originalFilename) {
         String uuid = UUID.randomUUID().toString();
         String ext = extractExt(originalFilename);
         return uuid + "." + ext;
     }
 
     private String extractExt(String originalFilename) {
+        int pos = originalFilename.lastIndexOf(".");
+        return originalFilename.substring(pos + 1); // 확장자명
+    }
+
+    private String extractBeforeExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1); // 확장자명
     }

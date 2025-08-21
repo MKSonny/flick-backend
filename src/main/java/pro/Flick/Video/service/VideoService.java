@@ -20,8 +20,8 @@ import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
 import pro.Flick.repsository.LikesJpaRepository;
 import pro.Flick.repsository.LikesRepository;
-import pro.Flick.repsository.MemberJpaRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.member.MemberJpaRepository;
+import pro.Flick.member.MemberRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

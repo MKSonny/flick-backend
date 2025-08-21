@@ -12,7 +12,7 @@ import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.repsository.LikesRepository;
-import pro.Flick.repsository.MemberRepository;
+import pro.Flick.member.MemberRepository;
 
 import java.time.LocalDateTime;
 

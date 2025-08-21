@@ -9,7 +9,7 @@ import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.MemberJpaRepository;
+import pro.Flick.member.MemberJpaRepository;
 
 import java.util.List;
 

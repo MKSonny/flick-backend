@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.MemberJpaRepository;
+import pro.Flick.member.MemberJpaRepository;
 import pro.Flick.Video.VideoJpaRepository;
 
 import java.util.List;

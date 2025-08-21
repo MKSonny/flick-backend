@@ -1,4 +1,4 @@
-package pro.Flick.repsository;
+package pro.Flick.member;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
