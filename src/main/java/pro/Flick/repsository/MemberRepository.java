@@ -6,10 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.Member;
+import pro.Flick.member.FollowerInfoDTO;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 올바르게 수정된 쿼리
-    @Query("SELECT f.follower FROM Follower f WHERE f.member.id = :memberId")
+    @Query("SELECT f.id, f.follower FROM Follower f WHERE f.member.id = :memberId")
     Page<Member> findFollowersByMemberId(Pageable pageable, @Param("memberId") Long memberId);
+
+    @Query("SELECT new pro.Flick.member.FollowerInfoDTO(f.id, f.follower) " +
+            "FROM Follower f WHERE f.member.id = :memberId")
+    Page<FollowerInfoDTO> findFollowersByMemberIdV2(Pageable pageable, @Param("memberId") Long memberId);
 }

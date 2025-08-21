@@ -1,4 +1,4 @@
-package pro.Flick.controller;
+package pro.Flick.follow;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class FollowController {
     private final MemberJpaRepository memberJpaRepository;
     private final FollowJpaRepository followJpaRepository;
 
-    @PostMapping("/followers")
+//    @PostMapping("/followers")
     public void addFollower(@RequestBody FollowRequestDto requestDto) {
         Member findMember = memberJpaRepository.findMemberById(requestDto.getFollower_user_id());
         Member theMemberThatFineMemberWillFollow = memberJpaRepository.findMemberById(requestDto.getUserId());
@@ -116,7 +116,7 @@ public class FollowController {
 //        return dto;
 //    }
 
-    @DeleteMapping("/followers")
+//    @DeleteMapping("/followers")
     public void deleteFollowing(@RequestParam String userId, @RequestParam String follower_user_id) {
         log.info(followJpaRepository.toString());
         followJpaRepository.deleteFollower(userId, follower_user_id);

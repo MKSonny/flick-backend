@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class FollowCountDTO {
-    private Long followingCount;
     private Long followerCount;
+    private Long followingCount;
 }

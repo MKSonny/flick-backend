@@ -1,4 +1,4 @@
-package pro.Flick.service;
+package pro.Flick.follow;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +41,10 @@ public class FollowService {
 
         followRepository.save(new Follower(memberARef, memberBRef, LocalDateTime.now()));
 
+    }
+
+    @Transactional
+    public void deleteFollower(Long followerId, Long memberId) {
+        followRepository.deleteFollowByFollowerIdAndMemberId(followerId, memberId);
     }
 }

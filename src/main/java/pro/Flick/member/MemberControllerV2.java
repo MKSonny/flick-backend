@@ -41,8 +41,9 @@ public class MemberControllerV2 {
     }
 
     @GetMapping("/{userId}/followers")
-    public Page<MemberService.Temp> getMyFollowers(@PathVariable Long userId, @PageableDefault(size = 20) Pageable pageable) {
-        return memberService.getFollowersByMemberId(pageable, userId);
+    public Page<FollowerInfoDTO> getMyFollowers(@PathVariable Long userId, @PageableDefault(size = 20) Pageable pageable) {
+//        return memberService.getFollowersByMemberId(pageable, userId);
+        return memberService.getFollowersByMemberIdV2(pageable, userId);
     }
 
 //    @PostMapping("/auth/signup")

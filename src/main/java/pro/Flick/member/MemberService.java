@@ -64,6 +64,11 @@ public class MemberService {
         return members.map(Temp::new);
     }
 
+    @Transactional
+    public Page<FollowerInfoDTO> getFollowersByMemberIdV2(Pageable pageable, Long memberId) {
+        return memberRepository.findFollowersByMemberIdV2(pageable, memberId);
+    }
+
     @Data
     static class Temp {
         private Long id;

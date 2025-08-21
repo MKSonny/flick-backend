@@ -51,4 +51,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
 
+    public Member(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }

@@ -2,6 +2,7 @@ package pro.Flick.repsository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.Follower;
@@ -18,4 +19,7 @@ public interface FollowRepository extends JpaRepository<Follower, Long> {
             "WHERE f.follower.id = :memberId OR f.member.id = :memberId")
     FollowCountDTO findFollowCountsByMemberId(@Param("memberId") Long memberId);
 
+    @Modifying
+    @Query("DELETE FROM Follower f where f.follower.id = :followerId and f.member.id = :memberId")
+    void deleteFollowByFollowerIdAndMemberId(@Param("followerId") Long followerId, @Param("memberId") Long memberId);
 }
