@@ -41,9 +41,7 @@ public class DbInit {
 
         List<Member> memberList = new ArrayList<>();
 
-        for (int i = 0; i < 100; i++) {
-            memberList.add(new Member("test" + i, "sample@email.com" + i, "123"));
-        }
+        save1000TestMembers(memberList);
 
         memberRepository.saveAll(memberList);
         /*
@@ -69,10 +67,7 @@ public class DbInit {
         followService.memberAFollowsMemberBUsingRef(member.getId(), member2.getId());
         followService.memberAFollowsMemberBUsingRef(member2.getId(), member.getId());
 
-        for (Member m : memberList) {
-//            followService.memberAFollowsMemberB(m, member);
-            videoJpaRepository.saveVideo(m.getUsername() + "'s video", "http://127.0.0.1:8080/video/test3.mov", m);
-        }
+//        save100MembersVideos(memberList);
 
 //        chatJpaRepository.addMessage(member, "1", "1:2");
 //        chatJpaRepository.addMessage(member, "2", "1:2");
@@ -99,5 +94,17 @@ public class DbInit {
         chatService.addMessage(member, member3, "6");
         chatService.addMessage(member, member3, "6");
         chatService.addMessage(member, member3, "6");
+    }
+
+    private void save100MembersVideos(List<Member> memberList) {
+        for (Member m : memberList) {
+            videoJpaRepository.saveVideo(m.getUsername() + "'s video", "http://127.0.0.1:8080/video/test3.mov", m);
+        }
+    }
+
+    private static void save1000TestMembers(List<Member> memberList) {
+        for (int i = 0; i < 1000; i++) {
+            memberList.add(new Member("user" + i, "sample@email.com" + i, "123"));
+        }
     }
 }

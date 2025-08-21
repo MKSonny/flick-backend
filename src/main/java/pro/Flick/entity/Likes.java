@@ -9,6 +9,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
+@Table(
+    uniqueConstraints = {
+            @UniqueConstraint(
+                name = "likes_uk",
+                columnNames = {"member_id", "video_id"}
+            )
+    }
+)
 public class Likes {
 
     @Id @GeneratedValue

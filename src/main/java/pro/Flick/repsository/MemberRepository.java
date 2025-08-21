@@ -14,6 +14,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT f.id, f.follower FROM Follower f WHERE f.member.id = :memberId")
     Page<Member> findFollowersByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
+    Member findByUsername(String username);
+
     @Query("SELECT new pro.Flick.member.FollowerInfoDTO(f.id, f.follower) " +
             "FROM Follower f WHERE f.member.id = :memberId")
     Page<FollowerInfoDTO> findFollowersByMemberIdV2(Pageable pageable, @Param("memberId") Long memberId);

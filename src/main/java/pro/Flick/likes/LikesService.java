@@ -29,8 +29,7 @@ public class LikesService {
     @Transactional
     public void removeVideoLikes(Long memberId, Long videoId) {
         likesRepository.deleteLikesByMemberIdAndVideoId(memberId, videoId);
-        Video video = videoRepository.findById(videoId).orElseThrow();
-        video.decrementLikesCount();
+        videoRepository.decrementLikesCount(videoId);
     }
 
     @Transactional
@@ -53,9 +52,9 @@ public class LikesService {
     public void addLikes(String userId, String videoId) {
 
         Member member = memberRepository.getReferenceById(Long.valueOf(userId));
-        Video video = videoRepository.findById(Long.valueOf(videoId)).orElseThrow(() -> new EntityNotFoundException("Video Not found"));
+        Video video = videoRepository.getReferenceById(Long.valueOf(videoId));
 
-        video.incrementLikesCount();
+        videoRepository.incrementLikesCount(Long.valueOf(videoId));
 
         likesRepository.save(new Likes(member, video, LocalDateTime.now()));
     }

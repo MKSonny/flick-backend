@@ -20,8 +20,8 @@ public class Video {
     @Id @GeneratedValue
     private Long id;
 
-    @Version
-    private Long version;
+//    @Version
+//    private Long version;
 
     private String title;
     private String uri;

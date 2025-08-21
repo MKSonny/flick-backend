@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jcodec.api.FrameGrab;
 import org.jcodec.common.model.Picture;
 import org.jcodec.scale.AWTUtil;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
@@ -47,6 +48,52 @@ public class VideoService {
         video.incrementLikesCount();
 
         likesRepository.save(new Likes(member, video, LocalDateTime.now()));
+    }
+
+    @Transactional
+    public void addLikesV2(String userId, String videoId) {
+
+        Member member = memberRepository.findByUsername(userId);
+        Video video = videoRepository.findById(Long.valueOf(videoId)).orElseThrow(() -> new EntityNotFoundException("Video Not found"));
+
+        videoRepository.incrementLikesCount(Long.valueOf(videoId));
+
+        likesRepository.save(new Likes(member, video, LocalDateTime.now()));
+    }
+
+    @Transactional
+    public void addLikesUniqueKey(String memberIdStr, String videoIdStr) {
+        Long memberId = Long.parseLong(memberIdStr);
+        Long videoId = Long.parseLong(videoIdStr);
+
+        // --- REMOVED ---
+        // 경쟁 조건에 취약한 사전 확인 로직을 제거합니다.
+        // if (likesRepository.existsByMemberIdAndVideoId(memberId, videoId)) {
+        //     return; // 이미 좋아요를 눌렀으면 아무것도 안 함
+        // }
+
+        try {
+            // 1. Likes 엔티티를 생성하고 저장(INSERT)을 시도합니다.
+            Member member = memberRepository.findById(memberId).orElseThrow();
+            Video video = videoRepository.findById(videoId).orElseThrow();
+            likesRepository.save(new Likes(member, video, LocalDateTime.now()));
+
+            /*
+                member_id, video_id
+                1   1
+                2   1
+                3   1
+             */
+
+            // 2. 저장이 성공했을 때만 카운트를 증가시킵니다.
+            videoRepository.incrementLikesCount(videoId);
+
+        } catch (DataIntegrityViolationException e) {
+            // 3. Unique 제약 조건 위반 예외가 발생하면,
+            // 이미 다른 스레드가 '좋아요'를 추가한 상황이므로 정상적인 케이스로 간주합니다.
+            // 예외를 무시하거나, 로그를 남길 수 있습니다.
+            log.warn("Like already exists for member {} and video {}. Race condition occurred.", memberId, videoId);
+        }
     }
 
     @Transactional
