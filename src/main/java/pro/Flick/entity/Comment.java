@@ -13,8 +13,8 @@ public class Comment {
     @Id @GeneratedValue
     private Long id;
 
-    @Version
-    private Long version;
+//    @Version
+//    private Long version;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

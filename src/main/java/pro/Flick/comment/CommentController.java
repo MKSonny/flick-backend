@@ -47,20 +47,20 @@ public class CommentController {
 
 
 //    @GetMapping("/comments/{videoId}")
-    public List<GetCommentsByMemberIdResponseDTO> getCommentsByVideoIdV2(@PathVariable Long videoId) {
+    public List<GetCommentsByVideoIdResponseDTO> getCommentsByVideoIdV2(@PathVariable Long videoId) {
         List<Comment> comments = commentRepository.findCommentByVideoId(videoId);
 
-        return comments.stream().map(GetCommentsByMemberIdResponseDTO::new).collect(Collectors.toList());
+        return comments.stream().map(GetCommentsByVideoIdResponseDTO::new).collect(Collectors.toList());
     }
 
 //    @GetMapping("/comments/paging/{videoId}")
-    public Page<GetCommentsByMemberIdResponseDTO> getCommentsByVideoIdUsingPagination(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
-                                                                                      @PathVariable Long videoId,
-                                                                                      @RequestParam Long userId) {
+    public Page<GetCommentsByVideoIdResponseDTO> getCommentsByVideoIdUsingPagination(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
+                                                                                     @PathVariable Long videoId,
+                                                                                     @RequestParam Long userId) {
         log.info("getCommentsByVideoIdUsingPagination");
         Page<Comment> comments = commentRepository.findAllComments(pageablee, videoId);
 
-        return comments.map(GetCommentsByMemberIdResponseDTO::new);
+        return comments.map(GetCommentsByVideoIdResponseDTO::new);
     }
 
 //    @PostMapping("/comments")

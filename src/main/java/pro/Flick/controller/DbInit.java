@@ -41,7 +41,7 @@ public class DbInit {
 
         List<Member> memberList = new ArrayList<>();
 
-        save1000TestMembers(memberList);
+//        save1000TestMembers(memberList);
 
         memberRepository.saveAll(memberList);
         /*

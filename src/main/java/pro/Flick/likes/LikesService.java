@@ -3,6 +3,7 @@ package pro.Flick.likes;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoRepository;
 import pro.Flick.comment.CommentRepository;
@@ -15,6 +16,7 @@ import pro.Flick.repsository.MemberRepository;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LikesService {
@@ -46,6 +48,24 @@ public class LikesService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
         comment.incrementCommentLikesCount();
         likesRepository.save(new Likes(memberRef, comment, LocalDateTime.now()));
+    }
+
+    @Transactional
+    public void addCommentLikesModifyingV2(Long memberId, Long commentId) {
+        log.info("addCommentLikes start");
+
+        Member memberRef = memberRepository.getReferenceById(memberId);
+        Comment comment = commentRepository.getReferenceById(commentId);
+
+        commentRepository.incrementLikesCount(commentId);
+        likesRepository.save(new Likes(memberRef, comment, LocalDateTime.now()));
+        log.info("addCommentLikes end");
+    }
+
+    @Transactional
+    public void removeCommentLikesModifyingV2(Long memberId, Long commentId) {
+        likesRepository.deleteLikesByMemberIdAndCommentId(memberId, commentId);
+        commentRepository.decrementLikesCount(commentId);
     }
 
     @Transactional

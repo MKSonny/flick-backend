@@ -6,12 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pro.Flick.entity.Comment;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -21,15 +18,15 @@ public class CommentControllerV2 {
     private final CommentService commentService;
 
     @GetMapping("/{videoId}")
-    public List<GetCommentsByMemberIdResponseDTO> getCommentsByVideoIdV2(@PathVariable Long videoId) {
+    public List<GetCommentsByVideoIdResponseDTO> getCommentsByVideoIdV2(@PathVariable Long videoId) {
         return commentService.findCommentByVideoId(videoId);
     }
 
     @GetMapping("/paging/{videoId}")
-    public Page<GetCommentsByMemberIdResponseDTO> getCommentsByVideoIdUsingPagination(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
-                                                                                      @PathVariable Long videoId,
-                                                                                      @RequestParam Long userId) {
-        return commentService.findAllComments(pageablee, videoId);
+    public Page<GetCommentsByVideoIdWithLikesInfoResponseDTO> getCommentsByVideoIdUsingPagination(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
+                                                                                                  @PathVariable Long videoId,
+                                                                                                  @RequestParam Long userId) {
+        return commentService.findAllCommentsWithLikesInfo(pageablee, videoId, userId);
     }
 
     @PostMapping

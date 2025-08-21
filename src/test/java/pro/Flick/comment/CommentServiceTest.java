@@ -43,9 +43,9 @@ class CommentServiceTest {
 
         List<Comment> comments = commentRepository.findCommentByVideoId(1L);
 
-        List<GetCommentsByMemberIdResponseDTO> collect = comments.stream().map(GetCommentsByMemberIdResponseDTO::new).toList();
+        List<GetCommentsByVideoIdResponseDTO> collect = comments.stream().map(GetCommentsByVideoIdResponseDTO::new).toList();
 
-        for (GetCommentsByMemberIdResponseDTO c : collect) {
+        for (GetCommentsByVideoIdResponseDTO c : collect) {
             log.info(c.getUser().getUsername());
             log.info(c.getText());
         }
@@ -66,11 +66,24 @@ class CommentServiceTest {
 
         List<Comment> comments = commentRepository.findCommentByVideoId(1L);
 
-        List<GetCommentsByMemberIdResponseDTO> collect = comments.stream().map(GetCommentsByMemberIdResponseDTO::new).toList();
+        List<GetCommentsByVideoIdResponseDTO> collect = comments.stream().map(GetCommentsByVideoIdResponseDTO::new).toList();
 
-        for (GetCommentsByMemberIdResponseDTO c : collect) {
+        for (GetCommentsByVideoIdResponseDTO c : collect) {
             log.info(c.getUser().getUsername());
             log.info(c.getText());
         }
+    }
+
+    @Test
+    void getCommentsLikesInfoTest() {
+        Member findMember = memberJpaRepository.findMember("Email", "123");
+        Video findVideo = videoJpaRepository.findVideoById("1");
+
+
+        log.info("commentService.addCommentV2(findMember.getId(), findVideo.getId(), \"hello\"); start");
+        commentService.addCommentV2(findMember.getId(), findVideo.getId(), "hello");
+        log.info("commentService.addCommentV2(findMember.getId(), findVideo.getId(), \"hello\"); end");
+
+
     }
 }

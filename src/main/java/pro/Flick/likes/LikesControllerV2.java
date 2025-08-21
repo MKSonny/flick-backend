@@ -33,7 +33,7 @@ public class LikesControllerV2 {
 
     @PostMapping("/comment")
     public void addCommentLikes(@RequestBody CommentLikesAddDTO requestDto) {
-        likesService.addCommentLikes(requestDto.getUserId(), requestDto.getCommentId());
+        likesService.addCommentLikesModifyingV2(requestDto.getUserId(), requestDto.getCommentId());
     }
 
     // 매번 영상을 불러올때마다 스프링에 데이터를 가져오는 것은 매우 비효율적

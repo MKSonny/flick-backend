@@ -25,4 +25,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query(value = "SELECT c FROM Comment c JOIN FETCH c.member where c.video.id = :videoId", countQuery = "SELECT COUNT(c) FROM Comment c")
     Page<Comment> findAllComments(Pageable pageable, @Param("videoId") Long videoId);
+
+    @Query(value = "SELECT new pro.Flick.comment.GetCommentsByVideoIdWithLikesInfoResponseDTO(c, CASE WHEN l.id IS NOT NULL THEN TRUE ELSE FALSE END)" +
+            " FROM Comment c JOIN FETCH c.member LEFT JOIN Likes l ON c.id = l.comment.id and l.member.id = :memberId where c.video.id = :videoId")
+    Page<GetCommentsByVideoIdWithLikesInfoResponseDTO> findAllCommentsWithLikesInfo(Pageable pageable, @Param("videoId") Long videoId, @Param("memberId") Long memberId);
 }

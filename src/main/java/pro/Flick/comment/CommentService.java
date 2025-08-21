@@ -34,15 +34,23 @@ public class CommentService {
     private final LikesRepository likesRepository;
 
     @Transactional
-    public List<GetCommentsByMemberIdResponseDTO> findCommentByVideoId(Long videoId) {
+    public List<GetCommentsByVideoIdResponseDTO> findCommentByVideoId(Long videoId) {
         List<Comment> comments = commentRepository.findCommentByVideoId(videoId);
-        return comments.stream().map(GetCommentsByMemberIdResponseDTO::new).collect(Collectors.toList());
+        return comments.stream().map(GetCommentsByVideoIdResponseDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
-    public Page<GetCommentsByMemberIdResponseDTO> findAllComments(Pageable pageable, Long videoId) {
+    public Page<GetCommentsByVideoIdResponseDTO> findAllComments(Pageable pageable, Long videoId) {
         Page<Comment> comments = commentRepository.findAllComments(pageable, videoId);
-        return comments.map(GetCommentsByMemberIdResponseDTO::new);
+
+
+
+        return comments.map(GetCommentsByVideoIdResponseDTO::new);
+    }
+
+    @Transactional
+    public Page<GetCommentsByVideoIdWithLikesInfoResponseDTO> findAllCommentsWithLikesInfo(Pageable pageable, Long videoId, Long memberId) {
+        return commentRepository.findAllCommentsWithLikesInfo(pageable, videoId, memberId);
     }
 
     @Transactional
@@ -73,19 +81,35 @@ public class CommentService {
         }
     }
 
+    /**
+     * version 사용(낙관적 락)
+     * @param memberId
+     * @param commentId
+     */
     @Transactional
     public void addCommentLikes(Long memberId, Long commentId) {
+
         Member memberRef = memberRepository.getReferenceById(memberId);
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
         comment.incrementCommentLikesCount();
         likesRepository.save(new Likes(memberRef, comment, LocalDateTime.now()));
+        log.info("addCommentLikes end");
     }
 
+
+
+    /**
+     * 낙관적 락 사용
+     * @param memberId
+     * @param commentId
+     */
     @Transactional
     public void removeCommentLikes(Long memberId, Long commentId) {
         likesRepository.deleteLikesByMemberIdAndCommentId(memberId, commentId);
         Comment comment = commentRepository.findById(commentId).orElseThrow();
         comment.decrementLikesCount();
     }
+
+
 }
