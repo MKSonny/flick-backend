@@ -44,7 +44,7 @@ public class DbInit {
         save1000TestMembers(memberList);
 
         for (Member m : memberList) {
-            followService.memberAFollowsMemberB(member, m);
+            followService.memberAFollowsMemberB(m, member);
         }
 
         memberRepository.saveAll(memberList);

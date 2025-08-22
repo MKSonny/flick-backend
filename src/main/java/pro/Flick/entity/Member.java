@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Setter
 @Builder
 public class Member {
 
@@ -36,7 +37,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Likes> likes = new ArrayList<>();
 
-    private String profileImageUri = "/Users/son/Desktop/Flick_Files/react-log.png";
+//    private String profileImageUri = "/Users/son/Desktop/Flick_Files/react-log.png";
 
     // 양방향 연관관계 비추
 //    @OneToMany(mappedBy = "member")
@@ -50,6 +51,18 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "file_id")
+    private File file;
+
+    public String getProfileImageUri() {
+        if (this.file != null) {
+            return this.file.getStoredFileName();
+        }
+        // 프로필 이미지가 없는 경우 기본 이미지 경로를 반환
+        return "/default_profile.png";
+    }
 
     public Member(String username, String email, String password) {
         this.username = username;

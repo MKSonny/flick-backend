@@ -15,9 +15,18 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Member findByUsername(String username);
 
+    Member findByEmail(String email);
+
     @Query("SELECT new pro.Flick.member.FollowerInfoDTO(f.id, f.follower) " +
             "FROM Follower f WHERE f.member.id = :memberId")
     Page<FollowerInfoDTO> findFollowersByMemberIdV2(Pageable pageable, @Param("memberId") Long memberId);
+
+    // 기존 V2 -> file 메커니즘 수정
+//    @Query("SELECT m FROM Member m JOIN Follower f ON f.follower.id = m.id where f.member.id = :memberId")
+    @Query("SELECT new pro.Flick.member.FollowerInfoDTOV2(m, f_check.id IS NOT NULL) FROM Member m JOIN Follower f ON m.id = f.follower.id " +
+            "LEFT JOIN Follower f_check ON m.id = f_check.member.id and f_check.follower.id = :memberId " +
+            "where f.member.id = :memberId")
+    Page<FollowerInfoDTOV2> findFollowerByMemberIdV3(Pageable pageable, @Param("memberId") Long memberId);
 
     //    @Query("select m.*, case when f.id is not null then true else false end" +
 //            "from Member m" +

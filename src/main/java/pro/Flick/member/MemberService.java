@@ -44,7 +44,10 @@ public class MemberService {
     public ProfileInfoResponseDTO getMemberInfo(Long memberId) {
         FollowCountDTO followCountDTO = followRepository.findFollowCountsByMemberId(memberId);
         ;
+        log.info("hello world");
         Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
+
+        log.info("hello world = {}", member.getProfileImageUri());
 
         return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount());
     }
@@ -79,6 +82,11 @@ public class MemberService {
         return memberRepository.findFollowersByMemberIdV2(pageable, memberId);
     }
 
+    @Transactional
+    public Page<FollowerInfoDTOV2> getFollowersByMemberIdV3(Pageable pageable, Long memberId) {
+        return memberRepository.findFollowerByMemberIdV3(pageable, memberId);
+    }
+
     @Data
     static class Temp {
         private Long id;
@@ -89,7 +97,8 @@ public class MemberService {
         public Temp(Member member) {
             this.id = member.getId();
             this.username = member.getUsername();
-            this.profileImageUrl = member.getProfileImageUri();
+//            this.profileImageUrl = member.getProfileImageUri();
+            this.profileImageUrl = member.getFile().getStoredFileName();
             this.isFollowedByMe = false;
         }
     }
