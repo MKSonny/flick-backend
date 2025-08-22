@@ -9,6 +9,7 @@ import pro.Flick.controller.dto.SignUpDto;
 import pro.Flick.entity.Member;
 import pro.Flick.trace.LogTrace;
 import pro.Flick.trace.template.AbstractTemplate;
+import pro.Flick.trace.template.TraceTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class MemberController {
 
     private final MemberJpaRepository memberJpaRepository;
     private final LogTrace logTrace;
+    private final TraceTemplate traceTemplate;
 
     /**
      * @Data
@@ -42,16 +44,23 @@ public class MemberController {
     @GetMapping("/auth/signin")
     public GetMemberByIdResponseDto signIn(String email, String password) {
 
-        AbstractTemplate<GetMemberByIdResponseDto> abstractTemplate = new AbstractTemplate<>(logTrace) {
+        return traceTemplate.execute("MemberController.signIn", () -> {
+            Member member = memberJpaRepository.findMember(email, password);
 
-            @Override
-            protected GetMemberByIdResponseDto call() {
-                Member member = memberJpaRepository.findMember(email, password);
+            return new GetMemberByIdResponseDto(member);
+        });
+//        AbstractTemplate<GetMemberByIdResponseDto> abstractTemplate = new AbstractTemplate<>(logTrace) {
+//
+//            @Override
+//            protected GetMemberByIdResponseDto call() {
+//                Member member = memberJpaRepository.findMember(email, password);
+//
+//                return new GetMemberByIdResponseDto(member);
+//            }
+//        };
+//        return abstractTemplate.execute("MemberController.signIn");
 
-                return new GetMemberByIdResponseDto(member);
-            }
-        };
-        return abstractTemplate.execute("MemberController.signIn");
+
     }
 
     @GetMapping("/auth/get_member")
