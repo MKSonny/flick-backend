@@ -20,4 +20,9 @@ public class FollowControllerV2 {
     public void deleteFollowing(@RequestParam Long userId, @RequestParam Long follower_user_id) {
         followService.deleteFollower(userId, follower_user_id);
     }
+
+    @DeleteMapping("/delete-followers")
+    public void deleteFollowingV2(@RequestBody FollowRequestDTO requestDTO) {
+        followService.deleteFollower(requestDTO.getUserId(), requestDTO.getFollower_user_id());
+    }
 }

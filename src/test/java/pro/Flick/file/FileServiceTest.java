@@ -19,7 +19,7 @@ class FileServiceTest {
     @Test
     void getFileImageUriTest() {
         Member member = memberRepository.findByEmail("email");
-
-        fileService.storeImage()
+//
+//        fileService.storeImage()
     }
 }

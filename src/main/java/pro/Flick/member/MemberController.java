@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.controller.dto.SignUpDto;
 import pro.Flick.entity.Member;
+import pro.Flick.trace.LogTrace;
+import pro.Flick.trace.template.AbstractTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberJpaRepository memberJpaRepository;
-
+    private final LogTrace logTrace;
 
     /**
      * @Data
@@ -32,19 +34,24 @@ public class MemberController {
      */
     @PostMapping("/auth/signup")
     public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
-        log.info("username={}, email={}, password={}", signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
+
         Member member = memberJpaRepository.save(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
         return new GetMemberByIdResponseDto(member);
     }
 
     @GetMapping("/auth/signin")
     public GetMemberByIdResponseDto signIn(String email, String password) {
-//        log.info("email={}, password={}", signInDto.getEmail(), signInDto.getPassword());
-        Member member = memberJpaRepository.findMember(email, password);
-        if (member != null) {
-            // todo
-        }
-        return new GetMemberByIdResponseDto(member);
+
+        AbstractTemplate<GetMemberByIdResponseDto> abstractTemplate = new AbstractTemplate<>(logTrace) {
+
+            @Override
+            protected GetMemberByIdResponseDto call() {
+                Member member = memberJpaRepository.findMember(email, password);
+
+                return new GetMemberByIdResponseDto(member);
+            }
+        };
+        return abstractTemplate.execute("MemberController.signIn");
     }
 
     @GetMapping("/auth/get_member")
@@ -56,7 +63,6 @@ public class MemberController {
     // 중복 역할 해결 필요
     @GetMapping("/get_member/{user_id}")
     public GetMemberByIdResponseDto getMemberById2(@PathVariable String user_id) {
-        log.info("user_id={}", user_id);
         Member byId = memberJpaRepository.findMemberById(user_id);
         return new GetMemberByIdResponseDto(byId);
     }

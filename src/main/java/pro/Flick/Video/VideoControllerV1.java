@@ -69,6 +69,7 @@ public class VideoControllerV1 {
      */
     @GetMapping("/get-all-videos")
     public Page<VideoWithMemberDto> getAllVideosV3(@PageableDefault(size = 5) Pageable pageable) {
+        log.info("getAllVideosV3 start");
         Page<Video> videos = videoRepository.findAllVideos(pageable);
         return videos.map(video -> VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
     }

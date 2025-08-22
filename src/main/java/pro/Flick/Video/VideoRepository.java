@@ -26,7 +26,7 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query("select v from Video v where v.member.id in :memberIds")
     List<Video> findVideoByMemberIds(Collection<Long> memberIds);
 
-    @Query(value = "select v from Video v join fetch v.member m", countQuery = "select count(v.id) from Video v")
+    @Query(value = "select v from Video v join fetch v.member m left join fetch m.file", countQuery = "select count(v.id) from Video v")
     Page<Video> findAllVideos(Pageable pageable);
 
     @Query(value = "select v from Video v join fetch v.member where v.member.id = :memberId", countQuery = "select count(v.id) from Video v where v.member.id = :memberId")
