@@ -38,7 +38,7 @@ public class MemberController {
      * @return
      */
     @PostMapping("/auth/signup")
-    public GetMemberByIdResponseDto addMember(@RequestBody SignUpDto signUpDto) {
+    public GetMemberByIdResponseDto MCaddMember(@RequestBody SignUpDto signUpDto) {
 
 //        Member member = memberJpaRepository.save(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
 //        return new GetMemberByIdResponseDto(member);
@@ -47,7 +47,7 @@ public class MemberController {
     }
 
     @GetMapping("/auth/signin")
-    public GetMemberByIdResponseDto signIn(String email, String password) {
+    public GetMemberByIdResponseDto MCsignIn(String email, String password) {
 
 //        return traceTemplate.execute("MemberController.signIn", () -> {
 //            Member member = memberJpaRepository.findMember(email, password);
@@ -71,7 +71,7 @@ public class MemberController {
     }
 
     @GetMapping("/auth/get_member")
-    public GetMemberByIdResponseDto getMemberById(Long id) {
+    public GetMemberByIdResponseDto MCgetMemberById(Long id) {
 //        Member byId = memberJpaRepository.findMemberById(id);
         return memberService.getMemberById(id);
 //        return new GetMemberByIdResponseDto(byId);
@@ -79,7 +79,7 @@ public class MemberController {
 
     // 중복 역할 해결 필요
     @GetMapping("/get_member/{user_id}")
-    public GetMemberByIdResponseDto getMemberById2(@PathVariable Long user_id) {
+    public GetMemberByIdResponseDto MCgetMemberById2(@PathVariable Long user_id) {
 //        Member byId = memberJpaRepository.findMemberById(user_id);
 
         return memberService.getMemberById(user_id);
@@ -87,7 +87,7 @@ public class MemberController {
     }
 
     @GetMapping("/members/search")
-    public List<FindMembersByUsernameResponseDto> findMemberByUsername(@RequestParam String username) {
+    public List<FindMembersByUsernameResponseDto> MCfindMemberByUsername(@RequestParam String username) {
 //        List<Member> members = memberJpaRepository.findMemberByUsername(username);
 //
 //
@@ -107,7 +107,7 @@ public class MemberController {
 //    여기서 POST로 보낸 이유:
 //    배열을 RequestParam으로 보내기 복잡하니까 RequestBody로 처리한다
     @PostMapping("/members/friends_ids")
-    public List<GetMemberByIdResponseDto> getUsersByIds(@RequestBody List<Long> ids) {
+    public List<GetMemberByIdResponseDto> MCgetUsersByIds(@RequestBody List<Long> ids) {
 //        List<Member> members = memberJpaRepository.findMemberByIds(ids);
 //
 //        List<GetMemberByIdResponseDto> dtoList = new ArrayList<>();

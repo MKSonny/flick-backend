@@ -20,7 +20,7 @@ public class MemberControllerV2 {
 
 
     @GetMapping("/videos/{profileUserId}")
-    public Page<VideoWithMemberDto> getVideosByUserIdUsingPagingV5(
+    public Page<VideoWithMemberDto> MCV2getVideosByUserIdUsingPagingV5(
             @PathVariable Long profileUserId,
             @PageableDefault(size = 12, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
@@ -35,19 +35,19 @@ public class MemberControllerV2 {
     }
 
     @GetMapping("/profile-info/user/{profileId}/viewer/{myId}")
-    public ProfileInfoResponseDTOV2 getProfileInfo(@PathVariable Long profileId, @PathVariable Long myId) {
+    public ProfileInfoResponseDTOV2 MCV2getProfileInfo(@PathVariable Long profileId, @PathVariable Long myId) {
 
         return memberService.getMemberInfoV2(myId, profileId);
     }
 
 
     @GetMapping("/got-likes/{memberId}")
-    public Long getRespondLikesByMemberId(@PathVariable Long memberId) {
+    public Long MCV2getRespondLikesByMemberId(@PathVariable Long memberId) {
         return memberService.getLikesCountByMemberId(memberId);
     }
 
     @GetMapping("/{userId}/followers")
-    public Page<FollowerInfoDTOV2> getMyFollowers(@PathVariable Long userId, @PageableDefault(size = 20) Pageable pageable) {
+    public Page<FollowerInfoDTOV2> MCV2getMyFollowers(@PathVariable Long userId, @PageableDefault(size = 20) Pageable pageable) {
 //        return memberService.getFollowersByMemberId(pageable, userId);
 //        return memberService.getFollowersByMemberIdV2(pageable, userId);
         return memberService.getFollowersByMemberIdV3(pageable, userId);

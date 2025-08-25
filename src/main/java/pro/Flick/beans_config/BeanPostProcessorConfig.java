@@ -1,13 +1,13 @@
-package pro.Flick.beans_config;
-
-import org.springframework.aop.Advisor;
-import org.springframework.aop.Pointcut;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.aop.support.NameMatchMethodPointcut;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import pro.Flick.trace.LogTrace;
-
+//package pro.Flick.beans_config;
+//
+//import org.springframework.aop.Advisor;
+//import org.springframework.aop.Pointcut;
+//import org.springframework.aop.support.DefaultPointcutAdvisor;
+//import org.springframework.aop.support.NameMatchMethodPointcut;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import pro.Flick.trace.LogTrace;
+//
 //@Configuration
 //public class BeanPostProcessorConfig {
 //
@@ -19,10 +19,10 @@ import pro.Flick.trace.LogTrace;
 //    }
 //
 //    private Advisor getAdvisor(LogTrace logTrace) {
-////        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
-////        pointcut.setMappedNames("request*", "order*", "save*");
+//        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
+//        pointcut.setMappedNames("MC*");
 //
-//        Pointcut pointcut = Pointcut.TRUE;
+////        Pointcut pointcut = Pointcut.TRUE;
 //
 //        LogTraceAdvice advice = new LogTraceAdvice(logTrace);
 //
