@@ -11,7 +11,7 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
-import pro.Flick.member.MemberJpaRepository;
+import pro.Flick.member.MemberRepository;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class VideoController {
     private final FileStore fileStore;
     private final VideoJpaRepository fileRepository;
     private final VideoRepository videoRepository; // spring data jpa 사용
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
 
 
 
@@ -102,9 +102,9 @@ public class VideoController {
     // member에 있는 videos를 직접 꺼낼수는 없을까
     // 프론트 엔드의 어느 tsx에서 호출되는지 알 수 없나
 //    @GetMapping("/videos/{userId}")
-    public List<Temp> getVideosByUserIdV2(@PathVariable String userId) {
+    public List<Temp> getVideosByUserIdV2(@PathVariable Long userId) {
         log.info("getVideosByUserIdV2 start");
-        Member member = memberJpaRepository.findMemberById(userId);
+        Member member = memberRepository.findById(userId).orElseThrow();
         List<Video> videos = member.getVideos();
 
         log.info("hello world={}", videos); // videos가 들어가 있다 언제 add 되었는지

@@ -10,10 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoRepository;
 import pro.Flick.Video.dto.VideoWithMemberDto;
+import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.repsository.FollowRepository;
 import pro.Flick.repsository.LikesRepository;
+
+import java.util.List;
 
 
 @Slf4j
@@ -26,6 +29,40 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
+
+    /*
+
+     */
+
+    public GetMemberByIdResponseDto getMemberById(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        return new GetMemberByIdResponseDto(member);
+    }
+
+    public List<FindMembersByUsernameResponseDto> getMembersByUsername(String username) {
+
+        List<Member> members = memberRepository.findMembersByUsername(username);
+        return members.stream().map(FindMembersByUsernameResponseDto::new).toList();
+    }
+
+    public GetMemberByIdResponseDto saveMember(String username, String email, String password) {
+        Member member = memberRepository.save(new Member(username, email, password));
+        return new GetMemberByIdResponseDto(member);
+    }
+
+    public GetMemberByIdResponseDto getMemberByEmailAndPassword(String email, String password) {
+        Member member = memberRepository.findMemberByEmailAndPassword(email, password);
+        return new GetMemberByIdResponseDto(member);
+    }
+
+    public List<GetMemberByIdResponseDto> getMembersByIds(List<Long> ids) {
+        List<Member> members = memberRepository.findByIdIn(ids);
+        return members.stream().map(GetMemberByIdResponseDto::new).toList();
+    }
+
+    /*
+
+     */
 
 
     @Transactional
@@ -51,7 +88,6 @@ public class MemberService {
 
         return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount());
     }
-
 
 
     /**
@@ -86,6 +122,9 @@ public class MemberService {
     public Page<FollowerInfoDTOV2> getFollowersByMemberIdV3(Pageable pageable, Long memberId) {
         return memberRepository.findFollowerByMemberIdV3(pageable, memberId);
     }
+
+
+
 
     @Data
     static class Temp {

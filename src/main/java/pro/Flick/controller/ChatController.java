@@ -10,9 +10,9 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Chat;
 import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
+import pro.Flick.member.MemberRepository;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
-import pro.Flick.member.MemberJpaRepository;
 import pro.Flick.service.ChatService;
 
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ import java.util.List;
 public class ChatController {
 
     private final ChatJpaRepository chatJpaRepository;
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final ChatService chatService;
 
@@ -70,8 +70,8 @@ public class ChatController {
      */
 //    @PostMapping
     public void addMessage(@RequestBody ChatRequestDto requestDto) {
-        Member findMember = memberJpaRepository.findMemberById(requestDto.getUserId());
-        Member receiverMember = memberJpaRepository.findMemberById(requestDto.getChat_user_id());
+        Member findMember = memberRepository.findMemberById(requestDto.getUserId());
+        Member receiverMember = memberRepository.findMemberById(requestDto.getChat_user_id());
         chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
 
         chatJpaRepository.addMessage(findMember, receiverMember, requestDto.getText());
@@ -79,9 +79,9 @@ public class ChatController {
 
     @PostMapping
     public void addMessageV2(@RequestBody ChatRequestDto requestDto) {
-        Member sender = memberJpaRepository.findMemberById(requestDto.getUserId());
+        Member sender = memberRepository.findMemberById(requestDto.getUserId());
         log.info("requestDto={}", requestDto);
-        Member receiver = memberJpaRepository.findMemberById(requestDto.getChat_user_id());
+        Member receiver = memberRepository.findMemberById(requestDto.getChat_user_id());
 
         chatService.addMessage(sender, receiver, requestDto.getText());
     }

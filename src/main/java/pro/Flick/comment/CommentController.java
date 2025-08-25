@@ -12,9 +12,9 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
+import pro.Flick.member.MemberRepository;
 import pro.Flick.repsository.CommentJpaRepository;
 import pro.Flick.Video.VideoJpaRepository;
-import pro.Flick.member.MemberJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class CommentController {
 
     private final CommentJpaRepository commentJpaRepository;
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
     private final VideoJpaRepository videoJpaRepository;
     private final CommentRepository commentRepository;
     private final CommentService commentService;
@@ -67,7 +67,7 @@ public class CommentController {
     public void addComment(@RequestBody CommentAddDto requestDto) {
         log.info("requestDto={}", requestDto);
 
-        Member findMember = memberJpaRepository.findMemberById(requestDto.getUserId());
+        Member findMember = memberRepository.findById(Long.valueOf(requestDto.getUserId())).orElseThrow();
         Video findVideo = videoJpaRepository.findVideoById(requestDto.getVideoId());
 
         commentJpaRepository.addComment(findMember, findVideo, requestDto.getText());
@@ -84,7 +84,7 @@ public class CommentController {
     // 내가 올린 동영상들을 찾음 -> 그 동영상의 댓글들을 가져옴
     @GetMapping("/my_video_comments/{memberId}")
     public List<CommentDto> getCommentsByMemberId(@PathVariable String memberId) {
-        Member findMember = memberJpaRepository.findMemberById(memberId);
+        Member findMember = memberRepository.findMemberById(memberId);
         List<Comment> comments = commentJpaRepository.getAllMyCommentsOnMyVideo(findMember.getId());
         List<CommentDto> commentDtos = new ArrayList<>();
 

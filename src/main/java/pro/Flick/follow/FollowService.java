@@ -7,7 +7,6 @@ import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.FollowJpaRepository;
 import pro.Flick.repsository.FollowRepository;
-import pro.Flick.member.MemberJpaRepository;
 import pro.Flick.member.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -15,15 +14,14 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class FollowService {
-    private final MemberJpaRepository memberJpaRepository;
     private final FollowJpaRepository followJpaRepository;
 
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
 
     public void memberAFollowsMemberB(String A, String B) {
-        Member memberA = memberJpaRepository.findMemberById(A);
-        Member memberB = memberJpaRepository.findMemberById(B);
+        Member memberA = memberRepository.findMemberById(A);
+        Member memberB = memberRepository.findMemberById(B);
         followJpaRepository.memberAFollowsMemberB(memberA, memberB);
     }
 

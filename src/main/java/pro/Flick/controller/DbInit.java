@@ -7,7 +7,6 @@ import pro.Flick.Video.service.VideoService;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.Video.VideoJpaRepository;
-import pro.Flick.member.MemberJpaRepository;
 import pro.Flick.member.MemberRepository;
 import pro.Flick.service.ChatService;
 import pro.Flick.follow.FollowService;
@@ -18,26 +17,26 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DbInit {
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
     private final VideoJpaRepository videoJpaRepository;
     private final FollowService followService;
     private final ChatJpaRepository chatJpaRepository;
     private final VideoService videoService;
     private final ChatService chatService;
-    private final MemberRepository memberRepository;
 
     @Transactional
     public void saveMemberAndVideo() {
-        memberJpaRepository.save("HelloWorld", "Email", "123");
-        memberJpaRepository.save("test", "Email2", "123");
-        memberJpaRepository.save("test3", "Email3", "123");
-        memberJpaRepository.save("test4", "Email4", "123");
+
+        memberRepository.save(new Member("HelloWorld", "Email", "123"));
+        memberRepository.save(new Member("test", "Email2", "123"));
+        memberRepository.save(new Member("test3", "Email3", "123"));
+        memberRepository.save(new Member("test4", "Email4", "123"));
 
 
-        Member member = memberJpaRepository.findMember("Email", "123");
-        Member member2 = memberJpaRepository.findMember("Email2", "123");
-        Member member3 = memberJpaRepository.findMember("Email3", "123");
-        Member member4 = memberJpaRepository.findMember("Email4", "123");
+        Member member = memberRepository.findMemberByEmailAndPassword("Email", "123");
+        Member member2 = memberRepository.findMemberByEmailAndPassword("Email2", "123");
+        Member member3 = memberRepository.findMemberByEmailAndPassword("Email3", "123");
+        Member member4 = memberRepository.findMemberByEmailAndPassword("Email4", "123");
 
         List<Member> memberList = new ArrayList<>();
 

@@ -20,7 +20,7 @@ import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
 import pro.Flick.repsository.LikesJpaRepository;
 import pro.Flick.repsository.LikesRepository;
-import pro.Flick.member.MemberJpaRepository;
+//import pro.Flick.member.MemberJpaRepository;
 import pro.Flick.member.MemberRepository;
 
 import javax.imageio.ImageIO;
@@ -36,7 +36,7 @@ public class VideoService {
     private final VideoRepository videoRepository;
     private final LikesRepository likesRepository;
     private final LikesJpaRepository likesJpaRepository;
-    private final MemberJpaRepository memberJpaRepository;
+//    private final MemberJpaRepository memberJpaRepository;
     private final MemberRepository memberRepository;
 
     @Transactional

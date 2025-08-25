@@ -16,7 +16,7 @@ import pro.Flick.Video.dto.VideoWithMemberDto;
 public class MemberControllerV2 {
 
     private final MemberService memberService;
-    private final MemberJpaRepository memberJpaRepository;
+//    private final MemberJpaRepository memberJpaRepository;
 
 
     @GetMapping("/videos/{profileUserId}")

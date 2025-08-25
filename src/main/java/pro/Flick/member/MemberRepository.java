@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.Member;
 
+import java.util.List;
+
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 올바르게 수정된 쿼리
@@ -14,6 +16,15 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findFollowersByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
     Member findByUsername(String username);
+
+    List<Member> findMembersByUsername(String username);
+
+    Member findMemberByEmailAndPassword(String email, String password);
+
+    List<Member> findByIdIn(List<Long> ids);
+
+    @Query("select m from Member m where m.id = :memberId")
+    Member findMemberById(@Param("memberId") String memberId);
 
     Member findByEmail(String email);
 

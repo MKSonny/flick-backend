@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
+import pro.Flick.member.MemberRepository;
 import pro.Flick.repsository.FollowJpaRepository;
-import pro.Flick.member.MemberJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,13 +19,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FollowController {
 
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
     private final FollowJpaRepository followJpaRepository;
 
 //    @PostMapping("/followers")
     public void addFollower(@RequestBody FollowRequestDto requestDto) {
-        Member findMember = memberJpaRepository.findMemberById(requestDto.getFollower_user_id());
-        Member theMemberThatFineMemberWillFollow = memberJpaRepository.findMemberById(requestDto.getUserId());
+        Member findMember = memberRepository.findMemberById(requestDto.getFollower_user_id());
+        Member theMemberThatFineMemberWillFollow = memberRepository.findMemberById(requestDto.getUserId());
 
         followJpaRepository.memberAFollowsMemberB(findMember, theMemberThatFineMemberWillFollow);
     }

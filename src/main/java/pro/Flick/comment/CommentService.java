@@ -14,7 +14,6 @@ import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.repsository.LikesRepository;
-import pro.Flick.member.MemberJpaRepository;
 import pro.Flick.member.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -29,7 +28,6 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final VideoRepository videoRepository;
     private final CommentRepository commentRepository;
-    private final MemberJpaRepository memberJpaRepository;
     private final VideoJpaRepository videoJpaRepository;
     private final LikesRepository likesRepository;
 
@@ -55,7 +53,7 @@ public class CommentService {
 
     @Transactional
     public void addCommentV1(Long memberId, Long videoId, String text) {
-        Member member = memberJpaRepository.findMemberById(String.valueOf(memberId));
+        Member member = memberRepository.findById(memberId).orElseThrow();
         Video video = videoJpaRepository.findVideoById(String.valueOf(videoId));
         Comment comment = new Comment(member, video, text, LocalDateTime.now());
         commentRepository.save(comment);

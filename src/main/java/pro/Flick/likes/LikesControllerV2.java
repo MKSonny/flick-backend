@@ -8,8 +8,8 @@ import pro.Flick.comment.CommentLikesAddDTO;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
+import pro.Flick.member.MemberRepository;
 import pro.Flick.repsository.LikesJpaRepository;
-import pro.Flick.member.MemberJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 public class LikesControllerV2 {
 
     private final LikesJpaRepository likesJpaRepository;
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
     private final LikesService likesService;
 
 
@@ -63,7 +63,7 @@ public class LikesControllerV2 {
     // 내가 올린 영상에 좋아요를 누른 멤버들을 가져옴
     @GetMapping("/my_video/{memberId}")
     public List<Temp> getLikesOnMyVideo(@PathVariable String memberId) {
-        Member findMember = memberJpaRepository.findMemberById(memberId);
+        Member findMember = memberRepository.findById(Long.valueOf(memberId)).orElseThrow();
         List<Likes> likes = likesJpaRepository.findLikesOnMyVideo(memberId);
         List<Temp> dtoList = new ArrayList<>();
 

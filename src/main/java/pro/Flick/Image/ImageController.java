@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pro.Flick.entity.UploadFile;
 import pro.Flick.file.FileService;
 import pro.Flick.file.FileStore;
-import pro.Flick.member.MemberJpaRepository;
+import pro.Flick.member.MemberRepository;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -18,7 +18,7 @@ import java.net.MalformedURLException;
 @RestController
 @RequiredArgsConstructor
 public class ImageController {
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
     private final FileStore fileStore;
     private final FileService fileService;
 
