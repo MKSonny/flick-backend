@@ -15,6 +15,11 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+/*
+ left join
+        file f1_0
+            on f1_0.id=m1_0.file_id
+ */
 public class Video {
 
     @Id @GeneratedValue
@@ -43,8 +48,15 @@ public class Video {
     @OneToMany(mappedBy = "video")
     private List<Likes> likes = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private VideoType videoType = VideoType.NORMAL;
+
     @Builder.Default
     private Long likesCount = 0L;
+
+    @Builder.Default
+    private Long commentCount = 0L;
 
     public void incrementLikesCount() {
         likesCount += 1;
@@ -52,6 +64,14 @@ public class Video {
 
     public void decrementLikesCount() {
         likesCount -= 1;
+    }
+
+    public void incrementCommentCount() {
+        commentCount += 1;
+    }
+
+    public void decrementCommentCount() {
+        commentCount -= 1;
     }
 
     @CreatedDate

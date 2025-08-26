@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoRepository;
+import pro.Flick.Video.dto.VideoWithMemberAndFollowerInfoDtoV3;
 import pro.Flick.Video.dto.VideoWithMemberDtoV2;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
@@ -119,6 +120,10 @@ public class VideoService {
 //            Long likesCount = likesRepository.findLikesByVideoId(v.getId());
 //            return new VideoWithMemberDtoV2(v, likesCount, v.getMember());
 //        });
+    }
+
+    public Page<VideoWithMemberAndFollowerInfoDtoV3> getVideoInfoV2(Pageable pageable, Long userId) {
+        return videoRepository.findAllVideosV2(pageable, userId);
     }
 
     @Async

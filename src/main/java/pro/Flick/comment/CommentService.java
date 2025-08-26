@@ -65,7 +65,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void addCommentV2(Long memberId, Long videoId, String text) {
+    public Comment addCommentV2(Long memberId, Long videoId, String text) {
 
         try {
             // SELECT 없이 프록시로 관계 설정
@@ -74,12 +74,14 @@ public class CommentService {
 
             Comment comment = new Comment(memberReference, videoReference, text, LocalDateTime.now());
 
+            videoRepository.incrementCommentCount(videoId);
             commentRepository.save(comment);
-
+            return comment;
         } catch (EntityNotFoundException e) {
             // 존재하지 않는 ID 사용 시 발생하는 예외를 잡아서 처리한다
             log.error("댓글 생성 실패: 존재하지 않는 회원(ID: {}) 또는 비디오(ID: {})입니다.", memberId, videoId);
             // 비즈니스에 맞는 구체적인 예외로 변환하여 던지는 코드 구현 필요
+            return null;
         }
     }
 

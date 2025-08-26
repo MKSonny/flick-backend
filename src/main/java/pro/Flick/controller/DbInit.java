@@ -3,8 +3,12 @@ package pro.Flick.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pro.Flick.Video.VideoRepository;
 import pro.Flick.Video.service.VideoService;
+import pro.Flick.comment.CommentService;
 import pro.Flick.entity.Member;
+import pro.Flick.entity.Video;
+import pro.Flick.entity.VideoType;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.member.MemberRepository;
@@ -23,6 +27,8 @@ public class DbInit {
     private final ChatJpaRepository chatJpaRepository;
     private final VideoService videoService;
     private final ChatService chatService;
+    private final CommentService commentService;
+    private final VideoRepository videoRepository;
 
     @Transactional
     public void saveMemberAndVideo() {
@@ -43,10 +49,12 @@ public class DbInit {
         save1000TestMembers(memberList);
 
         for (Member m : memberList) {
-            followService.memberAFollowsMemberB(m, member);
+            followService.memberAFollowsMemberB(member, m);
         }
 
         memberRepository.saveAll(memberList);
+
+
         /*
             8/1
             아래와 같이 영상의 제목만 넘겨도 영상을 볼 수 있도록 수정해야 한다
@@ -54,12 +62,28 @@ public class DbInit {
          */
 
 
+        Video AdVideoTest = Video.builder()
+                .videoType(VideoType.AD)
+                .uri("http://127.0.0.1:8080/video/test.mov")
+                .title("광고 영상입니다.")
+                .member(member)
+                .build();
 
+        Video ShoppingVideoTest = Video.builder()
+                .videoType(VideoType.SHOPPING)
+                .uri("http://127.0.0.1:8080/video/test.mov")
+                .title("쇼핑 영상입니다.")
+                .member(member)
+                .build();
+
+        videoRepository.save(AdVideoTest);
+        videoRepository.save(ShoppingVideoTest);
         videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 //        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 //        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 //        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 //        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+
         videoJpaRepository.saveVideo("myVideo2", "http://127.0.0.1:8080/video/test2.mov", member);
         videoJpaRepository.saveVideo("myVideo3", "http://127.0.0.1:8080/video/test3.mov", member2);
 
@@ -69,6 +93,13 @@ public class DbInit {
 
         followService.memberAFollowsMemberBUsingRef(member.getId(), member2.getId());
         followService.memberAFollowsMemberBUsingRef(member2.getId(), member.getId());
+
+
+        commentService.addCommentV2(1L, 1L, "hello world1");
+        commentService.addCommentV2(1L, 1L, "hello world2");
+        commentService.addCommentV2(1L, 1L, "hello world3");
+        commentService.addCommentV2(1L, 1L, "hello world4");
+        commentService.addCommentV2(2L, 1L, "hello world5");
 
 //        save100MembersVideos(memberList);
 

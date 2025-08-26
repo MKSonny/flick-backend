@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.Video.dto.VideoWithMemberAndFollowerInfoDtoV3;
 import pro.Flick.Video.dto.VideoWithMemberDto;
 import pro.Flick.Video.dto.VideoWithMemberDtoV2;
 import pro.Flick.Video.service.VideoService;
@@ -78,5 +79,10 @@ public class VideoControllerV1 {
     public Page<VideoWithMemberDtoV2> getAllVideosV4(@PageableDefault(size = 5) Pageable pageable) {
         log.info("start getAllVideosV4()");
         return videoService.getVideoInfo(pageable);
+    }
+
+    @GetMapping("/v3/get-all-videos")
+    public Page<VideoWithMemberAndFollowerInfoDtoV3> getAllVideosV5(@PageableDefault(size = 5) Pageable pageable, @RequestParam("userId") Long userId) {
+        return videoService.getVideoInfoV2(pageable, userId);
     }
 }
