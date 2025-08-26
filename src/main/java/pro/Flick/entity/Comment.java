@@ -6,6 +6,8 @@ import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +33,18 @@ public class Comment {
 
     private Long likesCount = 0L;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> children = new ArrayList<>();
+
+//    public void setParent(Comment parent) {
+//        this.parent = parent;
+//        parent.getChildren().add(this);
+//    }
+
     public void incrementCommentLikesCount() {
         likesCount += 1;
     }
@@ -49,6 +63,13 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
+    public Comment(Member member, Video video, String text, Comment parent, LocalDateTime createdAt) {
+        this.member = member;
+        this.video = video;
+        this.text = text;
+        this.parent = parent;
+        this.createdAt = createdAt;
+    }
 
     //    public Comment(Member member, Video video, String text, LocalDateTime createdAt) {
 //        this.member = member;

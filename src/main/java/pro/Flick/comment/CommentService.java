@@ -51,6 +51,10 @@ public class CommentService {
         return commentRepository.findAllCommentsWithLikesInfo(pageable, videoId, memberId);
     }
 
+    public Page<GetCommentsByVideoIdWithLikesInfoResponseDTOV2> findAllCommentsWithLikesInfoV2(Pageable pageable, Long videoId, Long memberId) {
+        return commentRepository.findAllCommentsWithLikesInfoV2(pageable, memberId, videoId);
+    }
+
     @Transactional
     public void addCommentV1(Long memberId, Long videoId, String text) {
         Member member = memberRepository.findById(memberId).orElseThrow();
@@ -78,6 +82,7 @@ public class CommentService {
             // 비즈니스에 맞는 구체적인 예외로 변환하여 던지는 코드 구현 필요
         }
     }
+
 
     /**
      * version 사용(낙관적 락)
@@ -110,4 +115,21 @@ public class CommentService {
     }
 
 
+    @Transactional
+    public GetReplysByParentIdWithLikesInfoResponseDTO addReply(Long userId, Long videoId, Long parentId, String text) {
+        Member member = memberRepository.findById(userId).orElseThrow();
+
+        Video video = videoRepository.getReferenceById(videoId);
+
+        Comment parent = commentRepository.getReferenceById(parentId);
+
+
+        Comment savedReply = commentRepository.save(new Comment(member, video, text, parent, LocalDateTime.now()));
+        return new GetReplysByParentIdWithLikesInfoResponseDTO(savedReply, false);
+    }
+
+    public Page<GetReplysByParentIdWithLikesInfoResponseDTO> getRepliesByParentId(Pageable pageable, Long parentId, Long userId) {
+//        return commentRepository.findAllReplysWithLikesInfo(pageable, userId, parentId);
+        return commentRepository.findAllReplysWithLikesInfoV2(pageable, userId, parentId);
+    }
 }

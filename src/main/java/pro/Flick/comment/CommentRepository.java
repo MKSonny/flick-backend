@@ -29,4 +29,27 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = "SELECT new pro.Flick.comment.GetCommentsByVideoIdWithLikesInfoResponseDTO(c, CASE WHEN l.id IS NOT NULL THEN TRUE ELSE FALSE END)" +
             " FROM Comment c JOIN FETCH c.member LEFT JOIN Likes l ON c.id = l.comment.id and l.member.id = :memberId where c.video.id = :videoId")
     Page<GetCommentsByVideoIdWithLikesInfoResponseDTO> findAllCommentsWithLikesInfo(Pageable pageable, @Param("videoId") Long videoId, @Param("memberId") Long memberId);
+
+    @Query("SELECT new pro.Flick.comment.GetReplysByParentIdWithLikesInfoResponseDTO(c, CASE WHEN l.id IS NOT NULL THEN true ELSE false END) " +
+            "FROM Comment c " +
+            "LEFT JOIN Likes l ON l.comment = c AND l.member.id = :memberId " +
+            "WHERE c.parent.id = :parentId")
+    Page<GetReplysByParentIdWithLikesInfoResponseDTO> findAllReplysWithLikesInfo(Pageable pageable, @Param("memberId") Long memberId, @Param("parentId") Long parentId);
+
+    /**
+     * 중요! 상관 서브 쿼리 사용, 인덱스 설정 필요
+     * 인덱스 설정 방법?
+     */
+    @Query("select new pro.Flick.comment.GetReplysByParentIdWithLikesInfoResponseDTO(c, exists(select 1 from Likes l where l.comment.id = c.id and l.member.id = :memberId)) " +
+            "from Comment c where c.parent.id = :parentId")
+    Page<GetReplysByParentIdWithLikesInfoResponseDTO> findAllReplysWithLikesInfoV2(Pageable pageable, @Param("memberId") Long memberId, @Param("parentId") Long parentId);
+
+
+    /**
+     * 중요! 인덱스 설정 필요
+     * 인덱스 설정 방법?
+     */
+    @Query("select new pro.Flick.comment.GetCommentsByVideoIdWithLikesInfoResponseDTOV2(c, exists(select 1 from Likes l where l.comment.id = c.id and l.member.id = :memberId), (select count(c2) from Comment c2 where c2.parent.id = c.id)) " +
+            "from Comment c where c.parent.id is null and c.video.id = :videoId")
+    Page<GetCommentsByVideoIdWithLikesInfoResponseDTOV2> findAllCommentsWithLikesInfoV2(Pageable pageable, @Param("memberId") Long memberId, @Param("videoId") Long videoId);
 }
