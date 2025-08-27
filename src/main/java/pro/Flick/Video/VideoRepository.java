@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import pro.Flick.Video.dto.VideoSummaryResponse;
 import pro.Flick.Video.dto.VideoWithMemberAndFollowerInfoDtoV3;
 import pro.Flick.entity.Video;
 
@@ -36,6 +37,10 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query(value = "select new pro.Flick.Video.dto.VideoWithMemberAndFollowerInfoDtoV3(v, exists(select 1 from Follower f where f.follower.id = :memberId and f.member.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
             "from Video v join fetch v.member", countQuery = "select count(v.id) from Video v")
     Page<VideoWithMemberAndFollowerInfoDtoV3> findAllVideosV2(Pageable pageable, @Param("memberId") Long memberId);
+
+    @Query(value = "select new pro.Flick.Video.dto.VideoSummaryResponse(v, exists(select 1 from Follower f where f.follower.id = :memberId and f.member.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
+            "from Video v join fetch v.member", countQuery = "select count(v.id) from Video v")
+    Page<VideoSummaryResponse> findAllVideosV3(Pageable pageable, @Param("memberId") Long memberId);
 
     @Query(value = "select v from Video v join fetch v.member where v.member.id = :memberId", countQuery = "select count(v.id) from Video v where v.member.id = :memberId")
     Page<Video> findAllVideosByMemberId(Pageable pageable, @Param("memberId") Long memberId);

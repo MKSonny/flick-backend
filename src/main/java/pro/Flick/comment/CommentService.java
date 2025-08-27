@@ -134,4 +134,12 @@ public class CommentService {
 //        return commentRepository.findAllReplysWithLikesInfo(pageable, userId, parentId);
         return commentRepository.findAllReplysWithLikesInfoV2(pageable, userId, parentId);
     }
+
+    @Transactional
+    public CommentLiveController.ChatMessageResponse addLiveComment(Long memberId, String content, Long videoId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        Video video = videoRepository.getReferenceById(videoId);
+        Comment save = commentRepository.save(new Comment(member, video, content, LocalDateTime.now()));
+        return new CommentLiveController.ChatMessageResponse(save, member, videoId);
+    }
 }

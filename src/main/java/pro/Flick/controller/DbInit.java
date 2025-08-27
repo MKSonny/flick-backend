@@ -64,28 +64,28 @@ public class DbInit {
 
         Video AdVideoTest = Video.builder()
                 .videoType(VideoType.AD)
-                .uri("http://127.0.0.1:8080/video/test.mov")
+                .uri("http://127.0.0.1:8080/videos-v2/download/test.mov")
                 .title("광고 영상입니다.")
                 .member(member)
                 .build();
 
         Video ShoppingVideoTest = Video.builder()
                 .videoType(VideoType.SHOPPING)
-                .uri("http://127.0.0.1:8080/video/test.mov")
+                .uri("http://127.0.0.1:8080/videos-v2/download/test.mov")
                 .title("쇼핑 영상입니다.")
                 .member(member)
                 .build();
 
         videoRepository.save(AdVideoTest);
         videoRepository.save(ShoppingVideoTest);
-        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
+        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/videos-v2/download/test.mov", member);
 //        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 //        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 //        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 //        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 
-        videoJpaRepository.saveVideo("myVideo2", "http://127.0.0.1:8080/video/test2.mov", member);
-        videoJpaRepository.saveVideo("myVideo3", "http://127.0.0.1:8080/video/test3.mov", member2);
+        videoJpaRepository.saveVideo("myVideo2", "http://127.0.0.1:8080/videos-v2/download/test2.mov", member);
+        videoJpaRepository.saveVideo("myVideo3", "http://127.0.0.1:8080/videos-v2/download/test3.mov", member2);
 
 //        videoService.createVideo("test.mov", member);
 //        videoService.createVideo("test2.mov", member);

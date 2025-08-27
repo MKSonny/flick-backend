@@ -1,8 +1,7 @@
-package pro.Flick;
+package pro.Flick.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pro.Flick.trace.FieldLogTrace;
 import pro.Flick.trace.LogTrace;
 import pro.Flick.trace.ThreadLocalLogTrace;
 import pro.Flick.trace.template.TraceTemplate;

@@ -1,4 +1,4 @@
-package pro.Flick.beans_config;
+package pro.Flick.config.beans_config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
