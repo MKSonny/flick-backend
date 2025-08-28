@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoJpaRepository;
 import pro.Flick.Video.VideoRepository;
+import pro.Flick.comment.dto.GetLiveCommentsResponse;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
@@ -53,6 +54,10 @@ public class CommentService {
 
     public Page<GetCommentsByVideoIdWithLikesInfoResponseDTOV2> findAllCommentsWithLikesInfoV2(Pageable pageable, Long videoId, Long memberId) {
         return commentRepository.findAllCommentsWithLikesInfoV2(pageable, memberId, videoId);
+    }
+
+    public Page<GetLiveCommentsResponse> getAllLiveCommentsByVideoId(Pageable pageable, Long videoId) {
+        return commentRepository.findAllLiveCommentsByVideoId(pageable, videoId);
     }
 
     @Transactional
@@ -136,10 +141,11 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentLiveController.ChatMessageResponse addLiveComment(Long memberId, String content, Long videoId) {
+    public LiveCommentController.ChatMessageResponse addLiveComment(Long memberId, String content, Long videoId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
         Video video = videoRepository.getReferenceById(videoId);
         Comment save = commentRepository.save(new Comment(member, video, content, LocalDateTime.now()));
-        return new CommentLiveController.ChatMessageResponse(save, member, videoId);
+        videoRepository.incrementCommentCount(videoId);
+        return new LiveCommentController.ChatMessageResponse(save, member, videoId);
     }
 }

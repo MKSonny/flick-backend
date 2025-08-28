@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import pro.Flick.comment.dto.GetLiveCommentsResponse;
 import pro.Flick.entity.Comment;
 
 import java.util.List;
@@ -52,4 +53,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select new pro.Flick.comment.GetCommentsByVideoIdWithLikesInfoResponseDTOV2(c, exists(select 1 from Likes l where l.comment.id = c.id and l.member.id = :memberId), (select count(c2) from Comment c2 where c2.parent.id = c.id)) " +
             "from Comment c where c.parent.id is null and c.video.id = :videoId")
     Page<GetCommentsByVideoIdWithLikesInfoResponseDTOV2> findAllCommentsWithLikesInfoV2(Pageable pageable, @Param("memberId") Long memberId, @Param("videoId") Long videoId);
+
+    @Query("select new pro.Flick.comment.dto.GetLiveCommentsResponse(c.text, c.member.username) from Comment c where c.video.id = :videoId")
+    Page<GetLiveCommentsResponse> findAllLiveCommentsByVideoId(Pageable pageable, @Param("videoId") Long videoId);
 }

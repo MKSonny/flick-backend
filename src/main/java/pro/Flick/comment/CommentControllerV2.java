@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.comment.dto.GetLiveCommentsResponse;
 
 import java.util.List;
 
@@ -33,6 +34,13 @@ public class CommentControllerV2 {
                                                                                                   @PathVariable Long videoId,
                                                                                                   @RequestParam Long userId) {
         return commentService.findAllCommentsWithLikesInfoV2(pageablee, videoId, userId);
+    }
+
+    // 라이브 채팅 목록
+    @GetMapping("/paging-v2/live-comments/{videoId}")
+    public Page<GetLiveCommentsResponse> getCommentsByVideoIdUsingPaginationForLive(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
+                                                                                    @PathVariable Long videoId) {
+        return commentService.getAllLiveCommentsByVideoId(pageablee, videoId);
     }
 
     @PostMapping

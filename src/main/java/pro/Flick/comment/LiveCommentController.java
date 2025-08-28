@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Member;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class CommentLiveController {
+public class LiveCommentController {
 
     private final CommentService commentService;
 
