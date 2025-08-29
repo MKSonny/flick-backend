@@ -1,20 +1,23 @@
-package pro.Flick.comment;
+package pro.Flick.comment.dto.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Comment;
 
 import java.time.LocalDateTime;
 
-@Data
-public class GetCommentsByVideoIdResponseDTO {
+@Getter @Setter
+@NoArgsConstructor
+public class VideoCommentResponseDTO {
     private Long id;
     private String text;
     private LocalDateTime createdAt;
     private GetMemberByIdResponseDto user;
     private Long likesCount;
 
-    public GetCommentsByVideoIdResponseDTO(Comment comment) {
+    public VideoCommentResponseDTO(Comment comment) {
         this.id = comment.getId();
         this.text = comment.getText();
         this.createdAt = comment.getCreatedAt();

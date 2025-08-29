@@ -8,9 +8,9 @@
 //import org.springframework.data.domain.Pageable;
 //import org.springframework.data.web.PageableDefault;
 //import org.springframework.web.bind.annotation.*;
-//import pro.Flick.Video.dto.VideoWithMemberAndFollowerInfoDtoV3;
-//import pro.Flick.Video.dto.VideoWithMemberDto;
-//import pro.Flick.Video.dto.VideoWithMemberDtoV2;
+//import pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3;
+//import pro.Flick.Video.trash.dto.VideoWithMemberDto;
+//import pro.Flick.Video.trash.dto.VideoWithMemberDtoV2;
 //import pro.Flick.Video.service.VideoService;
 //import pro.Flick.entity.Video;
 //import pro.Flick.file.FileStore;

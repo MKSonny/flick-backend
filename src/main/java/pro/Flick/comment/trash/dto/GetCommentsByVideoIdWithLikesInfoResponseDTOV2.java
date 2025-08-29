@@ -1,4 +1,4 @@
-package pro.Flick.comment;
+package pro.Flick.comment.trash.dto;
 
 import lombok.Data;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;

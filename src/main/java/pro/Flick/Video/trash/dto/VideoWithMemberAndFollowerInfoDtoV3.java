@@ -1,12 +1,11 @@
-package pro.Flick.Video.dto;
+package pro.Flick.Video.trash.dto;
 
 import lombok.Data;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 
 @Data
-public class VideoWithMemberDtoV2 {
+public class VideoWithMemberAndFollowerInfoDtoV3 {
     private Long id; // 영상 고유 ID
     private String title; // 영상 제목
     private String uri; // 영상 파일 URL
@@ -14,14 +13,20 @@ public class VideoWithMemberDtoV2 {
     private Long commentCount; // 댓글 수
     private Long shareCount; // 공유 수
     private GetMemberByIdResponseDto member; // 영상을 올린 사용자 정보
+    private boolean isFollowing;
+    private boolean isLikedByUser;
+    private String videoType;
 
-    public VideoWithMemberDtoV2(Video video) {
+    public VideoWithMemberAndFollowerInfoDtoV3(Video video, boolean isFollowing, boolean isLikedByUser) {
         this.id = video.getId();
         this.title = video.getTitle();
         this.uri = video.getUri();
         this.likeCount = video.getLikesCount();
-        this.commentCount = 0L;
+        this.commentCount = video.getCommentCount();
         this.shareCount = 0L;
         this.member = new GetMemberByIdResponseDto(video.getMember());
+        this.isFollowing = isFollowing;
+        this.isLikedByUser = isLikedByUser;
+        this.videoType = video.getVideoType().toString();
     }
 }

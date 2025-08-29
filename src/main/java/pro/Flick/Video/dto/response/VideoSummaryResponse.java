@@ -1,4 +1,4 @@
-package pro.Flick.Video.dto;
+package pro.Flick.Video.dto.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

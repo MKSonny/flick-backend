@@ -10,7 +10,7 @@
 //import pro.Flick.entity.Member;
 //import pro.Flick.entity.Video;
 //import pro.Flick.member.MemberJpaRepository;
-//import pro.Flick.Video.VideoJpaRepository;
+//import pro.Flick.Video.trash.repository.VideoJpaRepository;
 //
 //import java.util.List;
 //

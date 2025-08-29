@@ -8,16 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import pro.Flick.Video.dto.VideoSummaryResponse;
-import pro.Flick.Video.dto.VideoWithMemberAndFollowerInfoDtoV3;
-import pro.Flick.Video.dto.VideoWithMemberDto;
-import pro.Flick.Video.dto.VideoWithMemberDtoV2;
+import pro.Flick.Video.dto.response.ProfileVideoListResponse;
+import pro.Flick.Video.dto.response.VideoSummaryResponse;
 import pro.Flick.Video.service.VideoService;
-import pro.Flick.entity.Video;
 import pro.Flick.file.FileStore;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VideoControllerV2 {
     private final FileStore fileStore;
-    private final VideoRepository videoRepository;
     private final VideoService videoService;
 
 
@@ -52,14 +47,8 @@ public class VideoControllerV2 {
      * @return 특정 유저가 올린 영상들의 목록
      */
     @GetMapping("/{userId}") // PathVariable로 userId를 넘기는 것이 안전한가?
-    public List<VideoWithMemberDto> getVideosByUserIdV3(@PathVariable String userId) {
-        List<Video> videos = videoRepository.findVideosByMemberIdWithMember(userId);
-        List<VideoWithMemberDto> dtos = new ArrayList<>();
-
-        for (Video video : videos) {
-            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
-        }
-        return dtos;
+    public List<ProfileVideoListResponse> getVideosByUserIdV3(@PathVariable Long userId) {
+        return videoService.getVideosByMemberIdWithMember(userId);
     }
 
     @GetMapping("/get-all-videos")

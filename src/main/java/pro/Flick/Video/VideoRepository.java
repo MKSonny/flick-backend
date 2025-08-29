@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import pro.Flick.Video.dto.VideoSummaryResponse;
-import pro.Flick.Video.dto.VideoWithMemberAndFollowerInfoDtoV3;
+import pro.Flick.Video.dto.response.VideoSummaryResponse;
+import pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3;
 import pro.Flick.entity.Video;
 
 import java.util.Collection;
@@ -34,11 +34,11 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     /*
         영상 정보 + 내가 이 사람을 팔로우 하고 있는지 + 좋아요 수 + 댓글 수
      */
-    @Query(value = "select new pro.Flick.Video.dto.VideoWithMemberAndFollowerInfoDtoV3(v, exists(select 1 from Follower f where f.follower.id = :memberId and f.member.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
+    @Query(value = "select new pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3(v, exists(select 1 from Follower f where f.follower.id = :memberId and f.member.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
             "from Video v join fetch v.member", countQuery = "select count(v.id) from Video v")
     Page<VideoWithMemberAndFollowerInfoDtoV3> findAllVideosV2(Pageable pageable, @Param("memberId") Long memberId);
 
-    @Query(value = "select new pro.Flick.Video.dto.VideoSummaryResponse(v, exists(select 1 from Follower f where f.follower.id = :memberId and f.member.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
+    @Query(value = "select new pro.Flick.Video.dto.response.VideoSummaryResponse(v, exists(select 1 from Follower f where f.follower.id = :memberId and f.member.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
             "from Video v join fetch v.member", countQuery = "select count(v.id) from Video v")
     Page<VideoSummaryResponse> findAllVideosV3(Pageable pageable, @Param("memberId") Long memberId);
 

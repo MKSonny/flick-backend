@@ -5,13 +5,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.service.VideoService;
-import pro.Flick.comment.CommentLikesAddDTO;
+import pro.Flick.comment.trash.dto.CommentLikesAddDTO;
 import pro.Flick.comment.CommentService;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.Video.VideoJpaRepository;
+import pro.Flick.Video.trash.repository.VideoJpaRepository;
 import pro.Flick.member.MemberRepository;
 import pro.Flick.repsository.LikesJpaRepository;
 

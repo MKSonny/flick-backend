@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoRepository;
-import pro.Flick.Video.dto.VideoWithMemberDto;
+import pro.Flick.Video.trash.dto.VideoWithMemberDto;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;

@@ -1,4 +1,4 @@
-package pro.Flick.Video.dto;
+package pro.Flick.Video.trash.dto;
 
 import lombok.Data;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;

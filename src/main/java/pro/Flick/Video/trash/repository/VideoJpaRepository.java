@@ -1,4 +1,4 @@
-package pro.Flick.Video;
+package pro.Flick.Video.trash.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

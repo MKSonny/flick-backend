@@ -7,9 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pro.Flick.Video.VideoJpaRepository;
+import pro.Flick.Video.trash.repository.VideoJpaRepository;
 import pro.Flick.Video.VideoRepository;
-import pro.Flick.comment.dto.GetLiveCommentsResponse;
+import pro.Flick.comment.dto.response.CommentDetailResponseDTO;
+import pro.Flick.comment.dto.response.CommentReplyDetailResponseDTO;
+import pro.Flick.comment.dto.response.LiveCommentsResponseDTO;
+import pro.Flick.comment.dto.response.VideoCommentResponseDTO;
+import pro.Flick.comment.trash.dto.GetCommentsByVideoIdResponseDTO;
+import pro.Flick.comment.trash.dto.GetCommentsByVideoIdWithLikesInfoResponseDTO;
+import pro.Flick.comment.trash.dto.GetCommentsByVideoIdWithLikesInfoResponseDTOV2;
+import pro.Flick.comment.trash.dto.GetReplysByParentIdWithLikesInfoResponseDTO;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
@@ -39,6 +46,12 @@ public class CommentService {
     }
 
     @Transactional
+    public List<VideoCommentResponseDTO> findCommentByVideoIdV3(Long videoId) {
+        List<Comment> comments = commentRepository.findCommentByVideoId(videoId);
+        return comments.stream().map(VideoCommentResponseDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional
     public Page<GetCommentsByVideoIdResponseDTO> findAllComments(Pageable pageable, Long videoId) {
         Page<Comment> comments = commentRepository.findAllComments(pageable, videoId);
 
@@ -56,7 +69,13 @@ public class CommentService {
         return commentRepository.findAllCommentsWithLikesInfoV2(pageable, memberId, videoId);
     }
 
-    public Page<GetLiveCommentsResponse> getAllLiveCommentsByVideoId(Pageable pageable, Long videoId) {
+
+    public Page<CommentDetailResponseDTO> getAllCommentsWithLikesInfoV3(Pageable pageable, Long videoId, Long memberId) {
+        return commentRepository.findAllCommentsWithLikesInfoV3(pageable, memberId, videoId);
+    }
+
+
+    public Page<LiveCommentsResponseDTO> getAllLiveCommentsByVideoId(Pageable pageable, Long videoId) {
         return commentRepository.findAllLiveCommentsByVideoId(pageable, videoId);
     }
 
@@ -135,9 +154,29 @@ public class CommentService {
         return new GetReplysByParentIdWithLikesInfoResponseDTO(savedReply, false);
     }
 
+
+    @Transactional
+    public CommentReplyDetailResponseDTO addReplyV3(Long userId, Long videoId, Long parentId, String text) {
+        Member member = memberRepository.findById(userId).orElseThrow();
+
+        Video video = videoRepository.getReferenceById(videoId);
+
+        Comment parent = commentRepository.getReferenceById(parentId);
+
+
+        Comment savedReply = commentRepository.save(new Comment(member, video, text, parent, LocalDateTime.now()));
+        return new CommentReplyDetailResponseDTO(savedReply, false);
+    }
+
+
     public Page<GetReplysByParentIdWithLikesInfoResponseDTO> getRepliesByParentId(Pageable pageable, Long parentId, Long userId) {
 //        return commentRepository.findAllReplysWithLikesInfo(pageable, userId, parentId);
         return commentRepository.findAllReplysWithLikesInfoV2(pageable, userId, parentId);
+    }
+
+
+    public Page<CommentReplyDetailResponseDTO> getRepliesByParentIdV3(Pageable pageable, Long parentId, Long userId) {
+        return commentRepository.findAllReplysWithLikesInfoV3(pageable, userId, parentId);
     }
 
     @Transactional
