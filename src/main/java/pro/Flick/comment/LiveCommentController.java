@@ -6,10 +6,8 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RestController;
-import pro.Flick.entity.Comment;
-import pro.Flick.entity.Member;
-
-import java.time.LocalDateTime;
+import pro.Flick.comment.dto.request.LiveCommentRequestDTO;
+import pro.Flick.comment.dto.response.LiveCommentResponseDTO;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,48 +24,15 @@ public class LiveCommentController {
      */
     @MessageMapping("/comment/{videoId}/sendMessage")
     @SendTo("/topic/comment/{videoId}")
-    public ChatMessageResponse sendMessage(
+    public LiveCommentResponseDTO sendMessage(
             @DestinationVariable Long videoId,
-            ChatMessageRequest messageRequest
+            LiveCommentRequestDTO messageRequest
     ) {
         // 2. Principal에서 사용자 이름(또는 ID)을 가져옴
 
         // 3. ChatService에 작업 위임
         // 서비스는 받은 데이터를 가공하고 DB에 저장한 뒤, 완전한 Response DTO를 반환
         log.info("messageRequest={}", messageRequest);
-       return commentService.addLiveComment(messageRequest.senderId, messageRequest.getContent(), messageRequest.getVideoId());
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class ChatMessageResponse {
-        private Long messageId;
-        private Long videoId;
-        private Long senderId;
-        private String senderUsername;
-        private String senderProfileImageUri;
-        private String content;
-        private LocalDateTime timestamp;
-        private boolean isCreator; // 영상 소유자가 보낸 메시지인지 여부
-
-        public ChatMessageResponse(Comment comment, Member member, Long videoId) {
-            this.messageId = comment.getId();
-            this.videoId = videoId;
-            this.senderId = member.getId();
-            this.senderUsername = member.getUsername();
-            this.senderProfileImageUri = member.getProfileImageUri();
-            this.content = comment.getText();
-            this.timestamp = comment.getCreatedAt();
-            this.isCreator = false;
-        }
-    }
-
-    @Data
-    static class ChatMessageRequest {
-        private Long senderId; // 메시지 내용만 받음
-        private String content;
-        private Long videoId;
+       return commentService.addLiveComment(messageRequest.getSenderId(), messageRequest.getContent(), messageRequest.getVideoId());
     }
 }

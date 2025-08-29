@@ -17,9 +17,11 @@ import pro.Flick.Video.dto.response.ProfileVideoListResponse;
 import pro.Flick.Video.dto.response.VideoSummaryResponse;
 import pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3;
 import pro.Flick.Video.trash.dto.VideoWithMemberDtoV2;
+import pro.Flick.comment.CommentRepository;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
+import pro.Flick.entity.VideoType;
 import pro.Flick.file.FileStore;
 import pro.Flick.repsository.LikesJpaRepository;
 import pro.Flick.repsository.LikesRepository;
@@ -39,9 +41,8 @@ public class VideoService {
     private final FileStore fileStore;
     private final VideoRepository videoRepository;
     private final LikesRepository likesRepository;
-    private final LikesJpaRepository likesJpaRepository;
-//    private final MemberJpaRepository memberJpaRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public void addLikes(String userId, String videoId) {
@@ -130,7 +131,17 @@ public class VideoService {
     }
 
     public Page<VideoSummaryResponse> getVideoInfoV3(Pageable pageable, Long userId) {
-        return videoRepository.findAllVideosV3(pageable, userId);
+
+        Page<VideoSummaryResponse> videos = videoRepository.findAllVideosV3(pageable, userId);
+        
+        return videos.map(
+                v -> {
+                    if (v.getVideoType().equals(VideoType.SHOPPING.toString())) {
+                        Long commentCount = commentRepository.findCommentCountByVideoId(v.getId());
+                        v.setCommentCount(commentCount);
+                    }
+                    return v;
+                });
     }
 
     @Async

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.comment.dto.request.CommentAddRequestDTO;
 import pro.Flick.comment.dto.response.*;
 import pro.Flick.comment.trash.dto.ReplyAddRequestDTO;
 

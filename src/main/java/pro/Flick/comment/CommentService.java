@@ -9,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
 import pro.Flick.Video.VideoRepository;
-import pro.Flick.comment.dto.response.CommentDetailResponseDTO;
-import pro.Flick.comment.dto.response.CommentReplyDetailResponseDTO;
-import pro.Flick.comment.dto.response.LiveCommentsResponseDTO;
-import pro.Flick.comment.dto.response.VideoCommentResponseDTO;
+import pro.Flick.comment.dto.response.*;
 import pro.Flick.comment.trash.dto.GetCommentsByVideoIdResponseDTO;
 import pro.Flick.comment.trash.dto.GetCommentsByVideoIdWithLikesInfoResponseDTO;
 import pro.Flick.comment.trash.dto.GetCommentsByVideoIdWithLikesInfoResponseDTOV2;
@@ -98,6 +95,9 @@ public class CommentService {
 
             Comment comment = new Comment(memberReference, videoReference, text, LocalDateTime.now());
 
+            /*
+                댓글이 추가되는 것보다 영상이 조회되는 비율이 더 높으므로 아래와 같이 설정
+             */
             videoRepository.incrementCommentCount(videoId);
             commentRepository.save(comment);
             return comment;
@@ -180,11 +180,18 @@ public class CommentService {
     }
 
     @Transactional
-    public LiveCommentController.ChatMessageResponse addLiveComment(Long memberId, String content, Long videoId) {
+    public LiveCommentResponseDTO addLiveComment(Long memberId, String content, Long videoId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
         Video video = videoRepository.getReferenceById(videoId);
+
         Comment save = commentRepository.save(new Comment(member, video, content, LocalDateTime.now()));
-        videoRepository.incrementCommentCount(videoId);
-        return new LiveCommentController.ChatMessageResponse(save, member, videoId);
+
+        /*
+            실시간 댓글은 순간적으로 너무 많이 생길 수 있으므로 라이브 영상을 댓글 총 갯수 조회를 할 떄는
+            다른 방법으로 조회해야 한다
+
+            videoRepository.incrementCommentCount(videoId);
+         */
+        return new LiveCommentResponseDTO(save, member, videoId);
     }
 }

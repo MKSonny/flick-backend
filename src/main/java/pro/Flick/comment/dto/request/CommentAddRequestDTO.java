@@ -1,4 +1,4 @@
-package pro.Flick.comment.dto.response;
+package pro.Flick.comment.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

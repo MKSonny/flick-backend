@@ -21,6 +21,11 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("SELECT c from Comment c join fetch c.member where c.video.id = :videoId")
     List<Comment> findCommentByVideoId(@Param("videoId") Long videoId);
 
+
+    @Query("select count(c.id) from Comment c where c.video.id = :videoId")
+    Long findCommentCountByVideoId(@Param("videoId") Long videoId);
+
+
     @Modifying
     @Query("update Comment c set c.likesCount = c.likesCount + 1 where c.id = :id")
     int incrementLikesCount(Long id);

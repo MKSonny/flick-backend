@@ -7,7 +7,7 @@
 //import org.springframework.data.domain.Sort;
 //import org.springframework.data.web.PageableDefault;
 //import org.springframework.web.bind.annotation.*;
-//import pro.Flick.comment.dto.response.CommentAddRequestDTO;
+//import pro.Flick.comment.dto.request.CommentAddRequestDTO;
 //import pro.Flick.comment.dto.response.LiveCommentsResponseDTO;
 //
 //import java.util.List;
