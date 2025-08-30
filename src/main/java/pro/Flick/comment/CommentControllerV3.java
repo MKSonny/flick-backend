@@ -23,7 +23,8 @@ public class CommentControllerV3 {
 
     @GetMapping("/{videoId}")
     public List<VideoCommentResponseDTO> getCommentsByVideoIdV2(@PathVariable Long videoId) {
-        return commentService.findCommentByVideoIdV3(videoId);
+//        return commentService.findCommentByVideoIdV3(videoId);
+        return commentService.findCommentByVideoIdV3UsingQueryDsl(videoId);
     }
 
 
@@ -31,7 +32,8 @@ public class CommentControllerV3 {
     public Page<CommentDetailResponseDTO> getCommentsByVideoIdUsingPaginationV3(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
                                                                                 @PathVariable Long videoId,
                                                                                 @RequestParam Long userId) {
-        return commentService.getAllCommentsWithLikesInfoV3(pageablee, videoId, userId);
+//        return commentService.getAllCommentsWithLikesInfoV3(pageablee, videoId, userId);
+        return commentService.getAllCommentsWithLikesInfoUsingQueryDsl(pageablee, videoId, userId);
     }
 
 
@@ -39,7 +41,8 @@ public class CommentControllerV3 {
     @GetMapping("/paging-v2/live-comments/{videoId}")
     public Page<LiveCommentsResponseDTO> getCommentsByVideoIdUsingPaginationForLive(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
                                                                                     @PathVariable Long videoId) {
-        return commentService.getAllLiveCommentsByVideoId(pageablee, videoId);
+//        return commentService.getAllLiveCommentsByVideoId(pageablee, videoId);
+        return commentService.getAllLiveCommentsByVideoIdUsingQueryDsl(pageablee, videoId);
     }
 
 
@@ -55,7 +58,8 @@ public class CommentControllerV3 {
             @RequestParam Long userId,
             @PageableDefault(size = 3, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) { // 내가 이 답글에 좋아요를 눌렀는지 정보를 가져오기 위해 필요
 
-       return commentService.getRepliesByParentIdV3(pageable, parentId, userId);
+//       return commentService.getRepliesByParentIdV3(pageable, parentId, userId);
+       return commentService.getRepliesByParentIdV3UsingQueryDsl(pageable, parentId, userId);
     }
 
 

@@ -49,6 +49,14 @@ public class CommentService {
         return comments.stream().map(VideoCommentResponseDTO::new).collect(Collectors.toList());
     }
 
+
+    @Transactional
+    public List<VideoCommentResponseDTO> findCommentByVideoIdV3UsingQueryDsl(Long videoId) {
+        List<Comment> comments = commentRepository.QfindCommentByVideoId(videoId);
+        return comments.stream().map(VideoCommentResponseDTO::new).collect(Collectors.toList());
+    }
+
+
     @Transactional
     public Page<GetCommentsByVideoIdResponseDTO> findAllComments(Pageable pageable, Long videoId) {
         Page<Comment> comments = commentRepository.findAllComments(pageable, videoId);
@@ -70,8 +78,17 @@ public class CommentService {
     }
 
 
+    public Page<CommentDetailResponseDTO> getAllCommentsWithLikesInfoUsingQueryDsl(Pageable pageable, Long videoId, Long memberId) {
+        return commentRepository.QfindAllCommentsWithLikesInfoV3(pageable, memberId, videoId);
+    }
+
+
     public Page<LiveCommentsResponseDTO> getAllLiveCommentsByVideoId(Pageable pageable, Long videoId) {
         return commentRepository.findAllLiveCommentsByVideoId(pageable, videoId);
+    }
+
+    public Page<LiveCommentsResponseDTO> getAllLiveCommentsByVideoIdUsingQueryDsl(Pageable pageable, Long videoId) {
+        return commentRepository.QfindAllLiveCommentsByVideoId(pageable, videoId);
     }
 
     @Transactional
@@ -175,6 +192,10 @@ public class CommentService {
 
     public Page<CommentReplyDetailResponseDTO> getRepliesByParentIdV3(Pageable pageable, Long parentId, Long userId) {
         return commentRepository.findAllReplysWithLikesInfoV3(pageable, userId, parentId);
+    }
+
+    public Page<CommentReplyDetailResponseDTO> getRepliesByParentIdV3UsingQueryDsl(Pageable pageable, Long parentId, Long userId) {
+        return commentRepository.QfindAllReplysWithLikesInfoV3(pageable, userId, parentId);
     }
 
     @Transactional

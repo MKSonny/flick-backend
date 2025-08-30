@@ -16,7 +16,7 @@ import pro.Flick.entity.Comment;
 
 import java.util.List;
 
-public interface CommentRepository extends JpaRepository<Comment, Long> {
+public interface CommentRepository extends JpaRepository<Comment, Long>, CommentRepositoryCustom {
 //    @EntityGraph(attributePaths = {"member"})
     @Query("SELECT c from Comment c join fetch c.member where c.video.id = :videoId")
     List<Comment> findCommentByVideoId(@Param("videoId") Long videoId);
