@@ -34,7 +34,7 @@ public class DbInit {
     public void saveMemberAndVideo() {
 
         memberRepository.save(new Member("HelloWorld", "Email", "123"));
-        memberRepository.save(new Member("test", "Email2", "123"));
+        Member test = memberRepository.save(new Member("test", "Email2", "123"));
         memberRepository.save(new Member("test3", "Email3", "123"));
         memberRepository.save(new Member("test4", "Email4", "123"));
 
@@ -44,15 +44,15 @@ public class DbInit {
         Member member3 = memberRepository.findMemberByEmailAndPassword("Email3", "123");
         Member member4 = memberRepository.findMemberByEmailAndPassword("Email4", "123");
 
-        List<Member> memberList = new ArrayList<>();
+//        List<Member> memberList = new ArrayList<>();
 
-        save1000TestMembers(memberList);
-
-        for (Member m : memberList) {
-            followService.memberAFollowsMemberB(member, m);
-        }
-
-        memberRepository.saveAll(memberList);
+//        save1000TestMembers(memberList);
+//
+//        for (Member m : memberList) {
+//            followService.memberAFollowsMemberB(member, m);
+//        }
+//
+//        memberRepository.saveAll(memberList);
 
 
         /*
@@ -78,18 +78,14 @@ public class DbInit {
 
         videoRepository.save(AdVideoTest);
         videoRepository.save(ShoppingVideoTest);
-        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/videos-v2/download/test.mov", member);
-//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
-//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
-//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
-//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/video/test.mov", member);
 
-        videoJpaRepository.saveVideo("myVideo2", "http://127.0.0.1:8080/videos-v2/download/test2.mov", member);
-        videoJpaRepository.saveVideo("myVideo3", "http://127.0.0.1:8080/videos-v2/download/test3.mov", member2);
+//        videoJpaRepository.saveVideo("myVideo", "http://127.0.0.1:8080/videos-v2/download/test.mov", member);
+//        videoJpaRepository.saveVideo("myVideo2", "http://127.0.0.1:8080/videos-v2/download/test2.mov", member);
+//        videoJpaRepository.saveVideo("myVideo3", "http://127.0.0.1:8080/videos-v2/download/test3.mov", member2);
 
-//        videoService.createVideo("test.mov", member);
-//        videoService.createVideo("test2.mov", member);
-//        videoService.createVideo("test3.mov", member);
+        videoService.createVideo("myVideo1", "test.mov", member);
+        videoService.createVideo("myVideo2","test2.mov", member);
+        videoService.createVideo("myVideo3","test3.mov", test);
 
         followService.memberAFollowsMemberBUsingRef(member.getId(), member2.getId());
         followService.memberAFollowsMemberBUsingRef(member2.getId(), member.getId());

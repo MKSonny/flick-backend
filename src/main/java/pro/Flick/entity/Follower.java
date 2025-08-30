@@ -15,21 +15,21 @@ public class Follower {
 
     // 팔로우 당한 사람
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "followed_id")
+    private Member followed;
 
     // 팔로우 한 사람, 나?
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "follower_id")
-    private Member follower;
+    @JoinColumn(name = "following_id")
+    private Member following;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
 
     public Follower(Member memberA, Member memberB, LocalDateTime createdAt) {
-        this.follower = memberA;
-        this.member = memberB;
+        this.following = memberA;
+        this.followed = memberB;
         this.createdAt = createdAt;
     }
 

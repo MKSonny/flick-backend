@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface VideoRepository extends JpaRepository<Video, Long> {
+public interface VideoRepository extends JpaRepository<Video, Long>, VideoRepositoryCustom {
     @Query("select v from Video v join fetch v.member")
     List<Video> findVideosWithMember();
 
@@ -34,11 +34,11 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     /*
         영상 정보 + 내가 이 사람을 팔로우 하고 있는지 + 좋아요 수 + 댓글 수
      */
-    @Query(value = "select new pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3(v, exists(select 1 from Follower f where f.follower.id = :memberId and f.member.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
+    @Query(value = "select new pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3(v, exists(select 1 from Follower f where f.following.id = :memberId and f.followed.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
             "from Video v join fetch v.member", countQuery = "select count(v.id) from Video v")
     Page<VideoWithMemberAndFollowerInfoDtoV3> findAllVideosV2(Pageable pageable, @Param("memberId") Long memberId);
 
-    @Query(value = "select new pro.Flick.Video.dto.response.VideoSummaryResponse(v, exists(select 1 from Follower f where f.follower.id = :memberId and f.member.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
+    @Query(value = "select new pro.Flick.Video.dto.response.VideoSummaryResponse(v, exists(select 1 from Follower f where f.followed.id = :memberId and f.followed.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
             "from Video v join fetch v.member", countQuery = "select count(v.id) from Video v")
     Page<VideoSummaryResponse> findAllVideosV3(Pageable pageable, @Param("memberId") Long memberId);
 

@@ -37,7 +37,7 @@ public class FollowController {
         List<GetFollowingResultListResponseDto> dto = new ArrayList<>();
 
         for (Follower follower : following) {
-            dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
+            dto.add(new GetFollowingResultListResponseDto(follower.getFollowing().getId(), follower.getCreatedAt(), follower.getId(), follower.getFollowed().getId()));
         }
 //        log.info("dto={}", dto);
         return dto;
@@ -59,12 +59,12 @@ public class FollowController {
         List<Follower> followersFetch = followJpaRepository.getFollowersFetch(follower_user_id);
 
         return followersFetch.stream().map(f -> {
-            Member m = f.getFollower(); // 나를 팔로우한 사람
+            Member m = f.getFollowing(); // 나를 팔로우한 사람
 
             return new FollowerResponseDto(
                     f.getId(),
-                    f.getMember().getId(),
-                    f.getFollower().getId(),
+                    f.getFollowed().getId(),
+                    f.getFollowing().getId(),
                     f.getCreatedAt(),
                     m
             );
@@ -110,8 +110,8 @@ public class FollowController {
 //
 //        for (Follower follower : followers) {
 //            // 나를 팔로우한 사람들의 정보를 뽑아야함
-    ////            Member whoFollowedMe = memberJpaRepository.findMemberById(String.valueOf(follower.getMember().getId()));
-//            dto.add(new GetFollowingResultListResponseDto(follower.getFollower().getId(), follower.getCreatedAt(), follower.getId(), follower.getMember().getId()));
+    ////            Member whoFollowedMe = memberJpaRepository.findMemberById(String.valueOf(follower.getFollowed().getId()));
+//            dto.add(new GetFollowingResultListResponseDto(follower.getFollowing().getId(), follower.getCreatedAt(), follower.getId(), follower.getFollowed().getId()));
 //        }
 //        return dto;
 //    }

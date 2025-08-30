@@ -51,9 +51,6 @@ public class CommentService {
     @Transactional
     public Page<GetCommentsByVideoIdResponseDTO> findAllComments(Pageable pageable, Long videoId) {
         Page<Comment> comments = commentRepository.findAllComments(pageable, videoId);
-
-
-
         return comments.map(GetCommentsByVideoIdResponseDTO::new);
     }
 

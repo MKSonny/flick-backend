@@ -22,17 +22,17 @@ public class FollowJpaRepository {
     }
 
     // 기존 follower.id가 잘못 설정되었음 -> follower.id가 내 id임 내가 팔로우한다는 의미
-    // f.member.id는 팔로우 당한 사람의 id
+    // f.followed.id는 팔로우 당한 사람의 id
     // 내가 팔로워인 모든 곳
     public List<Follower> getFollowingByMemberId(String id) {
-        return em.createQuery("select f from Follower f where f.follower.id=:id", Follower.class)
+        return em.createQuery("select f from Follower f where f.followed.id=:id", Follower.class)
                 .setParameter("id", id)
                 .getResultList();
     }
 
     @Transactional
     public void deleteFollower(String id, String followerId) {
-        em.createQuery("delete from Follower f where f.member.id=:id and f.follower.id=:followerId")
+        em.createQuery("delete from Follower f where f.followed.id=:id and f.followed.id=:followerId")
                 .setParameter("id", id)
                 .setParameter("followerId", followerId)
                 .executeUpdate();
@@ -40,7 +40,7 @@ public class FollowJpaRepository {
     }
 
     public List<Follower> getFollowers(String id) {
-        return em.createQuery("select f from Follower f where f.follower.id=:id", Follower.class)
+        return em.createQuery("select f from Follower f where f.followed.id=:id", Follower.class)
                 .setParameter("id", id)
                 .getResultList();
     }
@@ -48,7 +48,7 @@ public class FollowJpaRepository {
     // 멤버가 하나고 팔로워가 여러명
     // 팀이 하나고 티원이 여러명
     public List<Follower> getFollowersFetch(String memberId) {
-        return em.createQuery("select f from Follower f join fetch f.member where f.member.id =:memberId", Follower.class)
+        return em.createQuery("select f from Follower f join fetch f.followed where f.followed.id =:memberId", Follower.class)
                 .setParameter("memberId", memberId)
                 .getResultList();
     }

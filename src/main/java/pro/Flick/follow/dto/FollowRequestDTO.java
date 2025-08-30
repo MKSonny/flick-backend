@@ -1,4 +1,4 @@
-package pro.Flick.follow;
+package pro.Flick.follow.dto;
 
 import lombok.Data;
 

@@ -1,23 +1,21 @@
-package pro.Flick.member;
+package pro.Flick.member.dto;
 
 import lombok.Data;
 import pro.Flick.entity.Member;
 
 @Data
-public class ProfileInfoResponseDTOV2 {
+public class ProfileInfoResponseDTO {
     private String username;
     private String profileImageUrl;
     private Long followingCount;
     private Long followerCount;
     private Long totalLikesCount;
-    private Boolean isFollowing;
 
-    public ProfileInfoResponseDTOV2(Member member, Boolean isFollowing, Long followerCount, Long followingCount) {
+    public ProfileInfoResponseDTO(Member member, Long followerCount, Long followingCount) {
         this.username = member.getUsername();
         this.profileImageUrl = member.getProfileImageUri();
         this.followingCount = followingCount;
         this.followerCount = followerCount;
         this.totalLikesCount = 0L;
-        this.isFollowing = isFollowing;
     }
 }

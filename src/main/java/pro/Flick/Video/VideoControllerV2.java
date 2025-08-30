@@ -39,6 +39,12 @@ public class VideoControllerV2 {
         return new UrlResource("file:" + fileStore.getFullPath(fileName));
     }
 
+    @ResponseBody
+    @GetMapping("/thumbnails/{fileName}") // 파일 이름만 넘겨주면 내 서버에서 영상을 찾아서 넘겨줌
+    public Resource downloadThumbnail(@PathVariable String fileName) throws MalformedURLException {
+        return new UrlResource("file:" + fileStore.getFullPath(fileName));
+    }
+
     /**
      * userId를 받으면 해당 유저가 올린 영상들의 목록을 반환합니다.
      * 프로필 화면에 유저가 올린 영상들의 목록을 보여주기 위한 함수입니다.

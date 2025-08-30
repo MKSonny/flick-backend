@@ -25,7 +25,7 @@ class ChatRoomMemberJpaRepositoryTest {
     void test() {
 //        List<ChatRoomMember> chatRoomMembersWithMember = chatRoomMemberRepository.findChatRoomMembersWithMember(1L);
 //        for (ChatRoomMember chatRoomMember : chatRoomMembersWithMember) {
-//            System.out.println("chatRoomMember.getMember().getUsername() = " + chatRoomMember.getMember().getUsername());
+//            System.out.println("chatRoomMember.getFollowed().getUsername() = " + chatRoomMember.getFollowed().getUsername());
 //        }
 
     }

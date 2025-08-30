@@ -37,6 +37,7 @@ public class VideoWithMemberDto {
     }
 
     public VideoWithMemberDto(Video video) {
+        this.id = video.getId();
         this.title = video.getTitle();
         this.uri = video.getUri();
         this.member = new GetMemberByIdResponseDto(video.getMember());

@@ -58,7 +58,7 @@
 //
 //        for (Video video : videos) {
 //            // 지연 로딩으로 인해 member 정보가 필요할 때마다 쿼리가 실행
-//            log.info("video:{} member:{}", video.getTitle(), video.getMember().getUsername());
+//            log.info("video:{} member:{}", video.getTitle(), video.getFollowed().getUsername());
 //        }
 //    }
 //
@@ -72,7 +72,7 @@
 ////        log.info("--- 비디오 조회 완료 ---");
 ////
 ////        for (Video video : videos) {
-////            log.info("video:{} member:{}", video.getTitle(), video.getMember().getUsername());
+////            log.info("video:{} member:{}", video.getTitle(), video.getFollowed().getUsername());
 ////        }
 ////    }
 //}

@@ -52,9 +52,9 @@
 //            log.info("video={}", video.getUri());
 //            /**
 //             * 주의!
-//             * 이후 video.getMember()를 join하는 건지 어떻게 하는 건지 확인 반드시 필요
+//             * 이후 video.getFollowed()를 join하는 건지 어떻게 하는 건지 확인 반드시 필요
 //             */
-//            videos.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
+//            videos.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getFollowed())));
 //        }
 //        return videos;
 //    }
@@ -70,16 +70,16 @@
 //            log.info("video={}", video.getUri());
 //            /**
 //             * 🚨 경고: N+1 문제 발생 지점 🚨
-//             * * 위에서 가져온 videos 리스트를 순회하며 `video.getMember()`를 호출할 때마다,
+//             * * 위에서 가져온 videos 리스트를 순회하며 `video.getFollowed()`를 호출할 때마다,
 //             * 지연 로딩(Lazy Loading)으로 인해 매번 새로운 `SELECT` 쿼리가 데이터베이스로 전송됩니다.
 //             * * - '1'번 쿼리: fileRepository.getAllVideos() (모든 Video 조회)
-//             * - '+N'번 쿼리: for 루프 안에서 video.getMember() 호출 시 (N개의 Member 조회)
+//             * - '+N'번 쿼리: for 루프 안에서 video.getFollowed() 호출 시 (N개의 Member 조회)
 //             * * 하이버네이트의 1차 캐시 때문에 쿼리가 보이지 않을 수도 있지만, 근본적인 성능 문제는 해결되지 않습니다.
 //             * * ✅ 해결 방법:
 //             * fileRepository에서 `getAllVideos()` 대신 '페치 조인(Fetch Join)'을 사용해
 //             * Video와 Member를 단 한 번의 쿼리로 함께 조회해야 합니다.
 //             */
-//            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+//            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getFollowed()));
 //        }
 //        return dtos;
 //    }
@@ -93,7 +93,7 @@
 //        List<Temp> dtoList = new ArrayList<>();
 //
 //        for (Video video : videos) {
-//            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
+//            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getFollowed())));
 //        }
 //
 //        return dtoList;
@@ -112,7 +112,7 @@
 //        List<Temp> dtoList = new ArrayList<>();
 //
 //        for (Video video : videos) {
-//            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
+//            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getFollowed())));
 //        }
 //        log.info("getVideosByUserIdV2 end");
 //
@@ -140,7 +140,7 @@
 //        List<VideoWithMemberDto> dtos = new ArrayList<>();
 //
 //        for (Video video : videos) {
-//            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+//            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getFollowed()));
 //        }
 //        log.info("API 종료: getVideosByUserIdV3");
 //        return dtos;
@@ -154,7 +154,7 @@
 //        List<Temp> dtoList = new ArrayList<>();
 //
 //        for (Video video : videos) {
-//            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getMember())));
+//            dtoList.add(new Temp(video.getId(), video.getTitle(), video.getUri(), new GetMemberByIdResponseDto(video.getFollowed())));
 //        }
 //
 //        return dtoList;

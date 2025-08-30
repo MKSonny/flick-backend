@@ -3,17 +3,14 @@ package pro.Flick.member;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sourceforge.jaad.aac.tools.MS;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.controller.dto.SignUpDto;
-import pro.Flick.entity.Member;
+import pro.Flick.member.dto.FindMembersByUsernameResponseDto;
 import pro.Flick.trace.LogTrace;
-import pro.Flick.trace.template.AbstractTemplate;
 import pro.Flick.trace.template.TraceTemplate;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

@@ -39,7 +39,7 @@
 //        List<CommentDto> commentDtos = new ArrayList<>();
 //
 //        for (Comment comment : comments) {
-//            commentDtos.add(new CommentDto(comment.getText(), comment.getCreatedAt(), comment.getMember()));
+//            commentDtos.add(new CommentDto(comment.getText(), comment.getCreatedAt(), comment.getFollowed()));
 //        }
 //
 //        return commentDtos;
@@ -90,7 +90,7 @@
 //
 //        // 내가 올린 영상들과 그 댓글들을 조인해야 함
 //        for (Comment comment : comments) {
-//            commentDtos.add(new CommentDto(comment.getText(), comment.getCreatedAt(), comment.getMember()));
+//            commentDtos.add(new CommentDto(comment.getText(), comment.getCreatedAt(), comment.getFollowed()));
 //        }
 //        return commentDtos;
 //    }

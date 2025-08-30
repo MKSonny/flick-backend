@@ -1,4 +1,4 @@
-package pro.Flick.member;
+package pro.Flick.member.dto;
 
 import lombok.Data;
 import pro.Flick.entity.Member;

@@ -122,7 +122,7 @@ public class VideoService {
 
 //        return videos.map(v -> {
 //            Long likesCount = likesRepository.findLikesByVideoId(v.getId());
-//            return new VideoWithMemberDtoV2(v, likesCount, v.getMember());
+//            return new VideoWithMemberDtoV2(v, likesCount, v.getFollowed());
 //        });
     }
 
@@ -145,10 +145,10 @@ public class VideoService {
     }
 
     @Async
-    public void createVideo(String fileName, Member member) {
+    public void createVideo(String videoTitle, String fileName, Member member) {
         Video video = Video.builder()
-                .title(fileName)
-                .uri("http://127.0.0.1:8080/video/test.mov")
+                .title(videoTitle)
+                .uri("http://127.0.0.1:8080/videos-v2/download/" + fileName)
                 .member(member)
                 .build();
 
@@ -185,7 +185,7 @@ public class VideoService {
     }
 
     public List<ProfileVideoListResponse> getVideosByMemberIdWithMember(Long memberId) {
-        return videoRepository.findVideosByMemberIdWithMember(memberId).stream().map(ProfileVideoListResponse::new).toList();
+        return videoRepository.QfindVideosByMemberIdWithMember(memberId).stream().map(ProfileVideoListResponse::new).toList();
     }
 
     private String createThumbnailStoreFileName(String storeFileName) {

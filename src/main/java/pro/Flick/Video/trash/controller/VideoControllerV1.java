@@ -57,7 +57,7 @@
 //        List<VideoWithMemberDto> dtos = new ArrayList<>();
 //
 //        for (Video video : videos) {
-//            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+//            dtos.add(VideoWithMemberDto.fromVideoAndMember(video, video.getFollowed()));
 //        }
 //        return dtos;
 //    }
@@ -72,7 +72,7 @@
 //    public Page<VideoWithMemberDto> getAllVideosV3(@PageableDefault(size = 5) Pageable pageable) {
 //        log.info("getAllVideosV3 start");
 //        Page<Video> videos = videoRepository.findAllVideos(pageable);
-//        return videos.map(video -> VideoWithMemberDto.fromVideoAndMember(video, video.getMember()));
+//        return videos.map(video -> VideoWithMemberDto.fromVideoAndMember(video, video.getFollowed()));
 //    }
 //
 //    @GetMapping("/v2/get-all-videos")

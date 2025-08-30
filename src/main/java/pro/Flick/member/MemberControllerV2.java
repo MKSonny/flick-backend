@@ -8,6 +8,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.trash.dto.VideoWithMemberDto;
+import pro.Flick.member.dto.FollowerInfoDTOV2;
+import pro.Flick.member.dto.ProfileInfoResponseDTO;
+import pro.Flick.member.dto.ProfileInfoResponseDTOV2;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/member")

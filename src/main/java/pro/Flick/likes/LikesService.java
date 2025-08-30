@@ -11,10 +11,13 @@ import pro.Flick.entity.Comment;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
+import pro.Flick.likes.dto.LikeOnMyVideoResponseDTO;
 import pro.Flick.repsository.LikesRepository;
 import pro.Flick.member.MemberRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -78,4 +81,5 @@ public class LikesService {
 
         likesRepository.save(new Likes(member, video, LocalDateTime.now()));
     }
+
 }
