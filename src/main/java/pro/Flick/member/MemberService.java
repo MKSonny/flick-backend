@@ -97,7 +97,8 @@ public class MemberService {
     @Transactional
     public ProfileInfoResponseDTOV2 getMemberInfoV2(Long myId, Long profileId) {
         log.info("getMemberInfoV2 start");
-        return memberRepository.findMemberProfile(myId, profileId);
+//        return memberRepository.findMemberProfile(myId, profileId);
+        return memberRepository.QfindMemberProfile(myId, profileId);
     }
 
     /*

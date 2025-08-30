@@ -23,7 +23,6 @@ import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.entity.VideoType;
 import pro.Flick.file.FileStore;
-import pro.Flick.repsository.LikesJpaRepository;
 import pro.Flick.repsository.LikesRepository;
 //import pro.Flick.member.MemberJpaRepository;
 import pro.Flick.member.MemberRepository;
@@ -133,6 +132,7 @@ public class VideoService {
     public Page<VideoSummaryResponse> getVideoInfoV3(Pageable pageable, Long userId) {
 
         Page<VideoSummaryResponse> videos = videoRepository.findAllVideosV3(pageable, userId);
+
         
         return videos.map(
                 v -> {
@@ -143,6 +143,23 @@ public class VideoService {
                     return v;
                 });
     }
+
+    public Page<VideoSummaryResponse> getVideoInfoByQueryDsl(Pageable pageable, Long userId) {
+
+        Page<VideoSummaryResponse> videos = videoRepository.QfindAllVideosV3(pageable, userId);
+
+
+        return videos.map(
+                v -> {
+                    if (v.getVideoType().equals(VideoType.SHOPPING.toString())) {
+                        Long commentCount = commentRepository.findCommentCountByVideoId(v.getId());
+                        v.setCommentCount(commentCount);
+                    }
+                    return v;
+                });
+    }
+
+
 
     @Async
     public void createVideo(String videoTitle, String fileName, Member member) {
@@ -184,7 +201,7 @@ public class VideoService {
         }
     }
 
-    public List<ProfileVideoListResponse> getVideosByMemberIdWithMember(Long memberId) {
+    public List<ProfileVideoListResponse> getVideosByMemberIdWithMemberByQueryDsl(Long memberId) {
         return videoRepository.QfindVideosByMemberIdWithMember(memberId).stream().map(ProfileVideoListResponse::new).toList();
     }
 

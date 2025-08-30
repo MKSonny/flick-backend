@@ -54,11 +54,12 @@ public class VideoControllerV2 {
      */
     @GetMapping("/{userId}") // PathVariable로 userId를 넘기는 것이 안전한가?
     public List<ProfileVideoListResponse> getVideosByUserIdV3(@PathVariable Long userId) {
-        return videoService.getVideosByMemberIdWithMember(userId);
+        return videoService.getVideosByMemberIdWithMemberByQueryDsl(userId);
     }
 
     @GetMapping("/get-all-videos")
     public Page<VideoSummaryResponse> getAllVideos(@PageableDefault(size = 5) Pageable pageable, @RequestParam("userId") Long userId) {
-        return videoService.getVideoInfoV3(pageable, userId);
+//        return videoService.getVideoInfoV3(pageable, userId);
+        return videoService.getVideoInfoByQueryDsl(pageable, userId);
     }
 }

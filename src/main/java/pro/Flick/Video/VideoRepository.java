@@ -38,7 +38,9 @@ public interface VideoRepository extends JpaRepository<Video, Long>, VideoReposi
             "from Video v join fetch v.member", countQuery = "select count(v.id) from Video v")
     Page<VideoWithMemberAndFollowerInfoDtoV3> findAllVideosV2(Pageable pageable, @Param("memberId") Long memberId);
 
-    @Query(value = "select new pro.Flick.Video.dto.response.VideoSummaryResponse(v, exists(select 1 from Follower f where f.followed.id = :memberId and f.followed.id = v.member.id), exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
+    @Query(value = "select new pro.Flick.Video.dto.response.VideoSummaryResponse(v, " +
+            "exists(select 1 from Follower f where f.followed.id = :memberId and f.followed.id = v.member.id), " +
+            "exists(select 1 from Likes l where l.member.id = :memberId and l.video.id = v.id)) " +
             "from Video v join fetch v.member", countQuery = "select count(v.id) from Video v")
     Page<VideoSummaryResponse> findAllVideosV3(Pageable pageable, @Param("memberId") Long memberId);
 

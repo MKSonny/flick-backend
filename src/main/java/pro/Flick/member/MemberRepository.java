@@ -13,7 +13,7 @@ import pro.Flick.member.dto.ProfileInfoResponseDTOV2;
 
 import java.util.List;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
     // 올바르게 수정된 쿼리
     @Query("SELECT f.id, f.following FROM Follower f WHERE f.followed.id = :memberId")
@@ -62,7 +62,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT new pro.Flick.member.dto.ProfileInfoResponseDTOV2(" +
             "m, " +
             "(SELECT CASE WHEN COUNT(f1.id) > 0 THEN true ELSE false END " +
-            " FROM Follower f1 WHERE f1.followed.id = :profileId AND f1.following.id = :myId), " + // viewer가 member를 팔로우하는지 여부
+            " FROM Follower f1 WHERE f1.following.id = :profileId AND f1.followed.id = :myId), " + // viewer가 member를 팔로우하는지 여부
             "(SELECT COUNT(f2.id) FROM Follower f2 WHERE f2.followed.id = :myId), " + // member의 팔로워 수
             "(SELECT COUNT(f3.id) FROM Follower f3 WHERE f3.following.id = :myId)" +  // member가 팔로우하는 수
             ") " +
