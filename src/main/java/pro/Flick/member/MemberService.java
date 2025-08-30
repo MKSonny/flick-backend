@@ -14,6 +14,7 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.member.dto.*;
+import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.repsository.FollowRepository;
 import pro.Flick.repsository.LikesRepository;
 

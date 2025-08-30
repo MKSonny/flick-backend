@@ -1,19 +1,13 @@
-package pro.Flick.member;
+package pro.Flick.member.repository;
 
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import pro.Flick.entity.QFollower;
-import pro.Flick.entity.QMember;
-import pro.Flick.member.dto.FollowerInfoDTO;
-import pro.Flick.member.dto.FollowerInfoDTOV2;
 import pro.Flick.member.dto.ProfileInfoResponseDTOV2;
 
 import static com.querydsl.jpa.JPAExpressions.*;
-import static pro.Flick.entity.QFollower.follower;
 import static pro.Flick.entity.QMember.member;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom{

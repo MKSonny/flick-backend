@@ -17,7 +17,7 @@ import pro.Flick.Video.dto.response.ProfileVideoListResponse;
 import pro.Flick.Video.dto.response.VideoSummaryResponse;
 import pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3;
 import pro.Flick.Video.trash.dto.VideoWithMemberDtoV2;
-import pro.Flick.comment.CommentRepository;
+import pro.Flick.comment.repository.CommentRepository;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
@@ -25,7 +25,7 @@ import pro.Flick.entity.VideoType;
 import pro.Flick.file.FileStore;
 import pro.Flick.repsository.LikesRepository;
 //import pro.Flick.member.MemberJpaRepository;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

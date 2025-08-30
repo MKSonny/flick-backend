@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 
 import java.util.List;
 

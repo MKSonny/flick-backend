@@ -11,11 +11,10 @@ import pro.Flick.entity.Video;
 import pro.Flick.entity.VideoType;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.service.ChatService;
 import pro.Flick.follow.FollowService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

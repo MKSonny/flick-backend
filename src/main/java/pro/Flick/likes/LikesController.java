@@ -12,7 +12,7 @@ import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.repsository.LikesJpaRepository;
 
 import java.time.LocalDateTime;

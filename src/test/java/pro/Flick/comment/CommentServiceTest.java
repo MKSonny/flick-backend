@@ -8,11 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
+import pro.Flick.comment.repository.CommentRepository;
 import pro.Flick.comment.trash.dto.GetCommentsByVideoIdResponseDTO;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 //import pro.Flick.member.MemberJpaRepository;
 
 import java.util.List;

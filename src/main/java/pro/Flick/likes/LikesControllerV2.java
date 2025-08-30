@@ -1,18 +1,15 @@
 package pro.Flick.likes;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.comment.trash.dto.CommentLikesAddDTO;
-import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.likes.dto.LikeOnMyVideoResponseDTO;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.repsository.LikesJpaRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

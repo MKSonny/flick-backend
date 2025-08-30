@@ -6,18 +6,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.VideoRepository;
-import pro.Flick.comment.CommentRepository;
+import pro.Flick.comment.repository.CommentRepository;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.likes.dto.LikeOnMyVideoResponseDTO;
 import pro.Flick.repsository.LikesRepository;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Service

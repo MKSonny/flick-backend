@@ -6,10 +6,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pro.Flick.entity.UploadFile;
 import pro.Flick.file.FileService;
 import pro.Flick.file.FileStore;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

@@ -7,7 +7,7 @@ import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
 import pro.Flick.repsository.FollowJpaRepository;
 import pro.Flick.repsository.FollowRepository;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
 

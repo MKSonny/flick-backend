@@ -1,4 +1,4 @@
-package pro.Flick.comment;
+package pro.Flick.comment.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -72,6 +72,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select new pro.Flick.comment.dto.response.CommentDetailResponseDTO(c, exists(select 1 from Likes l where l.comment.id = c.id and l.member.id = :memberId), (select count(c2) from Comment c2 where c2.parent.id = c.id)) " +
             "from Comment c where c.parent.id is null and c.video.id = :videoId")
     Page<CommentDetailResponseDTO> findAllCommentsWithLikesInfoV3(Pageable pageable, @Param("memberId") Long memberId, @Param("videoId") Long videoId);
+
 
     @Query("select new pro.Flick.comment.dto.response.LiveCommentsResponseDTO(c.text, c.member.username) from Comment c where c.video.id = :videoId")
     Page<LiveCommentsResponseDTO> findAllLiveCommentsByVideoId(Pageable pageable, @Param("videoId") Long videoId);

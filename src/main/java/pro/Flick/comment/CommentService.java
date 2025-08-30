@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
 import pro.Flick.Video.VideoRepository;
 import pro.Flick.comment.dto.response.*;
+import pro.Flick.comment.repository.CommentRepository;
 import pro.Flick.comment.trash.dto.GetCommentsByVideoIdResponseDTO;
 import pro.Flick.comment.trash.dto.GetCommentsByVideoIdWithLikesInfoResponseDTO;
 import pro.Flick.comment.trash.dto.GetCommentsByVideoIdWithLikesInfoResponseDTOV2;
@@ -19,7 +20,7 @@ import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.repsository.LikesRepository;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

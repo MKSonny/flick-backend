@@ -7,7 +7,7 @@ import pro.Flick.trace.ThreadLocalLogTrace;
 import pro.Flick.trace.template.TraceTemplate;
 
 @Configuration
-public class FlickConfig {
+public class LogTraceConfig {
     @Bean
     public LogTrace logTrace() {
         // return new FieldLogTrace();

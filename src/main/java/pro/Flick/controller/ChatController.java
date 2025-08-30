@@ -10,7 +10,7 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Chat;
 import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
-import pro.Flick.member.MemberRepository;
+import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
 import pro.Flick.service.ChatService;

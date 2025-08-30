@@ -1,4 +1,4 @@
-package pro.Flick.member;
+package pro.Flick.member.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

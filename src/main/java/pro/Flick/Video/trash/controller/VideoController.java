@@ -11,7 +11,7 @@
 //import pro.Flick.entity.Member;
 //import pro.Flick.entity.Video;
 //import pro.Flick.file.FileStore;
-//import pro.Flick.member.MemberRepository;
+//import pro.Flick.member.repository.MemberRepository;
 //
 //import java.net.MalformedURLException;
 //import java.util.ArrayList;
