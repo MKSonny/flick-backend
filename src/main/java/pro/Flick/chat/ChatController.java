@@ -1,11 +1,15 @@
-package pro.Flick.controller;
+package pro.Flick.chat;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-import pro.Flick.chat.ChatRoomMemberResponseDTO;
-import pro.Flick.chat.GetChatByUsersKeyResponseDtoV2;
+import pro.Flick.chat.dto.ChatRequestDTO;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Chat;
 import pro.Flick.entity.ChatRoomMember;
@@ -13,7 +17,6 @@ import pro.Flick.entity.Member;
 import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.repsository.ChatJpaRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
-import pro.Flick.service.ChatService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,9 +58,11 @@ public class ChatController {
     }
 
     @GetMapping("/my_chats/{userId}")
-    public List<ChatRoomMemberResponseDTO> getMyChats(@PathVariable String userId) {
-        log.info("hello world={}", userId);
+    public List<ChatRoomMemberResponseDTO> getMyChats(@PageableDefault(size = 5) Pageable pageable, @PathVariable String userId) {
         List<ChatRoomMember> chatRoomMembersWithMember = chatRoomMemberRepository.findChatRoomMembersWithMember(userId);
+
+
+
         return chatRoomMembersWithMember.stream().map(ChatRoomMemberResponseDTO::new).toList();
     }
 
@@ -69,40 +74,31 @@ public class ChatController {
      * users_key
      */
 //    @PostMapping
-    public void addMessage(@RequestBody ChatRequestDto requestDto) {
-        Member findMember = memberRepository.findMemberById(requestDto.getUserId());
-        Member receiverMember = memberRepository.findMemberById(requestDto.getChat_user_id());
+    public void addMessage(@RequestBody ChatRequestDTO requestDto) {
+        Member findMember = memberRepository.findMemberById(requestDto.getSenderId());
+        Member receiverMember = memberRepository.findMemberById(requestDto.getReceiverId());
         chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
 
         chatJpaRepository.addMessage(findMember, receiverMember, requestDto.getText());
     }
 
     @PostMapping
-    public void addMessageV2(@RequestBody ChatRequestDto requestDto) {
-        Member sender = memberRepository.findMemberById(requestDto.getUserId());
+    public void addMessageV2(@RequestBody ChatRequestDTO requestDto) {
+        Member sender = memberRepository.findMemberById(requestDto.getSenderId());
         log.info("requestDto={}", requestDto);
-        Member receiver = memberRepository.findMemberById(requestDto.getChat_user_id());
+        Member receiver = memberRepository.findMemberById(requestDto.getReceiverId());
 
-        chatService.addMessage(sender, receiver, requestDto.getText());
+        chatService.addMessage(requestDto);
     }
 
-    public void findMyChats() {
+    @MessageMapping("/chat/{chatRoomId}/sendMessage")
+    @SendTo("/topic/chat/{chatRoomId}")
+    public GetChatByUsersKeyResponseDtoV2 sendMessage(
+            @DestinationVariable String chatRoomId,
+            ChatRequestDTO messageRequest
+    ) {
 
-    }
-
-    @Data
-    static class ChatRequestDto {
-        private String userId; // 보낸 사람의 id
-        private String chat_user_id;
-        private String text;
-        private String users_key;
-
-        public ChatRequestDto(String userId, String chat_user_id, String text, String users_key) {
-            this.userId = userId;
-            this.chat_user_id = chat_user_id;
-            this.text = text;
-            this.users_key = users_key;
-        }
+        return chatService.addMessage(messageRequest);
     }
 
     @Data

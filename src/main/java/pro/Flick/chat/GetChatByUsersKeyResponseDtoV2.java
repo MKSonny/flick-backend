@@ -8,13 +8,15 @@ import java.time.LocalDateTime;
 
 @Data
 public class GetChatByUsersKeyResponseDtoV2 {
+    private Long id;
     private GetMemberByIdResponseDto user;
-    private String text;
+    private String content;
     private LocalDateTime time;
 
     public GetChatByUsersKeyResponseDtoV2(Message message) {
+        this.id = message.getId();
         this.user = new GetMemberByIdResponseDto(message.getSender());
-        this.text = message.getText();
+        this.content = message.getText();
         this.time = message.getCreatedAt();
     }
 }

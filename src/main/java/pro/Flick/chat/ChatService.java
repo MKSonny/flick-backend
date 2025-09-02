@@ -1,15 +1,14 @@
-package pro.Flick.service;
+package pro.Flick.chat;
 
 import jakarta.transaction.Transactional;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pro.Flick.chat.GetChatByUsersKeyResponseDtoV2;
-import pro.Flick.controller.dto.GetMemberByIdResponseDto;
+import pro.Flick.chat.dto.ChatRequestDTO;
 import pro.Flick.entity.ChatRoom;
 import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Message;
+import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.repsository.ChatRoomMemberRepository;
 import pro.Flick.repsository.ChatRoomRepository;
 import pro.Flick.repsository.MessageRepository;
@@ -25,6 +24,7 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final MessageRepository messageRepository;
+    private final MemberRepository memberRepository;
 
     /**
      * 1. 친구 목록에서 친구를 선택할 경우
@@ -36,11 +36,41 @@ public class ChatService {
      *
      *
      *
-     * @param sender
-     * @param receiver
      */
     @Transactional
+    public GetChatByUsersKeyResponseDtoV2 addMessage(ChatRequestDTO chatRequestDTO) {
+
+        Long senderId = Long.valueOf(chatRequestDTO.getSenderId());
+        Long receiverId = Long.valueOf(chatRequestDTO.getReceiverId());
+
+        Member sender = memberRepository.findById(senderId).orElseThrow();
+        Member receiver = memberRepository.getReferenceById(receiverId);
+
+        String text = chatRequestDTO.getText();
+
+
+        ChatRoom chatRoom = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(sender.getId(), receiver.getId()), 2).orElseGet(() -> {
+            System.out.println("채팅방이 없으므로 새로 생성합니다.");
+            return createChatRoomAndChatRoomMessage(sender, receiver);
+        });
+
+        Message message = Message.builder()
+                .chatRoom(chatRoom)
+                .read(false)
+                .sender(sender)
+                .createdAt(LocalDateTime.now())
+                .text(text)
+                .build();
+
+        Message savedMessage = messageRepository.save(message);
+
+        return new GetChatByUsersKeyResponseDtoV2(savedMessage);
+    }
+
+    @Transactional
     public void addMessage(Member sender, Member receiver, String text) {
+
+
         ChatRoom chatRoom = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(sender.getId(), receiver.getId()), 2).orElseGet(() -> {
             System.out.println("채팅방이 없으므로 새로 생성합니다.");
             return createChatRoomAndChatRoomMessage(sender, receiver);
@@ -64,6 +94,8 @@ public class ChatService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
+        chatRoomRepository.save(chatRoom);
+
         ChatRoomMember addSenderChatRoomMember = ChatRoomMember.builder()
                 .chatRoom(chatRoom)
                 .member(sender)
@@ -74,7 +106,6 @@ public class ChatService {
                 .member(receiver)
                 .build();
 
-        chatRoomRepository.save(chatRoom);
         chatRoomMemberRepository.save(addSenderChatRoomMember);
         chatRoomMemberRepository.save(addReceiverChatRoomMember);
 
