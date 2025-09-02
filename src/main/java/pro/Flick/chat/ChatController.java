@@ -3,6 +3,7 @@ package pro.Flick.chat;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -10,13 +11,13 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.chat.dto.ChatRequestDTO;
+import pro.Flick.chat.repository.ChatJpaRepository;
+import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Chat;
 import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
 import pro.Flick.member.repository.MemberRepository;
-import pro.Flick.repsository.ChatJpaRepository;
-import pro.Flick.repsository.ChatRoomMemberRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,12 +59,11 @@ public class ChatController {
     }
 
     @GetMapping("/my_chats/{userId}")
-    public List<ChatRoomMemberResponseDTO> getMyChats(@PageableDefault(size = 5) Pageable pageable, @PathVariable String userId) {
-        List<ChatRoomMember> chatRoomMembersWithMember = chatRoomMemberRepository.findChatRoomMembersWithMember(userId);
+    public Page<ChatRoomMemberResponseDTO> getMyChats(@PageableDefault(size = 5) Pageable pageable, @PathVariable Long userId) {
+//        List<ChatRoomMember> chatRoomMembersWithMember = chatRoomMemberRepository.findChatRoomMembersWithMember(userId);
+//        return chatRoomMembersWithMember.stream().map(ChatRoomMemberResponseDTO::new).toList();
 
-
-
-        return chatRoomMembersWithMember.stream().map(ChatRoomMemberResponseDTO::new).toList();
+        return chatService.getMyChatList(pageable, userId);
     }
 
 

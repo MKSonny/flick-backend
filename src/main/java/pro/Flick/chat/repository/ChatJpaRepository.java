@@ -1,4 +1,4 @@
-package pro.Flick.repsository;
+package pro.Flick.chat.repository;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;

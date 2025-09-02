@@ -2,15 +2,17 @@ package pro.Flick.chat;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pro.Flick.chat.dto.ChatRequestDTO;
+import pro.Flick.chat.repository.ChatRoomMemberRepository;
+import pro.Flick.chat.repository.ChatRoomRepository;
 import pro.Flick.entity.ChatRoom;
 import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Message;
 import pro.Flick.member.repository.MemberRepository;
-import pro.Flick.repsository.ChatRoomMemberRepository;
-import pro.Flick.repsository.ChatRoomRepository;
 import pro.Flick.repsository.MessageRepository;
 
 import java.time.LocalDateTime;
@@ -110,6 +112,11 @@ public class ChatService {
         chatRoomMemberRepository.save(addReceiverChatRoomMember);
 
         return chatRoom;
+    }
+
+    @Transactional
+    public Page<ChatRoomMemberResponseDTO> getMyChatList(Pageable pageable, Long memberId) {
+        return chatRoomMemberRepository.QgetMyChats(pageable, memberId);
     }
 
 

@@ -10,6 +10,12 @@ public class ChatRoomMemberResponseDTO {
     private Long chatRoomId;
     private Long memberId;
 
+    public ChatRoomMemberResponseDTO(String username, String profileImageUri, Long chatRoomId, Long memberId) {
+        this.username = username;
+        this.profileImageUri = profileImageUri;
+        this.chatRoomId = chatRoomId;
+        this.memberId = memberId;
+    }
 
     public ChatRoomMemberResponseDTO(ChatRoomMember chatRoomMember) {
         this.username = chatRoomMember.getMember().getUsername();

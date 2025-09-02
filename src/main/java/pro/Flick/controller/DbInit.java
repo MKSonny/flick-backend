@@ -9,7 +9,7 @@ import pro.Flick.comment.CommentService;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.entity.VideoType;
-import pro.Flick.repsository.ChatJpaRepository;
+import pro.Flick.chat.repository.ChatJpaRepository;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
 import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.chat.ChatService;

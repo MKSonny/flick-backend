@@ -8,8 +8,8 @@
 //import org.springframework.test.annotation.Commit;
 //import pro.Flick.entity.Member;
 //import pro.Flick.entity.Message;
-//import pro.Flick.repsository.ChatJpaRepository;
-//import pro.Flick.repsository.ChatRoomMemberRepository;
+//import pro.Flick.chat.repository.ChatJpaRepository;
+//import pro.Flick.chat.repository.ChatRoomMemberRepository;
 //import pro.Flick.member.MemberJpaRepository;
 //
 //import java.util.List;

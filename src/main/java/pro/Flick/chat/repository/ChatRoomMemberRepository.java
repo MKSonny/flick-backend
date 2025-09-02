@@ -1,4 +1,4 @@
-package pro.Flick.repsository;
+package pro.Flick.chat.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +9,7 @@ import pro.Flick.entity.ChatRoomMember;
 import java.util.List;
 import java.util.Optional;
 
-public interface ChatRoomMemberRepository extends JpaRepository<ChatRoomMember, Long> {
+public interface ChatRoomMemberRepository extends JpaRepository<ChatRoomMember, Long>, ChatRoomMemberRepositoryCustom {
 
     /**
      * -- 1. member_id = 1이 참여하고 있는 모든 채팅방들의 목록을 구한다.
