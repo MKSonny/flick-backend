@@ -1,9 +1,7 @@
-package pro.Flick.follow;
+package pro.Flick.follow.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
-import pro.Flick.entity.Member;
 import pro.Flick.member.dto.FollowerInfoDTOV2;
 
 public interface FollowerRepositoryCustom {

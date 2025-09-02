@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
+import pro.Flick.follow.repository.FollowJpaRepository;
 import pro.Flick.member.repository.MemberRepository;
-import pro.Flick.repsository.FollowJpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

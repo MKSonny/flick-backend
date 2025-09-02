@@ -1,4 +1,4 @@
-package pro.Flick.repsository;
+package pro.Flick.likes.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.Likes;
 
-
-public interface LikesRepository extends JpaRepository<Likes, Long> {
-
+public interface LikesRepository extends JpaRepository<Likes, Long>, LikesRepositoryCustom {
     @Query("SELECT count(l) from Likes l where l.video.id = :videoId")
     Long findLikesByVideoId(@Param("videoId") Long videoId);
 

@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
-import pro.Flick.repsository.FollowJpaRepository;
-import pro.Flick.repsository.FollowRepository;
+import pro.Flick.follow.repository.FollowJpaRepository;
+import pro.Flick.follow.repository.FollowRepository;
 import pro.Flick.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;

@@ -19,7 +19,7 @@ import pro.Flick.entity.Comment;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
-import pro.Flick.repsository.LikesRepository;
+import pro.Flick.likes.repository.LikesRepository;
 import pro.Flick.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;

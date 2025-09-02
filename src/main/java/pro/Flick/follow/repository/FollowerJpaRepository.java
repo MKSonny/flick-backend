@@ -1,4 +1,4 @@
-package pro.Flick.repsository;
+package pro.Flick.follow.repository;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public class FollowJpaRepository {
+public class FollowerJpaRepository {
     @Autowired
     EntityManager em;
 

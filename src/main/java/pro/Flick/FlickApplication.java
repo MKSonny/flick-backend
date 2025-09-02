@@ -6,9 +6,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 //import pro.Flick.aop.LogTraceAspect;
+import org.springframework.scheduling.annotation.EnableAsync;
 import pro.Flick.aop.LogTraceAspect;
 import pro.Flick.controller.DbInit;
 
+@EnableAsync
 @SpringBootApplication
 @RequiredArgsConstructor
 //@Import(LogTraceAspect.class)

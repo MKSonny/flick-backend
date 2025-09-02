@@ -13,10 +13,10 @@ import pro.Flick.Video.trash.dto.VideoWithMemberDto;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
+import pro.Flick.likes.repository.LikesRepository;
 import pro.Flick.member.dto.*;
 import pro.Flick.member.repository.MemberRepository;
-import pro.Flick.repsository.FollowRepository;
-import pro.Flick.repsository.LikesRepository;
+import pro.Flick.follow.repository.FollowRepository;
 
 import java.util.List;
 
@@ -71,6 +71,11 @@ public class MemberService {
     public Page<VideoWithMemberDto> getVideosByMemberIdWithMemberPage(Pageable pageable, Long memberId) {
         Page<Video> videos = videoRepository.findAllVideosByMemberId(pageable, memberId);
         return videos.map(VideoWithMemberDto::new);
+    }
+
+    @Transactional
+    public Page<LikedVideoResponseDTO> getLikedVideos(Pageable pageable, Long memberId) {
+        return likesRepository.QfindLikedVideosByMemberId(pageable, memberId);
     }
 
 

@@ -23,8 +23,8 @@ import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.entity.VideoType;
 import pro.Flick.file.FileStore;
-import pro.Flick.repsository.LikesRepository;
 //import pro.Flick.member.MemberJpaRepository;
+import pro.Flick.likes.repository.LikesRepository;
 import pro.Flick.member.repository.MemberRepository;
 
 import javax.imageio.ImageIO;

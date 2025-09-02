@@ -1,4 +1,4 @@
-package pro.Flick.repsository;
+package pro.Flick.follow.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.Follower;
 import pro.Flick.member.dto.FollowCountDTO;
 
-public interface FollowRepository extends JpaRepository<Follower, Long> {
+public interface FollowerRepository extends JpaRepository<Follower, Long> {
 
 
     @Query("SELECT new pro.Flick.member.dto.FollowCountDTO(" +
