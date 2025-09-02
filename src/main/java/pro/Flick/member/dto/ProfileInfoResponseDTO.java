@@ -11,11 +11,11 @@ public class ProfileInfoResponseDTO {
     private Long followerCount;
     private Long totalLikesCount;
 
-    public ProfileInfoResponseDTO(Member member, Long followerCount, Long followingCount) {
+    public ProfileInfoResponseDTO(Member member, Long followerCount, Long followingCount, Long totalLikesCount) {
         this.username = member.getUsername();
         this.profileImageUrl = member.getProfileImageUri();
         this.followingCount = followingCount;
         this.followerCount = followerCount;
-        this.totalLikesCount = 0L;
+        this.totalLikesCount = totalLikesCount;
     }
 }

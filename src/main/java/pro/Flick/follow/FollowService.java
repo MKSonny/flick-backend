@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
-import pro.Flick.follow.repository.FollowJpaRepository;
-import pro.Flick.follow.repository.FollowRepository;
+import pro.Flick.follow.repository.FollowerJpaRepository;
+import pro.Flick.follow.repository.FollowerRepository;
 import pro.Flick.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class FollowService {
-    private final FollowJpaRepository followJpaRepository;
+    private final FollowerJpaRepository followJpaRepository;
 
-    private final FollowRepository followRepository;
+    private final FollowerRepository followRepository;
     private final MemberRepository memberRepository;
 
     public void memberAFollowsMemberB(String A, String B) {

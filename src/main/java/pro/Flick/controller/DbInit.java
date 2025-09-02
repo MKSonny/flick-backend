@@ -3,7 +3,7 @@ package pro.Flick.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pro.Flick.Video.VideoRepository;
+import pro.Flick.Video.repository.VideoRepository;
 import pro.Flick.Video.service.VideoService;
 import pro.Flick.comment.CommentService;
 import pro.Flick.entity.Member;

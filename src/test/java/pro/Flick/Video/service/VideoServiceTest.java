@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
-import pro.Flick.Video.VideoRepository;
+import pro.Flick.Video.repository.VideoRepository;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.member.repository.MemberRepository;

@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import pro.Flick.Video.VideoRepository;
+import pro.Flick.Video.repository.VideoRepository;
 import pro.Flick.Video.dto.response.ProfileVideoListResponse;
 import pro.Flick.Video.dto.response.VideoSummaryResponse;
 import pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3;

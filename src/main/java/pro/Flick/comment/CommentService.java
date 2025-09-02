@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
-import pro.Flick.Video.VideoRepository;
+import pro.Flick.Video.repository.VideoRepository;
 import pro.Flick.comment.dto.response.*;
 import pro.Flick.comment.repository.CommentRepository;
 import pro.Flick.comment.trash.dto.GetCommentsByVideoIdResponseDTO;

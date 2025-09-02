@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Follower;
 import pro.Flick.entity.Member;
-import pro.Flick.follow.repository.FollowJpaRepository;
+import pro.Flick.follow.repository.FollowerJpaRepository;
 import pro.Flick.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ import java.util.List;
 public class FollowController {
 
     private final MemberRepository memberRepository;
-    private final FollowJpaRepository followJpaRepository;
+    private final FollowerJpaRepository followJpaRepository;
 
 //    @PostMapping("/followers")
     public void addFollower(@RequestBody FollowRequestDto requestDto) {

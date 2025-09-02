@@ -8,15 +8,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pro.Flick.Video.VideoRepository;
+import pro.Flick.Video.repository.VideoRepository;
 import pro.Flick.Video.trash.dto.VideoWithMemberDto;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
+import pro.Flick.follow.repository.FollowerRepository;
 import pro.Flick.likes.repository.LikesRepository;
 import pro.Flick.member.dto.*;
 import pro.Flick.member.repository.MemberRepository;
-import pro.Flick.follow.repository.FollowRepository;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class MemberService {
     private final LikesRepository likesRepository;
 
     private final MemberRepository memberRepository;
-    private final FollowRepository followRepository;
+    private final FollowerRepository followerRepository;
 
     /*
 
@@ -86,14 +86,13 @@ public class MemberService {
 
     @Transactional
     public ProfileInfoResponseDTO getMemberInfo(Long memberId) {
-        FollowCountDTO followCountDTO = followRepository.findFollowCountsByMemberId(memberId);
+        FollowCountDTO followCountDTO = followerRepository.findFollowCountsByMemberId(memberId);
         ;
-        log.info("hello world");
         Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
 
-        log.info("hello world = {}", member.getProfileImageUri());
+        Long totalLikes = videoRepository.QfindTotalLikes(memberId);
 
-        return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount());
+        return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount(), totalLikes);
     }
 
 

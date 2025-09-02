@@ -1,7 +1,6 @@
-package pro.Flick.Video;
+package pro.Flick.Video.repository;
 
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
@@ -69,5 +68,14 @@ public class VideoRepositoryImpl implements VideoRepositoryCustom {
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, total);
+    }
+
+    @Override
+    public Long QfindTotalLikes(Long memberId) {
+        return queryFactory
+                .select(video.likesCount.sum())
+                .from(video)
+                .where(video.member.id.eq(memberId))
+                .fetchOne();
     }
 }

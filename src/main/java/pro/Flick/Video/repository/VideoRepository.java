@@ -1,4 +1,4 @@
-package pro.Flick.Video;
+package pro.Flick.Video.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
