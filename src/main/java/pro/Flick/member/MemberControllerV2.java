@@ -38,11 +38,11 @@ public class MemberControllerV2 {
         return memberService.getLikedVideos(pageable, profileUserId);
     }
 
-    @GetMapping("/profile-info/{userId}")
-    public ProfileInfoResponseDTO getProfileInfo(@PathVariable Long userId) {
+    @GetMapping("/profile-info/{profileUserId}/{loggedInUserId}")
+    public ProfileInfoResponseDTO getProfileInfo(@PathVariable Long profileUserId, @PathVariable Long loggedInUserId) {
 
 //        memberService
-        return memberService.getMemberInfo(userId);
+        return memberService.getMemberInfo(profileUserId, loggedInUserId);
     }
 
     @GetMapping("/profile-info/user/{profileId}/viewer/{myId}")

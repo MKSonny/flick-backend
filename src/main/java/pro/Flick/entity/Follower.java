@@ -28,8 +28,8 @@ public class Follower {
 
 
     public Follower(Member memberA, Member memberB, LocalDateTime createdAt) {
-        this.following = memberA;
-        this.followed = memberB;
+        this.followed = memberA;
+        this.following = memberB;
         this.createdAt = createdAt;
     }
 

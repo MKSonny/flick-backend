@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.Follower;
 import pro.Flick.member.dto.FollowCountDTO;
 
-public interface FollowerRepository extends JpaRepository<Follower, Long> {
+public interface FollowerRepository extends JpaRepository<Follower, Long>, FollowerRepositoryCustom {
 
 
     @Query("SELECT new pro.Flick.member.dto.FollowCountDTO(" +
@@ -18,6 +18,6 @@ public interface FollowerRepository extends JpaRepository<Follower, Long> {
     FollowCountDTO findFollowCountsByMemberId(@Param("memberId") Long memberId);
 
     @Modifying
-    @Query("DELETE FROM Follower f where f.following.id = :followerId and f.followed.id = :memberId")
-    void deleteFollowByFollowerIdAndMemberId(@Param("followerId") Long followerId, @Param("memberId") Long memberId);
+    @Query("DELETE FROM Follower f where f.followed.id = :followerId and f.following.id = :memberId")
+    void deleteFollowByFollowerIdAndMemberId(@Param("followerId") Long myId, @Param("memberId") Long memberId);
 }

@@ -85,14 +85,16 @@ public class MemberService {
     }
 
     @Transactional
-    public ProfileInfoResponseDTO getMemberInfo(Long memberId) {
-        FollowCountDTO followCountDTO = followerRepository.findFollowCountsByMemberId(memberId);
+    public ProfileInfoResponseDTO getMemberInfo(Long profileUserId, Long loggedInUserId) {
+        FollowCountDTO followCountDTO = followerRepository.findFollowCountsByMemberId(profileUserId);
         ;
-        Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
+        Member member = memberRepository.findById(profileUserId).orElseThrow(EntityNotFoundException::new);
 
-        Long totalLikes = videoRepository.QfindTotalLikes(memberId);
+        Long totalLikes = videoRepository.QfindTotalLikes(profileUserId);
 
-        return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount(), totalLikes);
+        Boolean amIFollowing = followerRepository.QfindAmIFollowing(loggedInUserId, profileUserId);
+
+        return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount(), totalLikes, amIFollowing);
     }
 
 

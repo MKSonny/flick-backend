@@ -42,7 +42,7 @@ public class FollowService {
     }
 
     @Transactional
-    public void deleteFollower(Long followerId, Long memberId) {
-        followRepository.deleteFollowByFollowerIdAndMemberId(followerId, memberId);
+    public void deleteFollower(Long myId, Long memberId) {
+        followRepository.deleteFollowByFollowerIdAndMemberId(myId, memberId);
     }
 }
