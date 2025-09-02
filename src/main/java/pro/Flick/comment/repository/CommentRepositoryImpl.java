@@ -73,6 +73,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .where(comment.parent.id.eq(parentId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(comment.createdAt.asc())
                 .fetch();
 
         Long total = queryFactory

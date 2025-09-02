@@ -11,7 +11,7 @@ import pro.Flick.controller.DbInit;
 
 @SpringBootApplication
 @RequiredArgsConstructor
-@Import(LogTraceAspect.class)
+//@Import(LogTraceAspect.class)
 public class FlickApplication {
 	private final DbInit dbInit;
 
