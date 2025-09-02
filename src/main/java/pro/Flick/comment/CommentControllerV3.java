@@ -47,8 +47,8 @@ public class CommentControllerV3 {
 
 
     @PostMapping
-    public void addCommentV2(@RequestBody CommentAddRequestDTO requestDto) {
-        commentService.addCommentV2(requestDto.getUserId(), requestDto.getVideoId(), requestDto.getText());
+    public CommentDetailResponseDTO addCommentV2(@RequestBody CommentAddRequestDTO requestDto) {
+        return commentService.addCommentV2(requestDto.getUserId(), requestDto.getVideoId(), requestDto.getText());
     }
 
 

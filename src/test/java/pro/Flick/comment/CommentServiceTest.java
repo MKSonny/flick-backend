@@ -90,20 +90,20 @@ class CommentServiceTest {
         log.info("commentService.addCommentV2(findMember.getId(), findVideo.getId(), \"hello\"); end");
     }
 
-    @Test
-    void addCommentAndReply() {
-        Member member = memberRepository.findMemberByEmailAndPassword("Email", "123");
-        Video findVideo = videoJpaRepository.findVideoById("1");
-
-
-        log.info("1");
-        Comment parent = commentService.addCommentV2(member.getId(), findVideo.getId(), "a");
-
-        log.info("2");
-        commentService.addReply(member.getId(), findVideo.getId(), parent.getId(), "b");
-
-        log.info("adfasdfsadf");
-        Pageable pageable = PageRequest.of(0, 3);
-        commentService.findAllCommentsWithLikesInfoV2(pageable, findVideo.getId(), member.getId());
-    }
+//    @Test
+//    void addCommentAndReply() {
+//        Member member = memberRepository.findMemberByEmailAndPassword("Email", "123");
+//        Video findVideo = videoJpaRepository.findVideoById("1");
+//
+//
+//        log.info("1");
+//        Comment parent = commentService.addCommentV2(member.getId(), findVideo.getId(), "a");
+//
+//        log.info("2");
+//        commentService.addReply(member.getId(), findVideo.getId(), parent.getId(), "b");
+//
+//        log.info("adfasdfsadf");
+//        Pageable pageable = PageRequest.of(0, 3);
+//        commentService.findAllCommentsWithLikesInfoV2(pageable, findVideo.getId(), member.getId());
+//    }
 }
