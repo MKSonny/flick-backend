@@ -47,7 +47,7 @@ public class VideoRepositoryImpl implements VideoRepositoryCustom {
                         video,
                         selectOne()
                                 .from(follower)
-                                .where(follower.followed.id.eq(memberId), follower.followed.id.eq(video.member.id))
+                                .where(follower.followed.id.eq(memberId), follower.following.id.eq(video.member.id))
                                 .exists()
                         ,
                         selectOne()
