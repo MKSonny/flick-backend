@@ -94,6 +94,7 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
                                 .from(m2)
                                 .where(m2.chatRoom.id.eq(message.chatRoom.id))
                 ))
+                .orderBy(message.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
