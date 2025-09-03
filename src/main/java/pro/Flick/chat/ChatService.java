@@ -116,7 +116,8 @@ public class ChatService {
 
     @Transactional
     public Page<ChatRoomMemberResponseDTO> getMyChatList(Pageable pageable, Long memberId) {
-        return chatRoomMemberRepository.QgetMyChats(pageable, memberId);
+//        return chatRoomMemberRepository.QgetMyChats(pageable, memberId);
+        return chatRoomMemberRepository.QgetMyChatsV2(pageable, memberId);
     }
 
 
