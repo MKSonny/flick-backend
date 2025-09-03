@@ -1,11 +1,13 @@
 package pro.Flick.chat.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.ChatRoom;
 import pro.Flick.entity.ChatRoomMember;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,5 +90,9 @@ public interface ChatRoomMemberRepository extends JpaRepository<ChatRoomMember, 
             @Param("memberIds") List<Long> memberIds,
             @Param("memberCount") int memberCount
     );
+
+    @Modifying
+    @Query("update ChatRoomMember crm set crm.lastReadAt = :lastReadUpdate where crm.chatRoom.id = :chatRoomId")
+    void updateLastReadAt(@Param("lastReadUpdate") LocalDateTime time, @Param("chatRoomId") Long chatRoomId);
 }
 

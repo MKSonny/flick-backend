@@ -2,6 +2,7 @@ package pro.Flick.chat;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChatService {
@@ -50,6 +52,8 @@ public class ChatService {
 
         String text = chatRequestDTO.getText();
 
+        log.info("senderId={}, receiverId={}", senderId, receiverId);
+
 
         ChatRoom chatRoom = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(sender.getId(), receiver.getId()), 2).orElseGet(() -> {
             System.out.println("채팅방이 없으므로 새로 생성합니다.");
@@ -78,11 +82,16 @@ public class ChatService {
             return createChatRoomAndChatRoomMessage(sender, receiver);
         });
 
+
+        LocalDateTime nowTime = LocalDateTime.now();
+
+        chatRoomMemberRepository.updateLastReadAt(nowTime, chatRoom.getId());
+
         Message message = Message.builder()
                 .chatRoom(chatRoom)
                 .read(false)
                 .sender(sender)
-                .createdAt(LocalDateTime.now())
+                .createdAt(nowTime)
                 .text(text)
                 .build();
 
@@ -100,11 +109,13 @@ public class ChatService {
 
         ChatRoomMember addSenderChatRoomMember = ChatRoomMember.builder()
                 .chatRoom(chatRoom)
+                .lastReadAt(chatRoom.getCreatedAt())
                 .member(sender)
                 .build();
 
         ChatRoomMember addReceiverChatRoomMember = ChatRoomMember.builder()
                 .chatRoom(chatRoom)
+                .lastReadAt(chatRoom.getCreatedAt())
                 .member(receiver)
                 .build();
 

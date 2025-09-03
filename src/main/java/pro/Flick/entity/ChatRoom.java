@@ -11,6 +11,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 public class ChatRoom {
     @Id @GeneratedValue
     private Long id;

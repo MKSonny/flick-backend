@@ -80,7 +80,7 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
         List<ChatRoomMemberResponseDTO> content = queryFactory
                 .select(Projections.constructor(ChatRoomMemberResponseDTO.class,
                         message.sender.username,
-                        message.sender.file.storedFileName,
+                        message.sender.file.storedFileName.coalesce("/default_profile.png"),
                         message.chatRoom.id,
                         message.sender.id,
                         message.text
@@ -94,10 +94,10 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
                                 .from(m2)
                                 .where(m2.chatRoom.id.eq(message.chatRoom.id))
                 ))
-                .orderBy(message.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+
 
         Long total = queryFactory
                 .select(message.count())
