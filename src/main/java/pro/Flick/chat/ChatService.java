@@ -55,10 +55,17 @@ public class ChatService {
         log.info("senderId={}, receiverId={}", senderId, receiverId);
 
 
-        ChatRoom chatRoom = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(sender.getId(), receiver.getId()), 2).orElseGet(() -> {
-            System.out.println("채팅방이 없으므로 새로 생성합니다.");
-            return createChatRoomAndChatRoomMessage(sender, receiver);
-        });
+        ChatRoom chatRoom = null;
+
+        if (chatRequestDTO.getChatRoomId() != null) {
+            chatRoom = chatRoomRepository.getReferenceById(chatRequestDTO.getChatRoomId());
+        } else {
+            chatRoom = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(sender.getId(), receiver.getId()), 2).orElseGet(() -> {
+                System.out.println("채팅방이 없으므로 새로 생성합니다.");
+                return createChatRoomAndChatRoomMessage(sender, receiver);
+            });
+        }
+
 
         Message message = Message.builder()
                 .chatRoom(chatRoom)
@@ -85,7 +92,7 @@ public class ChatService {
 
         LocalDateTime nowTime = LocalDateTime.now();
 
-        chatRoomMemberRepository.updateLastReadAt(nowTime, chatRoom.getId());
+//        chatRoomMemberRepository.updateLastReadAt(nowTime, chatRoom.getId());
 
         Message message = Message.builder()
                 .chatRoom(chatRoom)
@@ -95,7 +102,10 @@ public class ChatService {
                 .text(text)
                 .build();
 
-        messageRepository.save(message);
+        Message savedMessage = messageRepository.save(message);
+
+        chatRoom.setMessage(savedMessage);
+//        chatRoomRepository.updateChatRoomMessageId(message.getId(), chatRoom.getId());
     }
 
     @Transactional

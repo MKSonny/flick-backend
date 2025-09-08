@@ -12,6 +12,7 @@ import pro.Flick.entity.*;
 
 import java.util.List;
 
+import static pro.Flick.entity.QChatRoom.chatRoom;
 import static pro.Flick.entity.QChatRoomMember.chatRoomMember;
 import static pro.Flick.entity.QFile.file;
 import static pro.Flick.entity.QMember.member;
@@ -112,4 +113,5 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
 
         return new PageImpl<>(content, pageable, total);
     }
+
 }

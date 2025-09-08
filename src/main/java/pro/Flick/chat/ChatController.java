@@ -15,7 +15,6 @@ import pro.Flick.chat.repository.ChatJpaRepository;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Chat;
-import pro.Flick.entity.ChatRoomMember;
 import pro.Flick.entity.Member;
 import pro.Flick.member.repository.MemberRepository;
 
@@ -38,11 +37,11 @@ public class ChatController {
 //    @PostMapping
 //    public void addMessage(@RequestBody ChatRequestDto requestDto) {
 //        Member findMember = memberJpaRepository.findMemberById(requestDto.getUserId());
-//        chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
+//        chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getChatRoomId());
 //    }
     // 8/1
 
-    @GetMapping("/{users_key}")
+    @GetMapping("/{chatRoomId}")
     public List<GetChatByUsersKeyResponseDto> getChatByUsersKey(@PathVariable String users_key) {
         List<Chat> chats = chatJpaRepository.getChatByUsersKey(users_key);
         List<GetChatByUsersKeyResponseDto> dtoList = new ArrayList<>();
@@ -71,13 +70,13 @@ public class ChatController {
      * userId: user.id,
      * chat_user_id: params.chat_user_id,
      * text,
-     * users_key
+     * chatRoomId
      */
 //    @PostMapping
     public void addMessage(@RequestBody ChatRequestDTO requestDto) {
         Member findMember = memberRepository.findMemberById(requestDto.getSenderId());
         Member receiverMember = memberRepository.findMemberById(requestDto.getReceiverId());
-        chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getUsers_key());
+//        chatJpaRepository.addMessage(findMember, requestDto.getText(), requestDto.getChatRoomId());
 
         chatJpaRepository.addMessage(findMember, receiverMember, requestDto.getText());
     }
@@ -97,6 +96,8 @@ public class ChatController {
             @DestinationVariable String chatRoomId,
             ChatRequestDTO messageRequest
     ) {
+
+        log.info("ChatRequestDTO={}", messageRequest);
 
         return chatService.addMessage(messageRequest);
     }

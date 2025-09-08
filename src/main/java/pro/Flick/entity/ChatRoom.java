@@ -21,4 +21,8 @@ public class ChatRoom {
 
     // 채팅방 생성 시각
     private LocalDateTime createdAt;
+
+    @OneToOne
+    @JoinColumn(name = "last_message_id")
+    private Message message;
 }
