@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.comment.trash.dto.CommentLikesAddDTO;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
+import pro.Flick.entity.NotificationType;
 import pro.Flick.likes.dto.LikeOnMyVideoResponseDTO;
 import pro.Flick.member.repository.MemberRepository;
+import pro.Flick.notification.NotificationService;
 import pro.Flick.repsository.LikesJpaRepository;
 
 import java.util.ArrayList;
@@ -22,11 +24,14 @@ public class LikesControllerV2 {
     private final LikesJpaRepository likesJpaRepository;
     private final MemberRepository memberRepository;
     private final LikesService likesService;
+    private final NotificationService notificationService;
 
 
     @PostMapping
     public void addLikesV2(@RequestBody LikesRequestDTO likesRequestDTO) {
         likesService.addLikes(likesRequestDTO.getUserId(), likesRequestDTO.getVideoId());
+
+        notificationService.sendVideoLikeNotification(likesRequestDTO.getVideoUserId(), Long.valueOf(likesRequestDTO.getUserId()));
     }
 
     @PostMapping("/comment")

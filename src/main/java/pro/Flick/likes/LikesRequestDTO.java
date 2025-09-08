@@ -6,9 +6,9 @@ import lombok.Data;
 class LikesRequestDTO {
     private String userId;
     private String videoId;
-    private String videoUserId;
+    private Long videoUserId;
 
-    public LikesRequestDTO(String userId, String videoId, String videoUserId) {
+    public LikesRequestDTO(String userId, String videoId, Long videoUserId) {
         this.userId = userId;
         this.videoId = videoId;
         this.videoUserId = videoUserId;

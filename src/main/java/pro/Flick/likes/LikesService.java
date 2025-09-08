@@ -24,7 +24,6 @@ public class LikesService {
     private final VideoRepository videoRepository;
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
-
     private final LikesRepository likesRepository;
 
 

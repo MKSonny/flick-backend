@@ -3,14 +3,19 @@ package pro.Flick.notification;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Notification;
 import pro.Flick.entity.NotificationType;
 import pro.Flick.member.repository.MemberRepository;
+import pro.Flick.notification.repository.EmitterRepository;
+import pro.Flick.notification.repository.NotificationRepository;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,6 +45,15 @@ public class NotificationService {
         sendToClient("sse", emitter, emitterId, connectionData);
 
         return emitter;
+    }
+
+    public void sendVideoLikeNotification(Long receiverId, Long senderId) {
+        Member sender = memberRepository.findById(senderId).orElseThrow();
+        Member receiver = memberRepository.findById(receiverId).orElseThrow();
+
+        String content = String.format("%s님이 %s님 영상에 좋아요를 눌렀습니다.", sender.getUsername(), receiver.getUsername());
+
+        send(receiverId, NotificationType.LIKE, content);
     }
 
 
@@ -76,5 +90,18 @@ public class NotificationService {
         } catch (IOException exception) {
             emitterRepository.deleteById(id);
         }
+    }
+
+    public Long getMyNotifications(Long memberId) {
+        return notificationRepository.QcountUnreadNotifications(memberId);
+    }
+
+    public Page<NotificationContentResponseDTO> getMyNotificationContent(Pageable pageable, Long memberId) {
+        return notificationRepository.QfindMyNotificationsContent(pageable, memberId);
+    }
+
+    @Transactional
+    public void readNotifications(List<Long> notificationIds) {
+        notificationRepository.QmarkAsReadByIds(notificationIds);
     }
 }

@@ -1,4 +1,4 @@
-package pro.Flick.notification;
+package pro.Flick.notification.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
