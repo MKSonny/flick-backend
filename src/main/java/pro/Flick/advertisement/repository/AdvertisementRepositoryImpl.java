@@ -26,6 +26,7 @@ public class AdvertisementRepositoryImpl implements AdvertisementRepositoryCusto
                         ))
                 .from(advertisement)
                 .join(advertisement.file, file).on(advertisement.file.id.eq(file.id))
+                .where(advertisement.video.id.eq(videoId))
                 .fetchOne();
     }
 }
