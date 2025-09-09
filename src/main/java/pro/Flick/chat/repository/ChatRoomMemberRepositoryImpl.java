@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import pro.Flick.chat.ChatRoomMemberResponseDTO;
+import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
 import pro.Flick.entity.*;
 
 import java.util.List;
@@ -112,6 +113,18 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, total);
+    }
+
+    @Override
+    public ChatRoomInfoResponseDTO QgetChatRoomInfo(Long chatRoomId, Long memberId) {
+        return queryFactory
+                .select(Projections.constructor(ChatRoomInfoResponseDTO.class,
+                        member.username
+                        ))
+                .from(chatRoomMember)
+                .join(chatRoomMember.member, member).on(chatRoomMember.member.id.eq(member.id))
+                .where(chatRoomMember.chatRoom.id.eq(chatRoomId), chatRoomMember.member.id.ne(memberId))
+                .fetchOne();
     }
 
 }

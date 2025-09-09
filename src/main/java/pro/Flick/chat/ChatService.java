@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pro.Flick.chat.dto.ChatRequestDTO;
+import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.chat.repository.ChatRoomRepository;
 import pro.Flick.entity.ChatRoom;
@@ -149,5 +150,9 @@ public class ChatService {
             dtoList.add(new GetChatByUsersKeyResponseDtoV2(message));
         }
         return dtoList;
+    }
+
+    public ChatRoomInfoResponseDTO getRoomInfo(Long chatRoomId, Long memberId) {
+        return chatRoomMemberRepository.QgetChatRoomInfo(chatRoomId, memberId);
     }
 }

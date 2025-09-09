@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.chat.dto.ChatRequestDTO;
+import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
 import pro.Flick.chat.repository.ChatJpaRepository;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
@@ -50,6 +51,11 @@ public class ChatController {
             dtoList.add(new GetChatByUsersKeyResponseDto(chat.getMember(), chat.getText(), chat.getLocalDateTime()));
         }
         return dtoList;
+    }
+
+    @GetMapping("/room-info/{chatRoomId}/{userId}")
+    public ChatRoomInfoResponseDTO getChatRoomInfo(@PathVariable Long chatRoomId, @PathVariable Long userId) {
+        return chatService.getRoomInfo(chatRoomId, userId);
     }
 
     @GetMapping("/v2/{chatRoomId}")
