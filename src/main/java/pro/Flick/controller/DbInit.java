@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.Video.repository.VideoRepository;
 import pro.Flick.Video.service.VideoService;
+import pro.Flick.advertisement.repository.AdvertisementRepository;
 import pro.Flick.comment.CommentService;
-import pro.Flick.entity.Member;
-import pro.Flick.entity.Video;
-import pro.Flick.entity.VideoType;
+import pro.Flick.entity.*;
 import pro.Flick.chat.repository.ChatJpaRepository;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
+import pro.Flick.file.FileRepository;
 import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.chat.ChatService;
 import pro.Flick.follow.FollowService;
@@ -28,6 +28,8 @@ public class DbInit {
     private final ChatService chatService;
     private final CommentService commentService;
     private final VideoRepository videoRepository;
+    private final AdvertisementRepository advertisementRepository;
+    private final FileRepository fileRepository;
 
     @Transactional
     public void saveMemberAndVideo() {
@@ -36,6 +38,7 @@ public class DbInit {
         Member test = memberRepository.save(new Member("test", "Email2", "123"));
         memberRepository.save(new Member("test3", "Email3", "123"));
         memberRepository.save(new Member("test4", "Email4", "123"));
+
 
 
         Member member = memberRepository.findMemberByEmailAndPassword("Email", "123");
@@ -63,10 +66,16 @@ public class DbInit {
 
         Video AdVideoTest = Video.builder()
                 .videoType(VideoType.AD)
-                .uri("http://127.0.0.1:8080/videos-v2/download/test.mov")
+                .uri("http://127.0.0.1:8080/videos-v2/download/ad_video_test.mp4")
                 .title("광고 영상입니다.")
                 .member(member)
                 .build();
+
+
+        File adFile = new File("Gemini_Generated_Image_qj36ovqj36ovqj36.png", null);
+        fileRepository.save(adFile);
+
+        advertisementRepository.save(new Advertisement("광고 제목입니다", "http://localhost:8080/ad-1", adFile, AdVideoTest));
 
         Video ShoppingVideoTest = Video.builder()
                 .videoType(VideoType.SHOPPING)
@@ -85,6 +94,7 @@ public class DbInit {
         videoService.createVideo("myVideo1", "test.mov", member);
         videoService.createVideo("myVideo2","test2.mov", member);
         videoService.createVideo("myVideo3","test3.mov", test);
+        videoService.createVideo("adVideo", "ad_video_test.mp4", null);
 
         followService.memberAFollowsMemberBUsingRef(member.getId(), member2.getId());
         followService.memberAFollowsMemberBUsingRef(member2.getId(), member.getId());
