@@ -177,6 +177,8 @@ public class CommentService {
 
         Video video = videoRepository.getReferenceById(videoId);
 
+        videoRepository.incrementCommentCount(videoId);
+
         Comment parent = commentRepository.getReferenceById(parentId);
 
 
