@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.entity.Follower;
+import pro.Flick.entity.NotificationType;
 import pro.Flick.follow.dto.FollowRequestDTO;
 import pro.Flick.notification.NotificationService;
 
@@ -24,7 +25,7 @@ public class FollowControllerV3 {
     public void addFollower(@RequestBody FollowRequestDTO requestDTO) {
         log.info("requestDTO={}", requestDTO);
         followService.memberAFollowsMemberBUsingRef(requestDTO.getUserId(), requestDTO.getFollower_user_id());
-        notificationService.sendFollowNotification(requestDTO.getFollower_user_id(), requestDTO.getUserId());
+        notificationService.send(requestDTO.getFollower_user_id(), requestDTO.getUserId(), NotificationType.FOLLOW, null);
     }
 
 

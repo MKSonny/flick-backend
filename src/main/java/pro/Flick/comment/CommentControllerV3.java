@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.comment.dto.request.CommentAddRequestDTO;
 import pro.Flick.comment.dto.response.*;
 import pro.Flick.comment.trash.dto.ReplyAddRequestDTO;
+import pro.Flick.entity.NotificationType;
+import pro.Flick.notification.NotificationService;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import java.util.List;
 public class CommentControllerV3 {
 
     private final CommentService commentService;
+    private final NotificationService notificationService;
 
     @GetMapping("/{videoId}")
     public List<VideoCommentResponseDTO> getCommentsByVideoIdV2(@PathVariable Long videoId) {
@@ -48,6 +51,7 @@ public class CommentControllerV3 {
 
     @PostMapping
     public CommentDetailResponseDTO addCommentV2(@RequestBody CommentAddRequestDTO requestDto) {
+        notificationService.send(requestDto.getVideo_user_id(), requestDto.getUserId(), NotificationType.COMMENT, requestDto.getText());
         return commentService.addCommentV2(requestDto.getUserId(), requestDto.getVideoId(), requestDto.getText());
     }
 

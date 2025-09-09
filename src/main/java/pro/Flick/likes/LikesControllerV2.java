@@ -31,7 +31,7 @@ public class LikesControllerV2 {
     public void addLikesV2(@RequestBody LikesRequestDTO likesRequestDTO) {
         likesService.addLikes(likesRequestDTO.getUserId(), likesRequestDTO.getVideoId());
 
-        notificationService.sendVideoLikeNotification(likesRequestDTO.getVideoUserId(), Long.valueOf(likesRequestDTO.getUserId()));
+        notificationService.send(likesRequestDTO.getVideoUserId(), Long.valueOf(likesRequestDTO.getUserId()), NotificationType.LIKE, null);
     }
 
     @PostMapping("/comment")

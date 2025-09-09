@@ -52,29 +52,20 @@ public class NotificationService {
         return emitter;
     }
 
-    public void sendFollowNotification(Long receiverId, Long senderId) {
-        Member sender = memberRepository.findById(senderId).orElseThrow();
-        Member receiver = memberRepository.findById(receiverId).orElseThrow();
-
-        String content = String.format("%s님이 %s님을 팔로우하기 시작했습니다.", sender.getUsername(), receiver.getUsername());
-
-        send(receiverId, senderId, NotificationType.FOLLOW, content);
-    }
-
-    public void sendVideoLikeNotification(Long receiverId, Long senderId) {
-        Member sender = memberRepository.findById(senderId).orElseThrow();
-        Member receiver = memberRepository.findById(receiverId).orElseThrow();
-
-        String content = String.format("%s님이 %s님 영상에 좋아요를 눌렀습니다.", sender.getUsername(), receiver.getUsername());
-
-        send(receiverId, senderId, NotificationType.LIKE, content);
-    }
-
 
     @Transactional
-    private void send(Long receiverId, Long senderId, NotificationType notificationType, String content) {
-        Member receiver = memberRepository.getReferenceById(receiverId);
-        Member sender = memberRepository.getReferenceById(senderId);
+    public void send(Long receiverId, Long senderId, NotificationType notificationType, String comment) {
+        Member sender = memberRepository.findById(senderId).orElseThrow();
+        Member receiver = memberRepository.findById(receiverId).orElseThrow();
+        String content = null;
+
+        if (notificationType == NotificationType.LIKE) {
+            content = String.format("%s님이 %s님 영상에 좋아요를 눌렀습니다.", sender.getUsername(), receiver.getUsername());
+        } else if (notificationType == NotificationType.FOLLOW) {
+            content = String.format("%s님이 %s님을 팔로우하기 시작했습니다.", sender.getUsername(), receiver.getUsername());
+        } else if (notificationType == NotificationType.COMMENT){
+            content = String.format("%s님이 %s님의 영상에 댓글을 남겼습니다\n%s", sender.getUsername(), receiver.getUsername(), comment);
+        }
 
         Notification notification = Notification.builder()
                 .receiver(receiver)

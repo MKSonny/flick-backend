@@ -60,7 +60,7 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom{
                     .from(notification)
                     .where(
                             notification.receiver.id.eq(memberId),
-                            notificationTypeEq(type)
+                            notification.notificationType.in(NotificationType.COMMENT, NotificationType.LIKE)
                     )
                     .orderBy(notification.createdAt.desc())
                     .offset(pageable.getOffset())
@@ -110,8 +110,8 @@ public class NotificationRepositoryImpl implements NotificationRepositoryCustom{
             Long count = tuple.get(notification.count());
             if (notificationType == NotificationType.FOLLOW) {
                 dto.setFollow_count(count);
-            } else if (notificationType == NotificationType.LIKE) {
-                dto.setLike_count(count);
+            } else if (notificationType == NotificationType.LIKE || notificationType == NotificationType.COMMENT) {
+                dto.setLike_count(dto.getLike_count() + count);
             }
         });
 
