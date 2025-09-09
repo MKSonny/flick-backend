@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notification {
+public class Notification extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,12 +22,17 @@ public class Notification {
     private NotificationType notificationType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "receiver_id")
     private Member receiver;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
+    private Member sender;
+
     @Builder
-    public Notification(Member receiver, NotificationType notificationType, String content, Boolean isRead) {
+    public Notification(Member receiver, Member sender, NotificationType notificationType, String content, Boolean isRead) {
         this.receiver = receiver;
+        this.sender = sender;
         this.notificationType = notificationType;
         this.content = content;
         this.isRead = isRead;

@@ -3,13 +3,16 @@ package pro.Flick.notification;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Notification;
 import pro.Flick.entity.NotificationType;
+import pro.Flick.follow.FollowService;
 import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.notification.repository.EmitterRepository;
 import pro.Flick.notification.repository.NotificationRepository;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -25,6 +29,7 @@ public class NotificationService {
     private final MemberRepository memberRepository;
     private final NotificationRepository notificationRepository;
     private final EmitterRepository emitterRepository;
+    private final FollowService followService;
 
     private static  final Long DEFAULT_TIMEOUT = 60L * 1000 * 60; // 1시간
 
@@ -47,22 +52,33 @@ public class NotificationService {
         return emitter;
     }
 
+    public void sendFollowNotification(Long receiverId, Long senderId) {
+        Member sender = memberRepository.findById(senderId).orElseThrow();
+        Member receiver = memberRepository.findById(receiverId).orElseThrow();
+
+        String content = String.format("%s님이 %s님을 팔로우하기 시작했습니다.", sender.getUsername(), receiver.getUsername());
+
+        send(receiverId, senderId, NotificationType.FOLLOW, content);
+    }
+
     public void sendVideoLikeNotification(Long receiverId, Long senderId) {
         Member sender = memberRepository.findById(senderId).orElseThrow();
         Member receiver = memberRepository.findById(receiverId).orElseThrow();
 
         String content = String.format("%s님이 %s님 영상에 좋아요를 눌렀습니다.", sender.getUsername(), receiver.getUsername());
 
-        send(receiverId, NotificationType.LIKE, content);
+        send(receiverId, senderId, NotificationType.LIKE, content);
     }
 
 
     @Transactional
-    private void send(Long receiverId, NotificationType notificationType, String content) {
-        Member receiver = memberRepository.findById(receiverId).orElseThrow();
+    private void send(Long receiverId, Long senderId, NotificationType notificationType, String content) {
+        Member receiver = memberRepository.getReferenceById(receiverId);
+        Member sender = memberRepository.getReferenceById(senderId);
 
         Notification notification = Notification.builder()
                 .receiver(receiver)
+                .sender(sender)
                 .notificationType(notificationType)
                 .content(content)
                 .isRead(false)
@@ -92,16 +108,38 @@ public class NotificationService {
         }
     }
 
-    public Long getMyNotifications(Long memberId) {
+    public NotificationCountResponseDTO getMyNotifications(Long memberId) {
         return notificationRepository.QcountUnreadNotifications(memberId);
     }
 
-    public Page<NotificationContentResponseDTO> getMyNotificationContent(Pageable pageable, Long memberId) {
-        return notificationRepository.QfindMyNotificationsContent(pageable, memberId);
+    public Page<NotificationContentResponseDTO> getMyNotificationContent(String type, Pageable pageable, Long memberId) {
+
+        NotificationType notificationType = null; // 기본값은 null (전체 조회)
+//        log.info("type={}", type);
+        if (StringUtils.hasText(type)) {
+            try {
+                notificationType = NotificationType.valueOf(type.toUpperCase());
+//                log.info("notificationType={}", notificationType);
+            } catch (IllegalArgumentException e) {
+                // 없는 타입을 호출할 경우
+            }
+        }
+
+
+        return notificationRepository.QfindMyNotificationsContent(notificationType, pageable, memberId);
+    }
+
+    public Long countMyNotifications(Long memberId) {
+        return notificationRepository.QcountAllUnreadNotifications(memberId);
     }
 
     @Transactional
     public void readNotifications(List<Long> notificationIds) {
+
+        if (notificationIds == null || notificationIds.isEmpty()) {
+            return;
+        }
+
         notificationRepository.QmarkAsReadByIds(notificationIds);
     }
 }

@@ -45,4 +45,8 @@ public class FollowService {
     public void deleteFollower(Long myId, Long memberId) {
         followRepository.deleteFollowByFollowerIdAndMemberId(myId, memberId);
     }
+
+    public Boolean isAMemberIdFollowingBMemberId(Long AMemberId, Long BMemberId) {
+        return followRepository.QfindAmIFollowing(AMemberId, BMemberId);
+    }
 }
