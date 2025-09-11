@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.api_response.ApiResponse;
 import pro.Flick.comment.dto.request.CommentAddRequestDTO;
 import pro.Flick.comment.dto.response.*;
 import pro.Flick.comment.trash.dto.ReplyAddRequestDTO;
@@ -25,18 +26,18 @@ public class CommentControllerV3 {
     private final NotificationService notificationService;
 
     @GetMapping("/{videoId}")
-    public List<VideoCommentResponseDTO> getCommentsByVideoIdV2(@PathVariable Long videoId) {
+    public ApiResponse<List<VideoCommentResponseDTO>> getCommentsByVideoIdV2(@PathVariable Long videoId) {
 //        return commentService.findCommentByVideoIdV3(videoId);
-        return commentService.findCommentByVideoIdV3UsingQueryDsl(videoId);
+        return ApiResponse.ok(commentService.findCommentByVideoIdV3UsingQueryDsl(videoId));
     }
 
 
     @GetMapping("/paging-v2/{videoId}")
-    public Page<CommentDetailResponseDTO> getCommentsByVideoIdUsingPaginationV3(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
+    public ApiResponse<Page<CommentDetailResponseDTO>> getCommentsByVideoIdUsingPaginationV3(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageablee,
                                                                                 @PathVariable Long videoId,
                                                                                 @RequestParam Long userId) {
 //        return commentService.getAllCommentsWithLikesInfoV3(pageablee, videoId, userId);
-        return commentService.getAllCommentsWithLikesInfoUsingQueryDsl(pageablee, videoId, userId);
+        return ApiResponse.ok(commentService.getAllCommentsWithLikesInfoUsingQueryDsl(pageablee, videoId, userId));
     }
 
 
@@ -50,25 +51,25 @@ public class CommentControllerV3 {
 
 
     @PostMapping
-    public CommentDetailResponseDTO addCommentV2(@RequestBody CommentAddRequestDTO requestDto) {
+    public ApiResponse<CommentDetailResponseDTO> addCommentV2(@RequestBody CommentAddRequestDTO requestDto) {
         notificationService.send(requestDto.getVideo_user_id(), requestDto.getUserId(), NotificationType.COMMENT, requestDto.getText());
-        return commentService.addCommentV2(requestDto.getUserId(), requestDto.getVideoId(), requestDto.getText());
+        return ApiResponse.ok(commentService.addCommentV2(requestDto.getUserId(), requestDto.getVideoId(), requestDto.getText()));
     }
 
 
     @GetMapping("/{parentId}/replies")
-    public Page<CommentReplyDetailResponseDTO> getReplies(
+    public ApiResponse<Page<CommentReplyDetailResponseDTO>> getReplies(
             @PathVariable Long parentId,
             @RequestParam Long userId,
             @PageableDefault(size = 3, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) { // 내가 이 답글에 좋아요를 눌렀는지 정보를 가져오기 위해 필요
 
 //       return commentService.getRepliesByParentIdV3(pageable, parentId, userId);
-       return commentService.getRepliesByParentIdV3UsingQueryDsl(pageable, parentId, userId);
+        return ApiResponse.ok(commentService.getRepliesByParentIdV3UsingQueryDsl(pageable, parentId, userId));
     }
 
 
     @PostMapping("/{parentId}/reply")
-    public CommentReplyDetailResponseDTO replyComment(@PathVariable Long parentId, @RequestBody ReplyAddRequestDTO requestDTO) {
-        return commentService.addReplyV3(requestDTO.getUserId(), requestDTO.getVideoId(), parentId, requestDTO.getText());
+    public ApiResponse<CommentReplyDetailResponseDTO> replyComment(@PathVariable Long parentId, @RequestBody ReplyAddRequestDTO requestDTO) {
+        return ApiResponse.ok(commentService.addReplyV3(requestDTO.getUserId(), requestDTO.getVideoId(), parentId, requestDTO.getText()));
     }
 }
