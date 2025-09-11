@@ -149,10 +149,12 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
     public ChatRoomInfoResponseDTO QgetChatRoomInfo(Long chatRoomId, Long memberId) {
         return queryFactory
                 .select(Projections.constructor(ChatRoomInfoResponseDTO.class,
-                        member.username
+                        member.username,
+                        member.file.storedFileName.coalesce("/default_profile.png")
                         ))
                 .from(chatRoomMember)
                 .join(chatRoomMember.member, member).on(chatRoomMember.member.id.eq(member.id))
+                .leftJoin(member.file, file)
                 .where(chatRoomMember.chatRoom.id.eq(chatRoomId), chatRoomMember.member.id.ne(memberId))
                 .fetchOne();
     }
