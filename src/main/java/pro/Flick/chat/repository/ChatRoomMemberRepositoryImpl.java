@@ -116,6 +116,36 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
     }
 
     @Override
+    public Page<ChatRoomMemberResponseDTO> QgetMyChatsV3(Pageable pageable, Long memberId) {
+        List<ChatRoomMemberResponseDTO> content = queryFactory.select(
+                        Projections.constructor(ChatRoomMemberResponseDTO.class,
+                                member.username,
+                                member.file.storedFileName.coalesce("/default_profile.png"),
+                                message.chatRoom.id,
+                                member.id,
+                                message.text
+                        ))
+                .from(chatRoomMember)
+                .join(chatRoomMember.chatRoom, chatRoom)
+                .join(chatRoom.lastMessage, message)
+                .join(message.sender, member)
+                .leftJoin(member.file, file)
+                .where(chatRoomMember.member.id.eq(memberId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long total = queryFactory
+                .select(chatRoomMember.id.count())
+                .from(chatRoomMember)
+                .where(chatRoomMember.member.id.eq(memberId))
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, total);
+    }
+
+
+    @Override
     public ChatRoomInfoResponseDTO QgetChatRoomInfo(Long chatRoomId, Long memberId) {
         return queryFactory
                 .select(Projections.constructor(ChatRoomInfoResponseDTO.class,
@@ -126,5 +156,20 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
                 .where(chatRoomMember.chatRoom.id.eq(chatRoomId), chatRoomMember.member.id.ne(memberId))
                 .fetchOne();
     }
+
+    @Override
+    public ChatRoom QfindChatRoom(Long senderId, Long receiverId) {
+
+        QChatRoomMember crm1 = new QChatRoomMember("crm1");
+        QChatRoomMember crm2 = new QChatRoomMember("crm2");
+
+        return queryFactory
+                .select(chatRoom)
+                .from(crm1)
+                .join(crm1.chatRoom, crm2.chatRoom)
+                .where(crm1.member.id.lt(crm2.member.id), crm1.member.id.eq(senderId), crm2.member.id.eq(receiverId))
+                .fetchOne();
+    }
+
 
 }

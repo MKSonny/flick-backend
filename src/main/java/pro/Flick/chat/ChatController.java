@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.api_response.ApiResponse;
 import pro.Flick.chat.dto.ChatRequestDTO;
 import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
 import pro.Flick.chat.repository.ChatJpaRepository;
@@ -88,12 +89,13 @@ public class ChatController {
     }
 
     @PostMapping
-    public void addMessageV2(@RequestBody ChatRequestDTO requestDto) {
+    public ApiResponse<?> addMessageV2(@RequestBody ChatRequestDTO requestDto) {
         Member sender = memberRepository.findMemberById(requestDto.getSenderId());
         log.info("requestDto={}", requestDto);
         Member receiver = memberRepository.findMemberById(requestDto.getReceiverId());
 
-        chatService.addMessage(requestDto);
+
+        return ApiResponse.ok(chatService.addMessage(requestDto));
     }
 
     @MessageMapping("/chat/{chatRoomId}/sendMessage")

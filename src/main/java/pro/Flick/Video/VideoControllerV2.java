@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.dto.response.ProfileVideoListResponse;
 import pro.Flick.Video.dto.response.VideoSummaryResponse;
 import pro.Flick.Video.service.VideoService;
+import pro.Flick.api_response.ApiResponse;
 import pro.Flick.file.FileStore;
 
 import java.net.MalformedURLException;
@@ -58,8 +59,8 @@ public class VideoControllerV2 {
     }
 
     @GetMapping("/get-all-videos")
-    public Page<VideoSummaryResponse> getAllVideos(@PageableDefault(size = 5) Pageable pageable, @RequestParam("userId") Long userId) {
+    public ApiResponse<Page<VideoSummaryResponse>> getAllVideos(@PageableDefault(size = 5) Pageable pageable, @RequestParam("userId") Long userId) {
 //        return videoService.getVideoInfoV3(pageable, userId);
-        return videoService.getVideoInfoByQueryDsl(pageable, userId);
+        return ApiResponse.ok(videoService.getVideoInfoByQueryDsl(pageable, userId));
     }
 }

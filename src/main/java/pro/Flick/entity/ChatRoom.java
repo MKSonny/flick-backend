@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -24,5 +25,8 @@ public class ChatRoom {
 
     @OneToOne
     @JoinColumn(name = "last_message_id")
-    private Message message;
+    private Message lastMessage;
+
+    @OneToMany
+    private List<ChatRoomMember> chatRoomMembers;
 }

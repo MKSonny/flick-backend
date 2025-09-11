@@ -59,7 +59,7 @@ public class ChatService {
         ChatRoom chatRoom = null;
 
         if (chatRequestDTO.getChatRoomId() != null) {
-            chatRoom = chatRoomRepository.getReferenceById(chatRequestDTO.getChatRoomId());
+            chatRoom = chatRoomRepository.findById(chatRequestDTO.getChatRoomId()).orElseThrow();
         } else {
             chatRoom = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(sender.getId(), receiver.getId()), 2).orElseGet(() -> {
                 System.out.println("채팅방이 없으므로 새로 생성합니다.");
@@ -77,6 +77,7 @@ public class ChatService {
                 .build();
 
         Message savedMessage = messageRepository.save(message);
+        chatRoom.setLastMessage(savedMessage);
 
         return new GetChatByUsersKeyResponseDtoV2(savedMessage);
     }
@@ -105,7 +106,7 @@ public class ChatService {
 
         Message savedMessage = messageRepository.save(message);
 
-        chatRoom.setMessage(savedMessage);
+        chatRoom.setLastMessage(savedMessage);
 //        chatRoomRepository.updateChatRoomMessageId(message.getId(), chatRoom.getId());
     }
 
@@ -138,8 +139,8 @@ public class ChatService {
 
     @Transactional
     public Page<ChatRoomMemberResponseDTO> getMyChatList(Pageable pageable, Long memberId) {
-//        return chatRoomMemberRepository.QgetMyChats(pageable, memberId);
-        return chatRoomMemberRepository.QgetMyChatsV2(pageable, memberId);
+//        return chatRoomMemberRepository.QgetMyChatsV2(pageable, memberId);
+        return chatRoomMemberRepository.QgetMyChatsV3(pageable, memberId);
     }
 
 

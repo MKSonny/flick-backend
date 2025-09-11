@@ -9,6 +9,6 @@ import pro.Flick.entity.ChatRoom;
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
     @Modifying
-    @Query("update ChatRoom cr set cr.message.id = :messageId where cr.id = :chatRoomId")
+    @Query("update ChatRoom cr set cr.lastMessage.id = :messageId where cr.id = :chatRoomId")
     void updateChatRoomMessageId(@Param("messageId") Long messageId, @Param("chatRoomId") Long chatRoomId);
 }
