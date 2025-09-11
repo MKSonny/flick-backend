@@ -16,6 +16,11 @@ public class GlobalExceptionHandler {
         return ApiResponse.fail(e);
     }
 
+    @ExceptionHandler(value = {BusinessException.class})
+    public ApiResponse<?> handleBusinessException(BusinessException e) {
+        return ApiResponse.fail(e);
+    }
+
     @ExceptionHandler(value = {NoHandlerFoundException.class, HttpRequestMethodNotSupportedException.class})
     public ApiResponse<?> handleNoPageFoundException(Exception e) {
         log.error("GlobalExceptionHandler catch NoHandlerFoundException : {}", e.getMessage());

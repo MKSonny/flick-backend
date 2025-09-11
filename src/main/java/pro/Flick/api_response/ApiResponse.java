@@ -24,6 +24,11 @@ public record ApiResponse<T>(
         return new ApiResponse<>(HttpStatus.CREATED, true, data, null);
     }
 
+    public static <T> ApiResponse<T> fail(final BusinessException e) {
+        return new ApiResponse<>(e.getErrorCode().getHttpStatus(), false, null, ExceptionDto.of(e.getErrorCode()));
+    }
+
+
     // 실패 응답을 생성하는 정적 팩토리 메서드
     public static <T> ApiResponse<T> fail(final CustomException e) {
         return new ApiResponse<>(e.getErrorCode().getHttpStatus(), false, null, ExceptionDto.of(e.getErrorCode()));

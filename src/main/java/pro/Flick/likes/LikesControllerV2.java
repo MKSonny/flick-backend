@@ -3,11 +3,13 @@ package pro.Flick.likes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.api_response.ApiResponse;
 import pro.Flick.comment.trash.dto.CommentLikesAddDTO;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.NotificationType;
 import pro.Flick.likes.dto.LikeOnMyVideoResponseDTO;
+import pro.Flick.likes.dto.LikesResponseDto;
 import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.notification.NotificationService;
 import pro.Flick.repsository.LikesJpaRepository;
@@ -28,15 +30,18 @@ public class LikesControllerV2 {
 
 
     @PostMapping
-    public void addLikesV2(@RequestBody LikesRequestDTO likesRequestDTO) {
-        likesService.addLikes(likesRequestDTO.getUserId(), likesRequestDTO.getVideoId());
+    public ApiResponse<LikesResponseDto> addLikesV2(@RequestBody LikesRequestDTO likesRequestDTO) {
+        LikesResponseDto dto = likesService.addLikes(likesRequestDTO.getUserId(), likesRequestDTO.getVideoId());
 
         notificationService.send(likesRequestDTO.getVideoUserId(), Long.valueOf(likesRequestDTO.getUserId()), NotificationType.LIKE, null);
+
+        return ApiResponse.ok(dto);
     }
 
     @PostMapping("/comment")
-    public void addCommentLikes(@RequestBody CommentLikesAddDTO requestDto) {
-        likesService.addCommentLikesModifyingV2(requestDto.getUserId(), requestDto.getCommentId());
+    public ApiResponse<LikesResponseDto> addCommentLikes(@RequestBody CommentLikesAddDTO requestDto) {
+        LikesResponseDto dto = likesService.addCommentLikesModifyingV2(requestDto.getUserId(), requestDto.getCommentId());
+        return ApiResponse.ok(dto);
     }
 
     // 매번 영상을 불러올때마다 스프링에 데이터를 가져오는 것은 매우 비효율적
@@ -71,12 +76,14 @@ public class LikesControllerV2 {
 
 
     @DeleteMapping
-    public void deleteLikes(@RequestParam Long userId, @RequestParam Long videoId) {
+    public ApiResponse<Void> deleteLikes(@RequestParam Long userId, @RequestParam Long videoId) {
         likesService.removeVideoLikes(userId, videoId);
+        return ApiResponse.ok(null);
     }
 
     @DeleteMapping("/comment")
-    public void deleteCommentLikes(@RequestParam Long userId, @RequestParam Long commentId) {
+    public ApiResponse<Void> deleteCommentLikes(@RequestParam Long userId, @RequestParam Long commentId) {
         likesService.removeCommentLikes(userId, commentId);
+        return ApiResponse.ok(null);
     }
 }

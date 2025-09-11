@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pro.Flick.api_response.BusinessException;
+import pro.Flick.api_response.ErrorCode;
 import pro.Flick.chat.dto.ChatRequestDTO;
 import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
@@ -48,7 +50,7 @@ public class ChatService {
         Long senderId = Long.valueOf(chatRequestDTO.getSenderId());
         Long receiverId = Long.valueOf(chatRequestDTO.getReceiverId());
 
-        Member sender = memberRepository.findById(senderId).orElseThrow();
+        Member sender = memberRepository.findById(senderId).orElseThrow(() -> new BusinessException(ErrorCode.NO_DATA_FOUND, "해당 멤버를 찾을 수 없음"));
         Member receiver = memberRepository.getReferenceById(receiverId);
 
         String text = chatRequestDTO.getText();

@@ -11,6 +11,7 @@ import pro.Flick.entity.Comment;
 import pro.Flick.entity.Likes;
 import pro.Flick.entity.Member;
 import pro.Flick.entity.Video;
+import pro.Flick.likes.dto.LikesResponseDto;
 import pro.Flick.likes.repository.LikesRepository;
 import pro.Flick.member.repository.MemberRepository;
 
@@ -50,15 +51,20 @@ public class LikesService {
     }
 
     @Transactional
-    public void addCommentLikesModifyingV2(Long memberId, Long commentId) {
-        log.info("addCommentLikes start");
+    public LikesResponseDto addCommentLikesModifyingV2(Long memberId, Long commentId) {
 
         Member memberRef = memberRepository.getReferenceById(memberId);
         Comment comment = commentRepository.getReferenceById(commentId);
 
         commentRepository.incrementLikesCount(commentId);
-        likesRepository.save(new Likes(memberRef, comment, LocalDateTime.now()));
-        log.info("addCommentLikes end");
+
+        Likes savedLikes = likesRepository.save(new Likes(memberRef, comment, LocalDateTime.now()));
+        return LikesResponseDto.forComment(
+                savedLikes.getId(),
+                String.valueOf(memberId),
+                String.valueOf(commentId),
+                savedLikes.getCreatedAt()
+        );
     }
 
     @Transactional
@@ -68,14 +74,21 @@ public class LikesService {
     }
 
     @Transactional
-    public void addLikes(String userId, String videoId) {
+    public LikesResponseDto addLikes(String userId, String videoId) {
 
         Member member = memberRepository.getReferenceById(Long.valueOf(userId));
         Video video = videoRepository.getReferenceById(Long.valueOf(videoId));
 
         videoRepository.incrementLikesCount(Long.valueOf(videoId));
 
-        likesRepository.save(new Likes(member, video, LocalDateTime.now()));
+        Likes savedLikes = likesRepository.save(new Likes(member, video, LocalDateTime.now()));
+
+        return LikesResponseDto.forVideo(
+                savedLikes.getId(),
+                userId,
+                videoId,
+                savedLikes.getCreatedAt()
+        );
     }
 
 }

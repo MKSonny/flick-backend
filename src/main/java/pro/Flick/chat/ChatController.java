@@ -55,8 +55,8 @@ public class ChatController {
     }
 
     @GetMapping("/room-info/{chatRoomId}/{userId}")
-    public ChatRoomInfoResponseDTO getChatRoomInfo(@PathVariable Long chatRoomId, @PathVariable Long userId) {
-        return chatService.getRoomInfo(chatRoomId, userId);
+    public ApiResponse<ChatRoomInfoResponseDTO> getChatRoomInfo(@PathVariable Long chatRoomId, @PathVariable Long userId) {
+        return ApiResponse.ok(chatService.getRoomInfo(chatRoomId, userId));
     }
 
     @GetMapping("/v2/{chatRoomId}")
@@ -100,14 +100,14 @@ public class ChatController {
 
     @MessageMapping("/chat/{chatRoomId}/sendMessage")
     @SendTo("/topic/chat/{chatRoomId}")
-    public GetChatByUsersKeyResponseDtoV2 sendMessage(
+    public ApiResponse<GetChatByUsersKeyResponseDtoV2> sendMessage(
             @DestinationVariable String chatRoomId,
             ChatRequestDTO messageRequest
     ) {
 
         log.info("ChatRequestDTO={}", messageRequest);
 
-        return chatService.addMessage(messageRequest);
+        return ApiResponse.ok(chatService.addMessage(messageRequest));
     }
 
     @Data
