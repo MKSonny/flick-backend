@@ -1,7 +1,12 @@
 package pro.Flick.chat.repository;
 
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.SimplePath;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import pro.Flick.chat.ChatRoomMemberResponseDTO;
 import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
+import pro.Flick.chat.dto.ChatRoomMemberCountResponseDto;
 import pro.Flick.entity.*;
 
 import java.util.List;
@@ -144,6 +150,32 @@ public class ChatRoomMemberRepositoryImpl implements ChatRoomMemberRepositoryCus
         return new PageImpl<>(content, pageable, total);
     }
 
+
+    @Override
+    public Page<ChatRoomMemberCountResponseDto> QGetMyChatsCount(Pageable pageable, Long memberId) {
+
+        List<ChatRoomMemberCountResponseDto> content = queryFactory
+                .select(Projections.constructor(ChatRoomMemberCountResponseDto.class,
+                        message.chatRoom.id,
+                        message.count()
+                ))
+                .from(message)
+                .where(message.read.isFalse())
+                .groupBy(message.chatRoom.id)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long total = queryFactory
+                .select(message.count())
+                .from(message)
+                .where(message.read.isFalse())
+                .fetchOne();
+
+        long totalCount = (total == null) ? 0L : total;
+
+        return new PageImpl<>(content, pageable, totalCount);
+    }
 
     @Override
     public ChatRoomInfoResponseDTO QgetChatRoomInfo(Long chatRoomId, Long memberId) {

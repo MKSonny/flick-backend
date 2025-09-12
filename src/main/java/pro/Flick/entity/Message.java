@@ -27,5 +27,4 @@ public class Message {
     private LocalDateTime createdAt;
 
     private Boolean read;
-
 }

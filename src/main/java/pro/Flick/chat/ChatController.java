@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.api_response.ApiResponse;
 import pro.Flick.chat.dto.ChatRequestDTO;
 import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
+import pro.Flick.chat.dto.ChatRoomMemberCountResponseDto;
+import pro.Flick.chat.dto.ReadMessagesRequestDto;
 import pro.Flick.chat.repository.ChatJpaRepository;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
@@ -70,6 +72,18 @@ public class ChatController {
 //        return chatRoomMembersWithMember.stream().map(ChatRoomMemberResponseDTO::new).toList();
 
         return chatService.getMyChatList(pageable, userId);
+    }
+
+    @GetMapping("/my_chats_count/{userId}")
+    public Page<ChatRoomMemberCountResponseDto> getMyChatsCount(@PageableDefault(size = 5) Pageable pageable, @PathVariable Long userId) {
+        return chatService.getMyChatListCount(pageable, userId);
+    }
+
+    @PostMapping("/messages/read")
+    public ApiResponse<Void> markMessagesAsRead(@RequestBody ReadMessagesRequestDto request) {
+//        chatService.markMessagesAsRead(request.messageIds());
+        chatService.markMessagesAsRead(request.messageIds(), request.userId());
+        return ApiResponse.ok(null);
     }
 
 

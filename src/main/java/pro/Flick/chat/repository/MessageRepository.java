@@ -1,14 +1,13 @@
-package pro.Flick.repsository;
+package pro.Flick.chat.repository;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pro.Flick.entity.Message;
 
 import java.util.List;
 
-public interface MessageRepository extends JpaRepository<Message, Long> {
+public interface MessageRepository extends JpaRepository<Message, Long>, MessageRepositoryCustom {
     @EntityGraph(attributePaths = {"sender"})
     List<Message> findByChatRoomId(@Param("chatRoomId") Long chatRoomId);
 }

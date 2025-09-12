@@ -10,14 +10,13 @@ import pro.Flick.api_response.BusinessException;
 import pro.Flick.api_response.ErrorCode;
 import pro.Flick.chat.dto.ChatRequestDTO;
 import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
+import pro.Flick.chat.dto.ChatRoomMemberCountResponseDto;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.chat.repository.ChatRoomRepository;
-import pro.Flick.entity.ChatRoom;
-import pro.Flick.entity.ChatRoomMember;
-import pro.Flick.entity.Member;
-import pro.Flick.entity.Message;
+import pro.Flick.chat.repository.MemberMessageStatusRepository;
+import pro.Flick.entity.*;
 import pro.Flick.member.repository.MemberRepository;
-import pro.Flick.repsository.MessageRepository;
+import pro.Flick.chat.repository.MessageRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ public class ChatService {
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final MessageRepository messageRepository;
     private final MemberRepository memberRepository;
+    private final MemberMessageStatusRepository memberMessageStatusRepository;
 
     /**
      * 1. 친구 목록에서 친구를 선택할 경우
@@ -78,6 +78,10 @@ public class ChatService {
                 .text(text)
                 .build();
 
+        memberMessageStatusRepository.save(new MemberMessageStatus(message, sender, chatRoom, MessageStatus.READ, message.getCreatedAt()));
+        memberMessageStatusRepository.save(new MemberMessageStatus(message, receiver, chatRoom, MessageStatus.DELIVERED, null));
+
+
         Message savedMessage = messageRepository.save(message);
         chatRoom.setLastMessage(savedMessage);
 
@@ -107,6 +111,9 @@ public class ChatService {
                 .build();
 
         Message savedMessage = messageRepository.save(message);
+
+        memberMessageStatusRepository.save(new MemberMessageStatus(savedMessage, sender, chatRoom, MessageStatus.READ, message.getCreatedAt()));
+        memberMessageStatusRepository.save(new MemberMessageStatus(savedMessage, receiver, chatRoom, MessageStatus.DELIVERED, null));
 
         chatRoom.setLastMessage(savedMessage);
 //        chatRoomRepository.updateChatRoomMessageId(message.getId(), chatRoom.getId());
@@ -141,8 +148,13 @@ public class ChatService {
 
     @Transactional
     public Page<ChatRoomMemberResponseDTO> getMyChatList(Pageable pageable, Long memberId) {
-//        return chatRoomMemberRepository.QgetMyChatsV2(pageable, memberId);
-        return chatRoomMemberRepository.QgetMyChatsV3(pageable, memberId);
+        return chatRoomMemberRepository.QgetMyChatsV2(pageable, memberId);
+    }
+
+    @Transactional
+    public Page<ChatRoomMemberCountResponseDto> getMyChatListCount(Pageable pageable, Long memberId) {
+        return memberMessageStatusRepository.QGetMyChatsCountV2(pageable, memberId);
+//        return chatRoomMemberRepository.QGetMyChatsCount(pageable, memberId);
     }
 
 
@@ -157,5 +169,11 @@ public class ChatService {
 
     public ChatRoomInfoResponseDTO getRoomInfo(Long chatRoomId, Long memberId) {
         return chatRoomMemberRepository.QgetChatRoomInfo(chatRoomId, memberId);
+    }
+
+    @Transactional
+    public void markMessagesAsRead(List<Long> messageIds, Long memberId) {
+//        messageRepository.QmarkMessagesAsReadByIds(messageIds);
+        messageRepository.QmarkMessagesAsReadByIdsV2(messageIds, memberId);
     }
 }

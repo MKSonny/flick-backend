@@ -1,6 +1,7 @@
 package pro.Flick.chat;
 
 import lombok.Data;
+import lombok.Getter;
 import pro.Flick.entity.ChatRoomMember;
 
 @Data
