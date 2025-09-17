@@ -11,6 +11,7 @@ import pro.Flick.api_response.ErrorCode;
 import pro.Flick.chat.dto.ChatRequestDTO;
 import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
 import pro.Flick.chat.dto.ChatRoomMemberCountResponseDto;
+import pro.Flick.chat.dto.GetMessagesResponseDto;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.chat.repository.ChatRoomRepository;
 import pro.Flick.chat.repository.MemberMessageStatusRepository;
@@ -165,6 +166,10 @@ public class ChatService {
             dtoList.add(new GetChatByUsersKeyResponseDtoV2(message));
         }
         return dtoList;
+    }
+
+    public Page<GetMessagesResponseDto> getMessages(Pageable pageable, Long chatRoomId, Long memberId) {
+        return memberMessageStatusRepository.QfindMessages(pageable, chatRoomId, memberId);
     }
 
     public ChatRoomInfoResponseDTO getRoomInfo(Long chatRoomId, Long memberId) {

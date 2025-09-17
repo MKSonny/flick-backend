@@ -11,10 +11,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.api_response.ApiResponse;
-import pro.Flick.chat.dto.ChatRequestDTO;
-import pro.Flick.chat.dto.ChatRoomInfoResponseDTO;
-import pro.Flick.chat.dto.ChatRoomMemberCountResponseDto;
-import pro.Flick.chat.dto.ReadMessagesRequestDto;
+import pro.Flick.chat.dto.*;
 import pro.Flick.chat.repository.ChatJpaRepository;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
@@ -64,6 +61,11 @@ public class ChatController {
     @GetMapping("/v2/{chatRoomId}")
     public List<GetChatByUsersKeyResponseDtoV2> getChatsByChatRoomId(@PathVariable Long chatRoomId) {
         return chatService.getChatMessages(chatRoomId);
+    }
+
+    @GetMapping("/v3/{chatRoomId}/{userId}")
+    public Page<GetMessagesResponseDto> getMessagesByChatroomId(@PageableDefault Pageable pageable, @PathVariable Long chatRoomId, @PathVariable Long userId) {
+        return chatService.getMessages(pageable, chatRoomId, userId);
     }
 
     @GetMapping("/my_chats/{userId}")
