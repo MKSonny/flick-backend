@@ -22,8 +22,8 @@ import java.util.List;
 import static pro.Flick.entity.QChatRoom.chatRoom;
 import static pro.Flick.entity.QChatRoomMember.chatRoomMember;
 import static pro.Flick.entity.QFile.file;
-import static pro.Flick.entity.QMember.member;
 import static pro.Flick.entity.QMessage.message;
+import static pro.Flick.member.entity.QMember.member;
 
 
 @RequiredArgsConstructor

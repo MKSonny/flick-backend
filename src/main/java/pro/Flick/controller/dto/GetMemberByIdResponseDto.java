@@ -1,7 +1,7 @@
 package pro.Flick.controller.dto;
 
 import lombok.Data;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 
 import java.time.LocalDateTime;
 

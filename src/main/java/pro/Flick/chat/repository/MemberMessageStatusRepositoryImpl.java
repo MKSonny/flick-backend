@@ -18,7 +18,6 @@ import pro.Flick.entity.QMemberMessageStatus;
 import java.util.List;
 
 import static pro.Flick.entity.QChatRoomMember.chatRoomMember;
-import static pro.Flick.entity.QMember.member;
 import static pro.Flick.entity.QMemberMessageStatus.memberMessageStatus;
 import static pro.Flick.entity.QMessage.message;
 

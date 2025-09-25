@@ -6,7 +6,7 @@
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.annotation.Commit;
-//import pro.Flick.entity.Member;
+//import pro.Flick.member.entity.Member;
 //import pro.Flick.entity.Message;
 //import pro.Flick.chat.repository.ChatJpaRepository;
 //import pro.Flick.chat.repository.ChatRoomMemberRepository;

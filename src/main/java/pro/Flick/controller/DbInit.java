@@ -11,6 +11,8 @@ import pro.Flick.entity.*;
 import pro.Flick.chat.repository.ChatJpaRepository;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
 import pro.Flick.file.FileRepository;
+import pro.Flick.member.MemberService;
+import pro.Flick.member.entity.Member;
 import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.chat.ChatService;
 import pro.Flick.follow.FollowService;
@@ -20,6 +22,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DbInit {
+
+    private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final VideoJpaRepository videoJpaRepository;
     private final FollowService followService;
@@ -30,6 +34,14 @@ public class DbInit {
     private final VideoRepository videoRepository;
     private final AdvertisementRepository advertisementRepository;
     private final FileRepository fileRepository;
+
+    @Transactional
+    public void signUpTest() {
+        memberService.signUp("Email", "HelloWorld", "123");
+        memberService.signUp("Email2", "test", "123");
+        memberService.signUp("Email3", "test3", "123");
+        memberService.signUp("Email3", "test4", "123");
+    }
 
     @Transactional
     public void saveMemberAndVideo() {

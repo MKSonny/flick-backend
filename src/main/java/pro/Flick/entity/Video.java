@@ -2,8 +2,8 @@ package pro.Flick.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.annotation.CreatedDate;
+import pro.Flick.member.entity.Member;
 //import pro.Flick.file.UploadFile;
 
 import java.time.LocalDateTime;

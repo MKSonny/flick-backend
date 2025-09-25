@@ -2,7 +2,7 @@ package pro.Flick.Video.trash.dto;
 
 import lombok.Data;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.entity.Video;
 
 @Data

@@ -7,7 +7,7 @@
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.transaction.annotation.Transactional;
-//import pro.Flick.entity.Member;
+//import pro.Flick.member.entity.Member;
 //import pro.Flick.entity.Video;
 //import pro.Flick.member.MemberJpaRepository;
 //import pro.Flick.Video.trash.repository.VideoJpaRepository;

@@ -8,7 +8,7 @@
 //import org.springframework.web.bind.annotation.*;
 //import pro.Flick.Video.trash.dto.VideoWithMemberDto;
 //import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-//import pro.Flick.entity.Member;
+//import pro.Flick.member.entity.Member;
 //import pro.Flick.entity.Video;
 //import pro.Flick.file.FileStore;
 //import pro.Flick.member.repository.MemberRepository;

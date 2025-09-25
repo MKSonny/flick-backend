@@ -2,6 +2,7 @@ package pro.Flick.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pro.Flick.member.entity.Member;
 
 import java.time.LocalDateTime;
 

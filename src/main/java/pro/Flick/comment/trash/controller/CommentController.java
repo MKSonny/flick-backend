@@ -10,7 +10,7 @@
 //import org.springframework.web.bind.annotation.*;
 //import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 //import pro.Flick.entity.Comment;
-//import pro.Flick.entity.Member;
+//import pro.Flick.member.entity.Member;
 //import pro.Flick.entity.Video;
 //import pro.Flick.member.repository.MemberRepository;
 //import pro.Flick.repsository.CommentJpaRepository;

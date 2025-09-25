@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.entity.Notification;
 import pro.Flick.entity.NotificationType;
 import pro.Flick.follow.FollowService;

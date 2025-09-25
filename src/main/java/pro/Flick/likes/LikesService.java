@@ -9,7 +9,7 @@ import pro.Flick.Video.repository.VideoRepository;
 import pro.Flick.comment.repository.CommentRepository;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.Likes;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.likes.dto.LikesResponseDto;
 import pro.Flick.likes.repository.LikesRepository;

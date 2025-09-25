@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Import;
 //import pro.Flick.aop.LogTraceAspect;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import pro.Flick.aop.LogTraceAspect;
 import pro.Flick.controller.DbInit;
 
@@ -15,6 +16,7 @@ import pro.Flick.controller.DbInit;
 @SpringBootApplication
 @RequiredArgsConstructor
 @EnableJpaAuditing
+@EnableScheduling
 //@Import(LogTraceAspect.class)
 public class FlickApplication {
 	private final DbInit dbInit;
@@ -25,6 +27,7 @@ public class FlickApplication {
 
 	@PostConstruct
 	public void init() {
-		dbInit.saveMemberAndVideo();
+        dbInit.signUpTest();
+//		dbInit.saveMemberAndVideo();
 	}
 }

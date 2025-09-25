@@ -1,7 +1,7 @@
 package pro.Flick.member.dto;
 
 import lombok.Data;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 
 @Data
 public class MemberFollowStatusDTO {

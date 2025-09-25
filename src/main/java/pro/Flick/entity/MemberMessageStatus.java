@@ -1,6 +1,7 @@
 package pro.Flick.entity;
 
 import jakarta.persistence.*;
+import pro.Flick.member.entity.Member;
 
 import java.time.LocalDateTime;
 

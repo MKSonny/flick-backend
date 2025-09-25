@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.entity.Comment;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.entity.Video;
 
 import java.time.LocalDateTime;

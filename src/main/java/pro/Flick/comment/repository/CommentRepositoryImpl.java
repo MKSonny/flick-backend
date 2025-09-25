@@ -13,14 +13,13 @@ import pro.Flick.comment.dto.response.LiveCommentsResponseDTO;
 import pro.Flick.entity.Comment;
 import pro.Flick.entity.QComment;
 import pro.Flick.entity.QLikes;
-import pro.Flick.entity.QMember;
 
 import java.util.List;
 
 import static com.querydsl.jpa.JPAExpressions.*;
 import static pro.Flick.entity.QComment.comment;
 import static pro.Flick.entity.QLikes.likes;
-import static pro.Flick.entity.QMember.member;
+import static pro.Flick.member.entity.QMember.member;
 
 @RequiredArgsConstructor
 public class CommentRepositoryImpl implements CommentRepositoryCustom {

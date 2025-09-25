@@ -16,6 +16,7 @@ import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.chat.repository.ChatRoomRepository;
 import pro.Flick.chat.repository.MemberMessageStatusRepository;
 import pro.Flick.entity.*;
+import pro.Flick.member.entity.Member;
 import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.chat.repository.MessageRepository;
 

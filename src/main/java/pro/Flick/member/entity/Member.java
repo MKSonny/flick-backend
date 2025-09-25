@@ -1,8 +1,9 @@
-package pro.Flick.entity;
+package pro.Flick.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import pro.Flick.entity.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Builder
@@ -19,7 +20,9 @@ public class Member {
     @Id @GeneratedValue
     private Long id;
 
-    private String username; // 유니크 제약 조건 추가 필요
+    @Column(name = "username", unique = true, nullable = false, updatable = false)
+    private String username;
+
     private String email; // 유니크 제약 조건 추가 필요
     private String password;
 
@@ -36,6 +39,12 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Likes> likes = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole role = MemberRole.USER;
+
+    @Column(name = "is_lock", nullable = false)
+    private Boolean isLock = false;
 
 //    private String profileImageUri = "/Users/son/Desktop/Flick_Files/react-log.png";
 

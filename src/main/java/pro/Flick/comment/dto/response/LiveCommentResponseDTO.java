@@ -3,7 +3,7 @@ package pro.Flick.comment.dto.response;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pro.Flick.entity.Comment;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 
 import java.time.LocalDateTime;
 

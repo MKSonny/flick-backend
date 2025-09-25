@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.member.dto.FollowerInfoDTO;
 import pro.Flick.member.dto.FollowerInfoDTOV2;
 import pro.Flick.member.dto.MemberFollowStatusDTO;
@@ -14,6 +14,9 @@ import pro.Flick.member.dto.ProfileInfoResponseDTOV2;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
+
+    Boolean existsByUsername(String username);
+
 
     // 올바르게 수정된 쿼리
     @Query("SELECT f.id, f.following FROM Follower f WHERE f.followed.id = :memberId")

@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pro.Flick.entity.Follower;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.follow.dto.FollowResponseDto;
 import pro.Flick.follow.repository.FollowerJpaRepository;
 import pro.Flick.follow.repository.FollowerRepository;

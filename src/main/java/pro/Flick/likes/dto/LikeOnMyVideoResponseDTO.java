@@ -3,7 +3,7 @@ package pro.Flick.likes.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 
 import java.time.LocalDateTime;
 

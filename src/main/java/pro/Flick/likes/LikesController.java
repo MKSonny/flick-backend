@@ -9,7 +9,7 @@ import pro.Flick.comment.trash.dto.CommentLikesAddDTO;
 import pro.Flick.comment.CommentService;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Likes;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.Video.trash.repository.VideoJpaRepository;
 import pro.Flick.member.repository.MemberRepository;

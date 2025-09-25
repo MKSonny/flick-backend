@@ -16,7 +16,7 @@ import pro.Flick.chat.repository.ChatJpaRepository;
 import pro.Flick.chat.repository.ChatRoomMemberRepository;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.Chat;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;

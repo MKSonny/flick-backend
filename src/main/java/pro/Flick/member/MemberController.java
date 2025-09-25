@@ -3,12 +3,21 @@ package pro.Flick.member;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.controller.dto.SignUpDto;
 import pro.Flick.member.dto.FindMembersByUsernameResponseDto;
+import pro.Flick.member.dto.SignInRequestDto;
 import pro.Flick.trace.LogTrace;
 import pro.Flick.trace.template.TraceTemplate;
+import pro.Flick.util.JWTUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,8 +27,7 @@ import java.util.List;
 @Slf4j
 public class MemberController {
 
-//    private final MemberJpaRepository memberJpaRepository;
-
+    private final AuthenticationManager authenticationManager;
     private final MemberService memberService;
     private final LogTrace logTrace;
     private final TraceTemplate traceTemplate;
@@ -35,12 +43,30 @@ public class MemberController {
      * @return
      */
     @PostMapping("/auth/signup")
-    public GetMemberByIdResponseDto MCaddMember(@RequestBody SignUpDto signUpDto) {
+    public Long signUp(@RequestBody SignUpDto signUpDto) {
 
 //        Member member = memberJpaRepository.save(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
 //        return new GetMemberByIdResponseDto(member);
 
-        return memberService.saveMember(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
+//        memberService.signUp(signUpDto.getUsername(), signUpDto.getPassword());
+//        return memberService.saveMember(signUpDto.getUsername(), signUpDto.getEmail(), signUpDto.getPassword());
+        return memberService.signUpV2(signUpDto);
+    }
+
+    @GetMapping("/auth/v2/signin")
+    public void signInV2(@RequestBody SignInRequestDto requestDto) {
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword())
+//        );
+
+//        String token = jwtUtil.generateToken(authentication, 10000L);
+
+//        memberService.getMemberByEmailAndPassword()
+    }
+
+    @GetMapping("/auth/v3/signin")
+    public void signInV3(@RequestBody SignInRequestDto requestDto) {
+
     }
 
     @GetMapping("/auth/signin")

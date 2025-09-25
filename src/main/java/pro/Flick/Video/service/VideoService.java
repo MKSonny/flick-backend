@@ -19,7 +19,7 @@ import pro.Flick.Video.trash.dto.VideoWithMemberAndFollowerInfoDtoV3;
 import pro.Flick.Video.trash.dto.VideoWithMemberDtoV2;
 import pro.Flick.comment.repository.CommentRepository;
 import pro.Flick.entity.Likes;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.entity.VideoType;
 import pro.Flick.file.FileStore;

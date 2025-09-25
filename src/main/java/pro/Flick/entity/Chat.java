@@ -3,6 +3,7 @@ package pro.Flick.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
+import pro.Flick.member.entity.Member;
 
 import java.time.LocalDateTime;
 

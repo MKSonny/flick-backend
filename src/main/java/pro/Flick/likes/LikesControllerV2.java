@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pro.Flick.api_response.ApiResponse;
 import pro.Flick.comment.trash.dto.CommentLikesAddDTO;
 import pro.Flick.entity.Likes;
-import pro.Flick.entity.Member;
+import pro.Flick.member.entity.Member;
 import pro.Flick.entity.NotificationType;
 import pro.Flick.likes.dto.LikeOnMyVideoResponseDTO;
 import pro.Flick.likes.dto.LikesResponseDto;

@@ -10,15 +10,14 @@ import org.springframework.data.domain.Pageable;
 import pro.Flick.chat.dto.GetMessagesResponseDto;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.entity.MessageStatus;
-import pro.Flick.entity.QMember;
 import pro.Flick.entity.QMemberMessageStatus;
 import pro.Flick.entity.QMessage;
 
 import java.util.List;
 
-import static pro.Flick.entity.QMember.member;
 import static pro.Flick.entity.QMemberMessageStatus.memberMessageStatus;
 import static pro.Flick.entity.QMessage.message;
+import static pro.Flick.member.entity.QMember.member;
 
 @Slf4j
 @RequiredArgsConstructor

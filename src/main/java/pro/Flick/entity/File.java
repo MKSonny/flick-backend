@@ -2,6 +2,7 @@ package pro.Flick.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import pro.Flick.member.entity.Member;
 
 @Entity
 @Getter

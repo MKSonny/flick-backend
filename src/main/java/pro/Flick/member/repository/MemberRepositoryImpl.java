@@ -8,7 +8,7 @@ import pro.Flick.entity.QFollower;
 import pro.Flick.member.dto.ProfileInfoResponseDTOV2;
 
 import static com.querydsl.jpa.JPAExpressions.*;
-import static pro.Flick.entity.QMember.member;
+import static pro.Flick.member.entity.QMember.member;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom{
 

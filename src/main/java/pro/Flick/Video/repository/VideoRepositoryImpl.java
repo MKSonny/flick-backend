@@ -15,8 +15,8 @@ import java.util.List;
 import static com.querydsl.jpa.JPAExpressions.*;
 import static pro.Flick.entity.QFollower.follower;
 import static pro.Flick.entity.QLikes.likes;
-import static pro.Flick.entity.QMember.member;
 import static pro.Flick.entity.QVideo.video;
+import static pro.Flick.member.entity.QMember.member;
 
 @Slf4j
 public class VideoRepositoryImpl implements VideoRepositoryCustom {

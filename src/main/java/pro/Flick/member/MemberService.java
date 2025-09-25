@@ -7,15 +7,23 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pro.Flick.Video.repository.VideoRepository;
 import pro.Flick.Video.trash.dto.VideoWithMemberDto;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
-import pro.Flick.entity.Member;
+import pro.Flick.controller.dto.SignUpDto;
+import pro.Flick.member.entity.Member;
 import pro.Flick.entity.Video;
 import pro.Flick.follow.repository.FollowerRepository;
 import pro.Flick.likes.repository.LikesRepository;
 import pro.Flick.member.dto.*;
+import pro.Flick.member.entity.MemberRole;
 import pro.Flick.member.repository.MemberRepository;
 
 import java.util.List;
@@ -24,10 +32,12 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements UserDetailsService {
+
 
     private final VideoRepository videoRepository;
     private final LikesRepository likesRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private final MemberRepository memberRepository;
     private final FollowerRepository followerRepository;
@@ -47,9 +57,40 @@ public class MemberService {
         return members.stream().map(FindMembersByUsernameResponseDto::new).toList();
     }
 
+    public void signUp(String email, String username, String password) {
+        Boolean isExist = memberRepository.existsByUsername(username);
+
+        if (isExist) {
+            return;
+        }
+
+        Member member = new Member();
+        member.setEmail(email);
+        member.setUsername(username);
+        member.setPassword(passwordEncoder.encode(password));
+
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public Long signUpV2(SignUpDto dto) {
+        Member member = Member.builder()
+                .username(dto.getUsername())
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .isLock(false)
+                .role(MemberRole.USER)
+                .email(dto.getEmail())
+                .build();
+
+        return memberRepository.save(member).getId();
+    }
+
     public GetMemberByIdResponseDto saveMember(String username, String email, String password) {
         Member member = memberRepository.save(new Member(username, email, password));
         return new GetMemberByIdResponseDto(member);
+    }
+
+    public void Login(String email, String password) {
     }
 
     public GetMemberByIdResponseDto getMemberByEmailAndPassword(String email, String password) {
@@ -130,6 +171,23 @@ public class MemberService {
     @Transactional
     public Page<FollowerInfoDTOV2> getFollowersByMemberIdV3(Pageable pageable, Long memberId) {
         return memberRepository.findFollowerByMemberIdV3(pageable, memberId);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        log.info("loadUserByUsername = {}", username);
+
+        Member member = memberRepository.findByEmail(username);
+
+
+        return User
+                .builder()
+                .username(member.getUsername())
+                .password(member.getPassword())
+                .roles(member.getRole().name())
+                .accountLocked(member.getIsLock())
+                .build();
     }
 
 
