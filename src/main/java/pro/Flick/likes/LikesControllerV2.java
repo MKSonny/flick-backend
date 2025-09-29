@@ -2,10 +2,12 @@ package pro.Flick.likes;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.api_response.ApiResponse;
 import pro.Flick.comment.trash.dto.CommentLikesAddDTO;
 import pro.Flick.entity.Likes;
+import pro.Flick.member.CustomUserDetails;
 import pro.Flick.member.entity.Member;
 import pro.Flick.entity.NotificationType;
 import pro.Flick.likes.dto.LikeOnMyVideoResponseDTO;
@@ -30,17 +32,17 @@ public class LikesControllerV2 {
 
 
     @PostMapping
-    public ApiResponse<LikesResponseDto> addLikesV2(@RequestBody LikesRequestDTO likesRequestDTO) {
-        LikesResponseDto dto = likesService.addLikes(likesRequestDTO.getUserId(), likesRequestDTO.getVideoId());
+    public ApiResponse<LikesResponseDto> addLikesV2(@AuthenticationPrincipal CustomUserDetails user, @RequestBody LikesRequestDTO likesRequestDTO) {
+        LikesResponseDto dto = likesService.addLikes(String.valueOf(user.getId()), likesRequestDTO.getVideoId());
 
-        notificationService.send(likesRequestDTO.getVideoUserId(), Long.valueOf(likesRequestDTO.getUserId()), NotificationType.LIKE, null);
+        notificationService.send(likesRequestDTO.getVideoUserId(), user.getId(), NotificationType.LIKE, null);
 
         return ApiResponse.ok(dto);
     }
 
     @PostMapping("/comment")
-    public ApiResponse<LikesResponseDto> addCommentLikes(@RequestBody CommentLikesAddDTO requestDto) {
-        LikesResponseDto dto = likesService.addCommentLikesModifyingV2(requestDto.getUserId(), requestDto.getCommentId());
+    public ApiResponse<LikesResponseDto> addCommentLikes(@AuthenticationPrincipal CustomUserDetails user, @RequestBody CommentLikesAddDTO requestDto) {
+        LikesResponseDto dto = likesService.addCommentLikesModifyingV2(user.getId(), requestDto.getCommentId());
         return ApiResponse.ok(dto);
     }
 
@@ -76,14 +78,14 @@ public class LikesControllerV2 {
 
 
     @DeleteMapping
-    public ApiResponse<Void> deleteLikes(@RequestParam Long userId, @RequestParam Long videoId) {
-        likesService.removeVideoLikes(userId, videoId);
+    public ApiResponse<Void> deleteLikes(@AuthenticationPrincipal CustomUserDetails user,  @RequestParam Long videoId) {
+        likesService.removeVideoLikes(user.getId(), videoId);
         return ApiResponse.ok(null);
     }
 
     @DeleteMapping("/comment")
-    public ApiResponse<Void> deleteCommentLikes(@RequestParam Long userId, @RequestParam Long commentId) {
-        likesService.removeCommentLikes(userId, commentId);
+    public ApiResponse<Void> deleteCommentLikes(@AuthenticationPrincipal CustomUserDetails user, @RequestParam Long commentId) {
+        likesService.removeCommentLikes(user.getId(), commentId);
         return ApiResponse.ok(null);
     }
 }
