@@ -57,11 +57,11 @@ public class MemberService implements UserDetailsService {
         return members.stream().map(FindMembersByUsernameResponseDto::new).toList();
     }
 
-    public void signUp(String email, String username, String password) {
+    public Member signUp(String email, String username, String password) {
         Boolean isExist = memberRepository.existsByUsername(username);
 
         if (isExist) {
-            return;
+            return null;
         }
 
         Member member = new Member();
@@ -70,6 +70,8 @@ public class MemberService implements UserDetailsService {
         member.setPassword(passwordEncoder.encode(password));
 
         memberRepository.save(member);
+
+        return member;
     }
 
     @Transactional
@@ -178,16 +180,25 @@ public class MemberService implements UserDetailsService {
 
         log.info("loadUserByUsername = {}", username);
 
-        Member member = memberRepository.findByEmail(username);
+        Member member = memberRepository.findByUsername(username);
 
+        if (member == null) {
+            // 이 예외는 스프링 시큐리티에 사용자가 없음을 알리는 표준 방식입니다.
+            // 이 예외가 발생하면 서버는 500 에러 대신 401 Unauthorized 또는 403 Forbidden 응답을 보냅니다.
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
+        }
 
-        return User
-                .builder()
-                .username(member.getUsername())
-                .password(member.getPassword())
-                .roles(member.getRole().name())
-                .accountLocked(member.getIsLock())
-                .build();
+        log.info("member={}", member.getUsername());
+        log.info("member={}", member.getPassword());
+
+        return new CustomUserDetails(member);
+//        return User
+//                .builder()
+//                .username(username)
+//                .password(member.getPassword())
+//                .roles(member.getRole().name())
+//                .accountLocked(member.getIsLock())
+//                .build();
     }
 
 

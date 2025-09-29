@@ -1,11 +1,14 @@
 package pro.Flick.member;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +18,8 @@ import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.controller.dto.SignUpDto;
 import pro.Flick.member.dto.FindMembersByUsernameResponseDto;
 import pro.Flick.member.dto.SignInRequestDto;
+import pro.Flick.member.entity.Member;
+import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.trace.LogTrace;
 import pro.Flick.trace.template.TraceTemplate;
 import pro.Flick.util.JWTUtil;
@@ -31,6 +36,40 @@ public class MemberController {
     private final MemberService memberService;
     private final LogTrace logTrace;
     private final TraceTemplate traceTemplate;
+    private final MemberRepository memberRepository;
+
+    @GetMapping("/api/me")
+    public ResponseEntity<MyInfoResponseDto> getMyInfo(@AuthenticationPrincipal CustomUserDetails user) {
+        // 1. SecurityContextHolder에서 현재 사용자의 인증 정보를 가져옴
+
+        // 2. 인증 정보에서 사용자 이름(username)을 추출
+        //    (JWT 토큰을 만들 때 넣었던 정보)
+        String username = user.getUsername();
+
+        // 3. 사용자 이름을 기반으로 서비스 계층에서 전체 사용자 정보를 조회
+        Member member = memberRepository.findByUsername(username);
+
+        // 4. 조회된 사용자 정보를 DTO로 변환하여 반환
+        MyInfoResponseDto responseDto = new MyInfoResponseDto(member);
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @Getter
+    public class MyInfoResponseDto {
+
+        private final Long id;
+        private final String username;
+        private final String profile_image_uri;
+        // ... 프론트엔드에 필요한 다른 사용자 정보들
+
+        // Member 엔티티를 받아서 DTO를 생성하는 생성자
+        public MyInfoResponseDto(Member member) {
+            this.id = member.getId();
+            this.username = member.getUsername();
+            this.profile_image_uri = member.getProfileImageUri();
+        }
+    }
 
     /**
      * @Data

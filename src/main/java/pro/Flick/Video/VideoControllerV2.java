@@ -7,12 +7,14 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.dto.response.ProfileVideoListResponse;
 import pro.Flick.Video.dto.response.VideoSummaryResponse;
 import pro.Flick.Video.service.VideoService;
 import pro.Flick.api_response.ApiResponse;
 import pro.Flick.file.FileStore;
+import pro.Flick.member.CustomUserDetails;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -59,8 +61,13 @@ public class VideoControllerV2 {
     }
 
     @GetMapping("/get-all-videos")
-    public ApiResponse<Page<VideoSummaryResponse>> getAllVideos(@PageableDefault(size = 5) Pageable pageable, @RequestParam("userId") Long userId) {
+    public ApiResponse<Page<VideoSummaryResponse>> getAllVideos(
+            @AuthenticationPrincipal CustomUserDetails user,
+            @PageableDefault(size = 5) Pageable pageable)
+//            @RequestParam("userId") Long userId)
+    {
 //        return videoService.getVideoInfoV3(pageable, userId);
-        return ApiResponse.ok(videoService.getVideoInfoByQueryDsl(pageable, userId));
+        log.info("asdfasdfsadf={}", user.getId());
+        return ApiResponse.ok(videoService.getVideoInfoByQueryDsl(pageable, user.getId()));
     }
 }

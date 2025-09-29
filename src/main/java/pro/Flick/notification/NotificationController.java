@@ -7,8 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import pro.Flick.member.CustomUserDetails;
 
 import java.util.List;
 
@@ -37,6 +39,12 @@ public class NotificationController {
     @GetMapping("/count_my_notification/{id}")
     public Long myNotificationsAll(@PathVariable Long id) {
         return notificationService.countMyNotifications(id);
+    }
+
+    @GetMapping("/count_my_notification-v2")
+    public Long myNotificationsAllV2(@AuthenticationPrincipal CustomUserDetails user) {
+        log.info("adfasfadfasdfsdf={}", user.getId());
+        return notificationService.countMyNotifications(user.getId());
     }
 
 

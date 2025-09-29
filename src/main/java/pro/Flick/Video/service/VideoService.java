@@ -148,6 +148,8 @@ public class VideoService {
 
         Page<VideoSummaryResponse> videos = videoRepository.QfindAllVideosV3(pageable, userId);
 
+        log.info("adfasdfsdf={}",videos.getTotalElements());
+
 
         return videos.map(
                 v -> {

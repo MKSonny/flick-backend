@@ -37,10 +37,16 @@ public class DbInit {
 
     @Transactional
     public void signUpTest() {
-        memberService.signUp("Email", "HelloWorld", "123");
-        memberService.signUp("Email2", "test", "123");
-        memberService.signUp("Email3", "test3", "123");
-        memberService.signUp("Email3", "test4", "123");
+        Member HelloWorld = memberService.signUp("Email", "HelloWorld", "123");
+        Member Test = memberService.signUp("Email2", "Test", "123");
+        Member Test3 = memberService.signUp("Email3", "Test3", "123");
+        Member Test4 = memberService.signUp("Email3", "Test4", "123");
+
+
+
+        videoService.createVideo("myVideo1", "test.mov", HelloWorld);
+        videoService.createVideo("myVideo2","test2.mov", HelloWorld);
+        videoService.createVideo("myVideo3","test3.mov", Test);
     }
 
     @Transactional
