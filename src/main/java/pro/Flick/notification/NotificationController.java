@@ -48,10 +48,10 @@ public class NotificationController {
     }
 
 
-    @GetMapping("/my_notification_content/{id}/{type}")
+    @GetMapping("/my_notification_content/{type}")
     public Page<NotificationContentResponseDTO> myNotificationsContent(@PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-                                                                       @PathVariable Long id, @PathVariable(required = false) String type) {
-        return notificationService.getMyNotificationContent(type, pageable, id);
+                                                                       @AuthenticationPrincipal CustomUserDetails user, @PathVariable(required = false) String type) {
+        return notificationService.getMyNotificationContent(type, pageable, user.getId());
     }
 
 
