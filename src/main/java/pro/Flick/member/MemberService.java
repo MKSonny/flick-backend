@@ -137,6 +137,8 @@ public class MemberService implements UserDetailsService {
 
         Boolean amIFollowing = followerRepository.QfindAmIFollowing(loggedInUserId, profileUserId);
 
+        log.info("followCountDTO={}", followCountDTO);
+
         return new ProfileInfoResponseDTO(member, followCountDTO.getFollowingCount(), followCountDTO.getFollowerCount(), totalLikes, amIFollowing);
     }
 

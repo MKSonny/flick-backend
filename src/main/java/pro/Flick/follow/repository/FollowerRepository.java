@@ -11,8 +11,8 @@ public interface FollowerRepository extends JpaRepository<Follower, Long>, Follo
 
 
     @Query("SELECT new pro.Flick.member.dto.FollowCountDTO(" +
-            "SUM(CASE WHEN f.followed.id = :memberId THEN 1 ELSE 0 END), " +
-            "SUM(CASE WHEN f.following.id = :memberId THEN 1 ELSE 0 END)) " +
+            "COALESCE(SUM(CASE WHEN f.followed.id = :memberId THEN 1 ELSE 0 END), 0L), " +
+            "COALESCE(SUM(CASE WHEN f.following.id = :memberId THEN 1 ELSE 0 END), 0L)) " +
             "FROM Follower f " +
             "WHERE f.following.id = :memberId OR f.followed.id = :memberId")
     FollowCountDTO findFollowCountsByMemberId(@Param("memberId") Long memberId);

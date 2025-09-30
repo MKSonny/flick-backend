@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pro.Flick.Video.trash.dto.VideoWithMemberDto;
 import pro.Flick.member.dto.FollowerInfoDTOV2;
@@ -22,6 +23,11 @@ import java.util.List;
 public class MemberControllerV2 {
 
     private final MemberService memberService;
+
+    @GetMapping("/my-id")
+    public Long getMyId(@AuthenticationPrincipal CustomUserDetails user) {
+        return user.getId();
+    }
 
 
     @GetMapping("/videos/{profileUserId}")
