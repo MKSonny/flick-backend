@@ -47,6 +47,17 @@ public class DbInit {
         videoService.createVideo("myVideo1", "test.mov", HelloWorld);
         videoService.createVideo("myVideo2","test2.mov", HelloWorld);
         videoService.createVideo("myVideo3","test3.mov", Test);
+
+        chatService.addMessage(HelloWorld, Test, "1");
+        chatService.addMessage(HelloWorld, Test, "2");
+        chatService.addMessage(HelloWorld, Test, "3");
+        chatService.addMessage(Test, HelloWorld, "4");
+        chatService.addMessage(Test, HelloWorld, "5");
+        chatService.addMessage(Test, HelloWorld, "6");
+
+        chatService.addMessage(HelloWorld, Test3, "6");
+        chatService.addMessage(HelloWorld, Test3, "6");
+        chatService.addMessage(HelloWorld, Test3, "6");
     }
 
     @Transactional

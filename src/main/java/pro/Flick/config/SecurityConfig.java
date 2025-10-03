@@ -115,8 +115,10 @@ public class SecurityConfig {
         // 인가
         http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/jwt/exchange", "/jwt/refresh").permitAll()
                         .requestMatchers("/videos-v2/download/**", "/videos-v2/thumbnails/**").permitAll()
+                        .requestMatchers("/image/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/exist", "/user", "/auth/signup", "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user", "/auth/v3/signin").hasRole(MemberRole.USER.name())
                         .requestMatchers(HttpMethod.PUT, "/user").hasRole(MemberRole.USER.name())
