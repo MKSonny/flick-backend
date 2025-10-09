@@ -116,6 +116,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/jwt/exchange", "/jwt/refresh").permitAll()
                         .requestMatchers("/videos-v2/download/**", "/videos-v2/thumbnails/**").permitAll()
                         .requestMatchers("/image/**").permitAll()
