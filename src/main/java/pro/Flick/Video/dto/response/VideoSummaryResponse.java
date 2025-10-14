@@ -19,6 +19,7 @@ public class VideoSummaryResponse {
     private boolean isFollowing;
     private boolean isLikedByUser;
     private String videoType;
+    private String thumbnailUri;
 
     public VideoSummaryResponse(Video video, boolean isFollowing, boolean isLikedByUser) {
         this.id = video.getId();
@@ -31,5 +32,6 @@ public class VideoSummaryResponse {
         this.isFollowing = isFollowing;
         this.isLikedByUser = isLikedByUser;
         this.videoType = video.getVideoType().toString();
+        this.thumbnailUri = video.getThumbnailStoreFileName();
     }
 }

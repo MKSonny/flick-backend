@@ -12,7 +12,7 @@ public class LikedVideoResponseDTO {
     public LikedVideoResponseDTO(Long id, String thumbnailUri) {
         this.id = id;
         if (thumbnailUri != null) {
-            this.thumbnailUri = "/thumbnails/" + thumbnailUri;
+            this.thumbnailUri = thumbnailUri;
         } else {
             this.thumbnailUri = thumbnailUri;
         }

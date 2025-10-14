@@ -7,19 +7,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pro.Flick.Video.dto.response.VideoSummaryResponse;
 import pro.Flick.Video.repository.VideoRepository;
-import pro.Flick.Video.trash.dto.VideoWithMemberDto;
 import pro.Flick.controller.dto.GetMemberByIdResponseDto;
 import pro.Flick.controller.dto.SignUpDto;
+import pro.Flick.likes.repository.LikesRepositoryCustom;
 import pro.Flick.member.entity.Member;
-import pro.Flick.entity.Video;
 import pro.Flick.follow.repository.FollowerRepository;
 import pro.Flick.likes.repository.LikesRepository;
 import pro.Flick.member.dto.*;
@@ -111,14 +109,16 @@ public class MemberService implements UserDetailsService {
 
 
     @Transactional
-    public Page<VideoWithMemberDto> getVideosByMemberIdWithMemberPage(Pageable pageable, Long memberId) {
-        Page<Video> videos = videoRepository.findAllVideosByMemberId(pageable, memberId);
-        return videos.map(VideoWithMemberDto::new);
+    public Page<VideoSummaryResponse> getVideosByMemberIdWithMemberPage(Pageable pageable, Long memberId) {
+//        Page<Video> videos = videoRepository.findAllVideosByMemberId(pageable, memberId);
+        return videoRepository.QfindAllMyVideos(pageable, memberId);
+//        return videos.map(VideoWithMemberDto::new);
     }
 
     @Transactional
-    public Page<LikedVideoResponseDTO> getLikedVideos(Pageable pageable, Long memberId) {
-        return likesRepository.QfindLikedVideosByMemberId(pageable, memberId);
+    public Page<VideoSummaryResponse> getLikedVideos(Pageable pageable, Long memberId) {
+//        return likesRepository.QfindLikedVideosByMemberId(pageable, memberId);
+        return likesRepository.QfindLikedVideosByMemberIdV2(pageable, memberId);
     }
 
 

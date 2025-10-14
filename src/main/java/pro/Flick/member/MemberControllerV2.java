@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import pro.Flick.Video.dto.response.VideoSummaryResponse;
 import pro.Flick.Video.trash.dto.VideoWithMemberDto;
 import pro.Flick.member.dto.FollowerInfoDTOV2;
 import pro.Flick.member.dto.LikedVideoResponseDTO;
@@ -31,7 +32,7 @@ public class MemberControllerV2 {
 
 
     @GetMapping("/videos/{profileUserId}")
-    public Page<VideoWithMemberDto> MCV2getVideosByUserIdUsingPagingV5(
+    public Page<VideoSummaryResponse> MCV2getVideosByUserIdUsingPagingV5(
             @PathVariable Long profileUserId,
             @PageableDefault(size = 12, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
@@ -39,7 +40,7 @@ public class MemberControllerV2 {
     }
 
     @GetMapping("/liked-videos/{profileUserId}")
-    public Page<LikedVideoResponseDTO> getLikeVideosByUserIdUsingPaging(@PathVariable Long profileUserId,
+    public Page<VideoSummaryResponse> getLikeVideosByUserIdUsingPaging(@PathVariable Long profileUserId,
                                                                         @PageableDefault(size = 12, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return memberService.getLikedVideos(pageable, profileUserId);
     }

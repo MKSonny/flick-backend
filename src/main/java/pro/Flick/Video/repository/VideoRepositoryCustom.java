@@ -11,4 +11,5 @@ public interface VideoRepositoryCustom {
     List<Video> QfindVideosByMemberIdWithMember(Long memberId);
     Page<VideoSummaryResponse> QfindAllVideosV3(Pageable pageable, Long memberId);
     Long QfindTotalLikes(Long memberId);
+    Page<VideoSummaryResponse> QfindAllMyVideos(Pageable pageable, Long memberId);
 }

@@ -78,4 +78,37 @@ public class VideoRepositoryImpl implements VideoRepositoryCustom {
                 .where(video.member.id.eq(memberId))
                 .fetchOne();
     }
+
+    @Override
+    public Page<VideoSummaryResponse> QfindAllMyVideos(Pageable pageable, Long memberId) {
+        List<VideoSummaryResponse> content = queryFactory
+                .select(Projections.constructor(
+                        VideoSummaryResponse.class,
+                        video,
+                        selectOne()
+                                .from(follower)
+                                .where(follower.followed.id.eq(memberId), follower.following.id.eq(video.member.id))
+                                .exists()
+                        ,
+                        selectOne()
+                                .from(likes)
+                                .where(likes.member.id.eq(memberId), likes.video.id.eq(video.id))
+                                .exists()
+                ))
+                .from(video)
+                .join(video.member, member).fetchJoin()
+                .where(video.member.id.eq(memberId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchJoin()
+                .fetch();
+
+        Long total = queryFactory
+                .select(video.count())
+                .from(video)
+                .where(video.member.id.eq(memberId))
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, total);
+    }
 }
