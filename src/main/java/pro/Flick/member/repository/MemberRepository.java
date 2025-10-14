@@ -46,6 +46,11 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
             "where f.followed.id = :memberId")
     Page<FollowerInfoDTOV2> findFollowerByMemberIdV3(Pageable pageable, @Param("memberId") Long memberId);
 
+    @Query("SELECT new pro.Flick.member.dto.FollowerInfoDTOV2(m, f2.id IS NOT NULL) FROM Follower f LEFT JOIN Follower f2 ON f.followed.id = f2.following.id and f.following.id = f2.followed.id " +
+            "JOIN Member m ON m.id = f.followed.id " +
+            "where f.following.id = :memberId")
+    Page<FollowerInfoDTOV2> findFollowerByMemberIdV4(Pageable pageable, @Param("memberId") Long memberId);
+
     //    @Query("select m.*, case when f.id is not null then true else false end" +
 //            "from Member m" +
 //            "left join Follower f" +

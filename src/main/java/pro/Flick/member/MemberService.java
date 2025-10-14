@@ -177,6 +177,11 @@ public class MemberService implements UserDetailsService {
         return memberRepository.findFollowerByMemberIdV3(pageable, memberId);
     }
 
+    @Transactional
+    public Page<FollowerInfoDTOV2> getFollowersByMemberIdV4(Pageable pageable, Long memberId) {
+        return memberRepository.findFollowerByMemberIdV4(pageable, memberId);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

@@ -17,6 +17,7 @@ import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.chat.ChatService;
 import pro.Flick.follow.FollowService;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -37,27 +38,66 @@ public class DbInit {
 
     @Transactional
     public void signUpTest() {
-        Member HelloWorld = memberService.signUp("Email", "HelloWorld", "123");
-        Member Test = memberService.signUp("Email2", "Test", "123");
+        Member Jason = memberService.signUp("Email", "Jason", "123");
+        Member Chloe = memberService.signUp("Email2", "Chloe", "123");
+
+
+        String[] manNames = {
+                "Liam", "Noah", "Oliver", "Elijah", "James", "William", "Benjamin", "Lucas", "Henry", "Theodore",
+                "Jack", "Levi", "Alexander", "Jackson", "Sebastian", "Mateo", "Daniel", "Michael", "Mason", "Logan",
+                "Leo", "Luke", "Julian", "Ezra", "Hudson", "Wyatt", "Carter", "Owen", "Gabriel", "Julian",
+                "Grayson", "Michael", "Ethan", "Aiden", "Jackson", "Maverick", "Isaac", "Caleb", "Leo", "Jayden",
+                "John", "Nicholas", "Dylan", "Christopher", "Landon", "Andrew", "Joshua", "Nathan", "Thomas", "Ryan",
+                "Adrian", "Asher", "Connor", "Eli", "Gavin", "Hunter", "Isaiah", "Jaxon", "Kai", "Lincoln",
+                "Milo", "Nolan", "Parker", "Phoenix", "Roman", "Silas", "Sterling", "Tristan", "Victor", "Vincent",
+                "Wesley", "Xavier", "Zane", "Adam", "Arthur", "Austin", "Bentley", "Brooks", "Bryson", "Caden",
+                "Colton", "Cooper", "Damian", "Dawson", "Dean", "Dominic", "Emmett", "Eric", "Felix", "Finn",
+                "Forrest", "George", "Graham", "Harrison", "Hayden", "Ian", "Ivan", "Jace", "Jacob"
+        };
+
+        for (int i = 0; i < 1; i++) {
+            Member tempMember = memberService.signUp("email" + i + 3, manNames[i], "123");
+            File profileImage = new File(manNames[i].toLowerCase() + "_profile.png", tempMember);
+            fileRepository.save(profileImage);
+            tempMember.setFile(profileImage);
+
+            followService.memberAFollowsMemberBUsingRef(tempMember.getId(), Chloe.getId());
+        }
+
+        File jasonProfileImage = new File("jason_profile.png", Jason);
+        File chloeProfileImage = new File("chloe_profile.png", Chloe);
+
+        fileRepository.save(jasonProfileImage);
+        fileRepository.save(chloeProfileImage);
+
+        Jason.setFile(jasonProfileImage);
+        Chloe.setFile(chloeProfileImage);
+
+        followService.memberAFollowsMemberBUsingRef(Jason.getId(), Chloe.getId());
+        followService.memberAFollowsMemberBUsingRef(Chloe.getId(), Jason.getId());
+
+
         Member Test3 = memberService.signUp("Email3", "Test3", "123");
         Member Test4 = memberService.signUp("Email3", "Test4", "123");
 
 
 
-        videoService.createVideo("myVideo1", "test.mov", HelloWorld);
-        videoService.createVideo("myVideo2","test2.mov", HelloWorld);
-        videoService.createVideo("myVideo3","test3.mov", Test);
+        videoService.createVideo("myVideo1", "test.mov", Jason);
+        videoService.createVideo("myVideo2","test2.mov", Jason);
+        videoService.createVideo("myVideo3","test3.mov", Chloe);
 
-        chatService.addMessage(HelloWorld, Test, "1");
-        chatService.addMessage(HelloWorld, Test, "2");
-        chatService.addMessage(HelloWorld, Test, "3");
-        chatService.addMessage(Test, HelloWorld, "4");
-        chatService.addMessage(Test, HelloWorld, "5");
-        chatService.addMessage(Test, HelloWorld, "6");
+//        for (int i = 0; i < 100; i++) {
+//            chatService.addMessage(Jason, Chloe, i + "");
+//        }
+        chatService.addMessage(Jason, Chloe, "2");
+        chatService.addMessage(Jason, Chloe, "3");
+        chatService.addMessage(Chloe, Jason, "4");
+        chatService.addMessage(Chloe, Jason, "5");
+        chatService.addMessage(Chloe, Jason, "6");
 
-        chatService.addMessage(HelloWorld, Test3, "6");
-        chatService.addMessage(HelloWorld, Test3, "6");
-        chatService.addMessage(HelloWorld, Test3, "6");
+        chatService.addMessage(Jason, Test3, "6");
+        chatService.addMessage(Jason, Test3, "6");
+        chatService.addMessage(Jason, Test3, "6");
     }
 
     @Transactional
