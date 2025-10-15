@@ -43,9 +43,10 @@ public class DbInit {
 
 
         String[] manNames = {
-                "Liam", "Noah", "Oliver", "Elijah", "James", "William", "Benjamin", "Lucas", "Henry", "Theodore",
-                "Jack", "Levi", "Alexander", "Jackson", "Sebastian", "Mateo", "Daniel", "Michael", "Mason", "Logan",
-                "Leo", "Luke", "Julian", "Ezra", "Hudson", "Wyatt", "Carter", "Owen", "Gabriel", "Julian",
+                "Liam", "Noah", "Jane", "Sophia", "James", "William", "Benjamin", "Isabella", "Luna", "Theodore",
+                "News", "Levi", "ARMY", "Jackson", "Hiroto", "Haruto", "Minato", "Sota", "Yuto", "Kaito",
+                "Hana", "Yui", "Sakura", "Rin", "Nana", "Mei", "Akari", "Saki", "Yuna", "Sora",
+
                 "Grayson", "Michael", "Ethan", "Aiden", "Jackson", "Maverick", "Isaac", "Caleb", "Leo", "Jayden",
                 "John", "Nicholas", "Dylan", "Christopher", "Landon", "Andrew", "Joshua", "Nathan", "Thomas", "Ryan",
                 "Adrian", "Asher", "Connor", "Eli", "Gavin", "Hunter", "Isaiah", "Jaxon", "Kai", "Lincoln",
@@ -55,7 +56,7 @@ public class DbInit {
                 "Forrest", "George", "Graham", "Harrison", "Hayden", "Ian", "Ivan", "Jace", "Jacob"
         };
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 30; i++) {
             Member tempMember = memberService.signUp("email" + i + 3, manNames[i], "123");
             File profileImage = new File(manNames[i].toLowerCase() + "_profile.png", tempMember);
             fileRepository.save(profileImage);

@@ -76,7 +76,6 @@ public class MemberControllerV2 {
     public Page<FollowerInfoDTOV2> MCV3getMyFollowers(@PathVariable Long userId, @PageableDefault(size = 20) Pageable pageable) {
 //        return memberService.getFollowersByMemberId(pageable, userId);
 //        return memberService.getFollowersByMemberIdV2(pageable, userId);
-        log.info("");
         return memberService.getFollowersByMemberIdV4(pageable, userId);
     }
 
