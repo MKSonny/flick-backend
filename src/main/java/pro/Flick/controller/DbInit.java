@@ -1,6 +1,8 @@
 package pro.Flick.controller;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pro.Flick.Video.repository.VideoRepository;
@@ -16,10 +18,13 @@ import pro.Flick.member.entity.Member;
 import pro.Flick.member.repository.MemberRepository;
 import pro.Flick.chat.ChatService;
 import pro.Flick.follow.FollowService;
+import pro.Flick.notification.NotificationService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DbInit {
@@ -35,35 +40,42 @@ public class DbInit {
     private final VideoRepository videoRepository;
     private final AdvertisementRepository advertisementRepository;
     private final FileRepository fileRepository;
+    private final EntityManager em;
+    private final NotificationService notificationService;
 
     @Transactional
     public void signUpTest() {
-        Member Jason = memberService.signUp("Email", "Jason", "123");
-        Member Chloe = memberService.signUp("Email2", "Chloe", "123");
-
+        Member Jason = memberService.signUp("Email", "jason", "123");
+        Member Chloe = memberService.signUp("Email2", "chloe", "123");
 
         String[] manNames = {
-                "Liam", "Noah", "Jane", "Sophia", "James", "William", "Benjamin", "Isabella", "Luna", "Theodore",
-                "News", "Levi", "ARMY", "Jackson", "Hiroto", "Haruto", "Minato", "Sota", "Yuto", "Kaito",
-                "Hana", "Yui", "Sakura", "Rin", "Nana", "Mei", "Akari", "Saki", "Yuna", "Sora",
+                "liam", "noah", "jane", "sophia", "james", "william", "benjamin", "isabella", "luna", "theodore",
+                "news", "levi", "army", "jackson", "hiroto", "haruto", "minato", "sota", "yuto", "kaito",
+                "hana", "yui", "sakura", "rin", "nana", "mei", "akari", "saki", "yuna", "sora",
 
-                "Grayson", "Michael", "Ethan", "Aiden", "Jackson", "Maverick", "Isaac", "Caleb", "Leo", "Jayden",
-                "John", "Nicholas", "Dylan", "Christopher", "Landon", "Andrew", "Joshua", "Nathan", "Thomas", "Ryan",
-                "Adrian", "Asher", "Connor", "Eli", "Gavin", "Hunter", "Isaiah", "Jaxon", "Kai", "Lincoln",
-                "Milo", "Nolan", "Parker", "Phoenix", "Roman", "Silas", "Sterling", "Tristan", "Victor", "Vincent",
-                "Wesley", "Xavier", "Zane", "Adam", "Arthur", "Austin", "Bentley", "Brooks", "Bryson", "Caden",
-                "Colton", "Cooper", "Damian", "Dawson", "Dean", "Dominic", "Emmett", "Eric", "Felix", "Finn",
-                "Forrest", "George", "Graham", "Harrison", "Hayden", "Ian", "Ivan", "Jace", "Jacob"
+                "grayson", "michael", "ethan", "aiden", "jackson", "maverick", "isaac", "caleb", "leo", "jayden",
+                "john", "nicholas", "dylan", "christopher", "landon", "andrew", "joshua", "nathan", "thomas", "ryan",
+                "adrian", "asher", "connor", "eli", "gavin", "hunter", "isaiah", "jaxon", "kai", "lincoln",
+                "milo", "nolan", "parker", "phoenix", "roman", "silas", "sterling", "tristan", "victor", "vincent",
+                "wesley", "xavier", "zane", "adam", "arthur", "austin", "bentley", "brooks", "bryson", "caden",
+                "colton", "cooper", "damian", "dawson", "dean", "dominic", "emmett", "eric", "felix", "finn",
+                "forrest", "george", "graham", "harrison", "hayden", "ian", "ivan", "jace", "jacob"
         };
+
+
+        List<Member> tempMembers = new ArrayList<Member>();
 
         for (int i = 0; i < 30; i++) {
             Member tempMember = memberService.signUp("email" + i + 3, manNames[i], "123");
-            File profileImage = new File(manNames[i].toLowerCase() + "_profile.png", tempMember);
+            tempMembers.add(tempMember);
+            File profileImage = new File(manNames[i] + "_profile.png", tempMember);
             fileRepository.save(profileImage);
             tempMember.setFile(profileImage);
 
             followService.memberAFollowsMemberBUsingRef(tempMember.getId(), Chloe.getId());
         }
+
+
 
         File jasonProfileImage = new File("jason_profile.png", Jason);
         File chloeProfileImage = new File("chloe_profile.png", Chloe);
@@ -74,15 +86,57 @@ public class DbInit {
         Jason.setFile(jasonProfileImage);
         Chloe.setFile(chloeProfileImage);
 
+        Member Akari = memberService.getMemberByUsername("akari");
+        Member Nana = memberService.getMemberByUsername("nana");
+
         followService.memberAFollowsMemberBUsingRef(Jason.getId(), Chloe.getId());
         followService.memberAFollowsMemberBUsingRef(Chloe.getId(), Jason.getId());
+
+        em.flush();
+
+        // 실시간으로 팔로워가 추가되는 데모를 위한 쓰레드
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Member Nana = null;
+
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                while ((Nana = memberService.getMemberByUsername("nana")) == null) {
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                for (int i = 0; i < 10; i++) {
+                    try {
+                        log.warn("notificationService.send to nana");
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Member memberByUsername = memberService.getMemberByUsername(manNames[i]);
+                    notificationService.send(Nana.getId(), memberByUsername.getId(), NotificationType.FOLLOW, "");
+                }
+            }
+        }).start();
 
 
         Member Test3 = memberService.signUp("Email3", "Test3", "123");
         Member Test4 = memberService.signUp("Email3", "Test4", "123");
 
 
+        Member Jackson = memberService.getMemberByUsername("Jackson");
 
+        videoService.createVideo("カフェでひとり、でも", "nana_video_cafe.mp4", Nana);
+        videoService.createVideo("カフェでひとり、でも", "jackson_soccer_video.mp4", Jackson);
+        videoService.createVideo("시부야 불빛 아래 ✨", "akari_street_video.mp4", Akari);
         videoService.createVideo("myVideo1", "test.mov", Jason);
         videoService.createVideo("myVideo2","test2.mov", Jason);
         videoService.createVideo("myVideo3","test3.mov", Chloe);

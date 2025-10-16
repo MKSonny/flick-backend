@@ -66,7 +66,7 @@ public class ChatService {
             chatRoom = chatRoomRepository.findById(chatRequestDTO.getChatRoomId()).orElseThrow();
         } else {
             chatRoom = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(sender.getId(), receiver.getId()), 2).orElseGet(() -> {
-                System.out.println("채팅방이 없으므로 새로 생성합니다.");
+//                System.out.println("채팅방이 없으므로 새로 생성합니다.");
                 return createChatRoomAndChatRoomMessage(sender, receiver);
             });
         }
@@ -95,7 +95,7 @@ public class ChatService {
 
 
         ChatRoom chatRoom = chatRoomMemberRepository.findChatRoomByMemberIds(List.of(sender.getId(), receiver.getId()), 2).orElseGet(() -> {
-            System.out.println("채팅방이 없으므로 새로 생성합니다.");
+//            System.out.println("채팅방이 없으므로 새로 생성합니다.");
             return createChatRoomAndChatRoomMessage(sender, receiver);
         });
 

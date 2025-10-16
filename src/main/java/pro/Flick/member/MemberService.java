@@ -55,6 +55,10 @@ public class MemberService implements UserDetailsService {
         return members.stream().map(FindMembersByUsernameResponseDto::new).toList();
     }
 
+    public Member getMemberByUsername(String username) {
+        return memberRepository.findByUsername(username);
+    }
+
     public Member signUp(String email, String username, String password) {
         Boolean isExist = memberRepository.existsByUsername(username);
 
@@ -67,9 +71,7 @@ public class MemberService implements UserDetailsService {
         member.setUsername(username);
         member.setPassword(passwordEncoder.encode(password));
 
-        memberRepository.save(member);
-
-        return member;
+        return memberRepository.save(member);
     }
 
     @Transactional
