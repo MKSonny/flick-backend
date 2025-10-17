@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -164,7 +165,7 @@ public class VideoService {
 
 
     @Async
-    public void createVideo(String videoTitle, String fileName, Member member) {
+    public CompletableFuture<Video> createVideo(String videoTitle, String fileName, Member member) {
         Video video = Video.builder()
                 .title(videoTitle)
                 .uri("http://127.0.0.1:8080/videos-v2/download/" + fileName)
@@ -178,6 +179,8 @@ public class VideoService {
         // 생성될 썸네일 파일 이름과 전체 경로
         String thumbnailStoreFileName = createThumbnailStoreFileName(fileName);
         String outputPath = fileStore.getFullPath(thumbnailStoreFileName);
+
+        Video savedVideo = null;
 
         try {
             // jcodec을 사용하여 비디오 파일에서 특정 프레임을 가져옵니다.
@@ -194,13 +197,16 @@ public class VideoService {
 
             // DB에 썸네일 파일명 업데이트
             video.setThumbnailStoreFileName(thumbnailStoreFileName);
-            videoRepository.save(video);
+            savedVideo = videoRepository.save(video);
 
         } catch (Exception e) {
             log.error("jcodec 썸네일 생성 실패", e);
             // 썸네일 생성에 실패하더라도 비디오 정보는 저장할 수 있습니다.
-            videoRepository.save(video);
+            savedVideo = videoRepository.save(video);
+            return CompletableFuture.failedFuture(e);
         }
+
+        return CompletableFuture.completedFuture(savedVideo);
     }
 
     public List<ProfileVideoListResponse> getVideosByMemberIdWithMemberByQueryDsl(Long memberId) {

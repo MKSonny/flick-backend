@@ -125,6 +125,29 @@ public class CommentService {
         }
     }
 
+    @Transactional
+    public Comment addCommentV2ForTest(Long memberId, Long videoId, String text) {
+
+        try {
+            // SELECT 없이 프록시로 관계 설정
+            Member memberReference = memberRepository.getReferenceById(memberId);
+            Video videoReference = videoRepository.getReferenceById(videoId);
+
+            Comment comment = new Comment(memberReference, videoReference, text, LocalDateTime.now());
+
+            /*
+                댓글이 추가되는 것보다 영상이 조회되는 비율이 더 높으므로 아래와 같이 설정
+             */
+            videoRepository.incrementCommentCount(videoId);
+            return commentRepository.save(comment);
+        } catch (EntityNotFoundException e) {
+            // 존재하지 않는 ID 사용 시 발생하는 예외를 잡아서 처리한다
+            log.error("댓글 생성 실패: 존재하지 않는 회원(ID: {}) 또는 비디오(ID: {})입니다.", memberId, videoId);
+            // 비즈니스에 맞는 구체적인 예외로 변환하여 던지는 코드 구현 필요
+            return null;
+        }
+    }
+
 
     /**
      * version 사용(낙관적 락)
