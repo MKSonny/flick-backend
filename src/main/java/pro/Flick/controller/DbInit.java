@@ -67,7 +67,17 @@ public class DbInit {
 
         List<Member> tempMembers = new ArrayList<Member>();
 
+        Member Yui = memberService.signUp("email_temp", "yui", "123");
+        File YuiProfileImage = new File("yui" + "_profile.png", Yui);
+        fileRepository.save(YuiProfileImage);
+        Yui.setFile(YuiProfileImage);
+
+
         for (int i = 0; i < 30; i++) {
+            if (manNames[i].equals("yui")) {
+                continue;
+            }
+
             Member tempMember = memberService.signUp("email" + i + 3, manNames[i], "123");
             tempMembers.add(tempMember);
             File profileImage = new File(manNames[i] + "_profile.png", tempMember);
@@ -75,6 +85,7 @@ public class DbInit {
             tempMember.setFile(profileImage);
 
             followService.memberAFollowsMemberBUsingRef(tempMember.getId(), Chloe.getId());
+            followService.memberAFollowsMemberBUsingRef(tempMember.getId(), Yui.getId());
         }
 
 
@@ -93,6 +104,9 @@ public class DbInit {
 
         followService.memberAFollowsMemberBUsingRef(Jason.getId(), Chloe.getId());
         followService.memberAFollowsMemberBUsingRef(Chloe.getId(), Jason.getId());
+        
+        followService.memberAFollowsMemberBUsingRef(Yui.getId(), Jason.getId());
+        followService.memberAFollowsMemberBUsingRef(Yui.getId(), Chloe.getId());
 
         // 실시간으로 팔로워가 추가되는 데모를 위한 쓰레드
         new Thread(new Runnable() {
@@ -133,7 +147,6 @@ public class DbInit {
 
 
         Member Jackson = memberService.getMemberByUsername("jackson");
-        Member Yui = memberService.getMemberByUsername("yui");
 
 //        videoService.createVideo("カフェでひとり、でも", "nana_video_cafe.mp4", Nana);
         CompletableFuture<Video> akari_street_video = videoService.createVideo("시부야 불빛 아래 ✨", "akari_street_video.mp4", Akari);
@@ -278,8 +291,8 @@ public class DbInit {
 
 
         yui_tokyo_video.thenApply(video -> {
-            video.setLikesCount(327193L);
-            video.setCommentCount(342L);
+            video.setLikesCount(3271L);
+            video.setCommentCount(32L);
             videoRepository.save(video);
             return video;
         });
@@ -296,15 +309,15 @@ public class DbInit {
 //        for (int i = 0; i < 100; i++) {
 //            chatService.addMessage(Jason, Chloe, i + "");
 //        }
-        chatService.addMessage(Jason, Chloe, "2");
-        chatService.addMessage(Jason, Chloe, "3");
-        chatService.addMessage(Chloe, Jason, "4");
-        chatService.addMessage(Chloe, Jason, "5");
-        chatService.addMessage(Chloe, Jason, "6");
+//        chatService.addMessage(Jason, Chloe, "2");
+//        chatService.addMessage(Jason, Chloe, "3");
+        chatService.addMessage(Chloe, Jason, "안녕 요즘 잘지내? 영상 봤어 ㅋㅋ");
+//        chatService.addMessage(Chloe, Jason, "5");
+//        chatService.addMessage(Chloe, Jason, "6");
 
-        chatService.addMessage(Jason, Test3, "6");
-        chatService.addMessage(Jason, Test3, "6");
-        chatService.addMessage(Jason, Test3, "6");
+//        chatService.addMessage(Jason, Test3, "6");
+//        chatService.addMessage(Jason, Test3, "6");
+//        chatService.addMessage(Jason, Test3, "6");
     }
 
     @Transactional
